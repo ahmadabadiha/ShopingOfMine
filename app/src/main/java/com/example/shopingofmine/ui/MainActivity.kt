@@ -1,7 +1,8 @@
-package com.example.shopingofmine
+package com.example.shopingofmine.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.shopingofmine.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
