@@ -17,5 +17,8 @@ interface RetrofitMethods {
     ): Response<List<ProductItem>>
 
     @GET("products/categories")
-    suspend fun getCategories(): Response<List<CategoryItem>>
+    suspend fun getCategories(
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<List<CategoryItem>>
 }

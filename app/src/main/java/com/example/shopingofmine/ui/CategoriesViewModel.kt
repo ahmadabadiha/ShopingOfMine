@@ -23,7 +23,7 @@ class CategoriesViewModel @Inject constructor(private val repository: Repository
     }
 
     private fun getCategories() = viewModelScope.launch {
-        repository.getCategories().collect{
+        repository.getCategories().collect {
             _categories.emit(it)
         }
     }
