@@ -11,24 +11,15 @@ import com.example.shopingofmine.databinding.ProductLayoutBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 
 
-class ProductsRecyclerAdapter : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(DiffCallback()) {
-    // private lateinit var viewClick: ViewClick
+class ProductsRecyclerAdapter : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ProductLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root)/*, View.OnClickListener*/ {
-        //private var id = ""
-        lateinit var user: ProductItem
+        RecyclerView.ViewHolder(binding.root) {
 
-        /*  init {
-              binding.root.setOnClickListener(this)
-          }
-
-          override fun onClick(p0: View?) {
-              viewClick.onClick(id)
-          }*/
+        lateinit var product: ProductItem
 
         fun fill(item: ProductItem) {
-            user = item
+            product = item
             binding.apply {
                 productName.apply {
                     text = item.name
@@ -50,23 +41,15 @@ class ProductsRecyclerAdapter : ListAdapter<ProductItem, ProductsRecyclerAdapter
         )
     )
 
-
     override fun onBindViewHolder(holder: ProductsRecyclerAdapter.ProductViewHolder, position: Int) {
         holder.fill(getItem(position))
 
     }
 
-    /* interface ViewClick {
-         fun onClick(id: String)
-     }
-
-     fun onViewClicked(viewClick: ViewClick) {
-         this.viewClick = viewClick
-     }*/
 }
 
 
-class DiffCallback : DiffUtil.ItemCallback<ProductItem>() {
+class ProductDiffCallback : DiffUtil.ItemCallback<ProductItem>() {
     override fun areItemsTheSame(oldItem: ProductItem, newItem: ProductItem): Boolean {
         return oldItem.id == newItem.id
     }
