@@ -1,4 +1,4 @@
-package com.example.shopingofmine.model
+package com.example.shopingofmine.model.serverdataclass
 
 data class Image(
     val alt: String,
