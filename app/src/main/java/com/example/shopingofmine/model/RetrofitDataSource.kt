@@ -1,5 +1,6 @@
 package com.example.shopingofmine.model
 
+import com.example.shopingofmine.model.serverdataclass.CategoryItem
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 import retrofit2.Response
 import javax.inject.Inject
@@ -10,4 +11,7 @@ class RetrofitDataSource @Inject constructor(private val retrofitMethods: Retrof
         return retrofitMethods.getProducts(orderBy)
     }
 
+    override suspend fun getCategories(): Response<List<CategoryItem>> {
+        return retrofitMethods.getCategories()
+    }
 }
