@@ -18,10 +18,10 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Vi
     val popularProducts = _popularProducts.asStateFlow()
 
     private val _topRatedProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
-    val topRatedProducts = _popularProducts.asStateFlow()
+    val topRatedProducts = _topRatedProducts.asStateFlow()
 
     private val _newProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
-    val newProducts = _popularProducts.asStateFlow()
+    val newProducts = _newProducts.asStateFlow()
 
     init {
         getProducts()

@@ -18,10 +18,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="name"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
+        android:maxLines="2"
         android:singleLine="true" />
     <TextView
         android:id="@+id/averageRating"
@@ -32,6 +33,6 @@
         android:ellipsize="marquee"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:singleLine="true" />
 </LinearLayout>

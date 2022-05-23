@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ProductLayoutBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 
 
-class ProductsRecyclerAdapter : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit) : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(ProductDiffCallback()) {
 
     inner class ProductViewHolder(private val binding: ProductLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,15 +22,16 @@ class ProductsRecyclerAdapter : ListAdapter<ProductItem, ProductsRecyclerAdapter
         fun fill(item: ProductItem) {
             product = item
             binding.apply {
-                productName.apply {
-                    text = item.name
-                    isSelected = true
-                }
+                productName.text = product.name
                 averageRating.text = item.average_rating
                 Glide.with(root)
                     .load(item.images[0].src)
+                    .error(R.drawable.ic_baseline_error_outline_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(productImage)
+            }
+            itemView.setOnClickListener {
+                onClick(product)
             }
         }
     }
