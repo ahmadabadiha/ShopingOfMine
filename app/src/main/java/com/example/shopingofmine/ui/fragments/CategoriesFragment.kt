@@ -1,8 +1,9 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.fragments
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -10,7 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCategoriesBinding
-import com.example.shopingofmine.databinding.FragmentHomeBinding
+import com.example.shopingofmine.ui.CategoriesRecyclerAdapter
+import com.example.shopingofmine.ui.viewmodels.CategoriesViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,8 +33,14 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
                     viewModel.categories.collect {
                         when (it) {
                             ResultWrapper.Loading -> {
-                            }//Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
-                            is ResultWrapper.Success -> categoriesRecyclerAdapter.submitList(it.value)
+                                binding.loadingAnim.playAnimation()
+                            }
+                            is ResultWrapper.Success -> {
+                                categoriesRecyclerAdapter.submitList(it.value)
+                                binding.recyclerView.isGone = false
+                                binding.loadingAnim.pauseAnimation()
+                                binding.loadingAnim.isGone = true
+                            }
                             is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         }
                     }

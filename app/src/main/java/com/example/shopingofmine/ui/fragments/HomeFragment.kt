@@ -1,9 +1,9 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,6 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.ui.viewmodels.HomeViewModel
+import com.example.shopingofmine.ui.ProductsRecyclerAdapter
+import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,8 +43,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     viewModel.popularProducts.collect {
                         when (it) {
                             ResultWrapper.Loading -> {
-                            }//Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
-                            is ResultWrapper.Success -> popularRecyclerAdapter.submitList(it.value)
+                                binding.loadingAnim.playAnimation()
+                            }
+                            is ResultWrapper.Success -> {
+                                popularRecyclerAdapter.submitList(it.value)
+                                binding.productsGroup.isGone = false
+                                binding.loadingAnim.pauseAnimation()
+                                binding.loadingAnim.isGone = true
+                            }
                             is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -50,8 +59,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     viewModel.topRatedProducts.collect {
                         when (it) {
                             ResultWrapper.Loading -> {
-                            }//Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
-                            is ResultWrapper.Success -> topRatedRecyclerAdapter.submitList(it.value)
+                                binding.loadingAnim.playAnimation()
+                            }
+                            is ResultWrapper.Success -> {
+                                topRatedRecyclerAdapter.submitList(it.value)
+                                binding.productsGroup.isGone = false
+                                binding.loadingAnim.pauseAnimation()
+                                binding.loadingAnim.isGone = true
+                            }
                             is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -59,8 +74,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 launch {
                     viewModel.newProducts.collect {
                         when (it) {
-                            ResultWrapper.Loading -> Toast.makeText(requireContext(), "Please wait", Toast.LENGTH_SHORT).show()
-                            is ResultWrapper.Success -> recentRecyclerAdapter.submitList(it.value)
+                            ResultWrapper.Loading -> {
+                                binding.loadingAnim.playAnimation()
+                            }
+                            is ResultWrapper.Success -> {
+                                recentRecyclerAdapter.submitList(it.value)
+                                binding.productsGroup.isGone = false
+                                binding.loadingAnim.pauseAnimation()
+                                binding.loadingAnim.isGone = true
+                            }
                             is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -69,7 +91,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onItemClick(product: ProductItem){
+    private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment())
     }

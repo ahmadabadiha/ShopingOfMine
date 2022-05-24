@@ -1,13 +1,14 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
+import com.example.shopingofmine.ui.ImageViewPagerAdapter
+import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,14 +26,16 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             image.src
         }
        viewPagerAdapter = ImageViewPagerAdapter(imageUrls)
+        Log.d("ahmad", "onViewCreated: " + imageUrls.toString())
         setUpViewPager()
     }
 
     private fun setUpViewPager() {
 
         binding.viewPager.adapter = viewPagerAdapter
+        binding.indicator.setViewPager(binding.viewPager)
 
-        binding.viewPager.currentItem = 0
+        //binding.viewPager.currentItem = 0
 
       /*  binding.viewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
@@ -45,6 +48,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 }
             }
         )*/
+        binding.productName.text = sharedViewModel.productItem.name
+        binding.description.text = sharedViewModel.productItem.description
     }
 
     override fun onDestroy() {

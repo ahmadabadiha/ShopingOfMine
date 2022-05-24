@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
