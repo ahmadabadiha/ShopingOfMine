@@ -1,5 +1,6 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,8 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.CategoryLayoutBinding
 import com.example.shopingofmine.model.serverdataclass.CategoryItem
+import java.util.*
 
 
 class CategoriesRecyclerAdapter : ListAdapter<CategoryItem, CategoriesRecyclerAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
@@ -20,15 +23,18 @@ class CategoriesRecyclerAdapter : ListAdapter<CategoryItem, CategoriesRecyclerAd
 
 
         fun fill(item: CategoryItem) {
+
             category = item
             binding.apply {
+                categoryImage.setBackgroundColor(Color.rgb(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256)))
                 categoryTitle.apply {
                     text = item.name
                     isSelected = true
                 }
-                productCount.text = item.count.toString()
+                productCount.text = "تعداد کالا: " + item.count.toString()
                 Glide.with(root)
                     .load(item.image.src)
+                    .error(R.drawable.ic_baseline_error_outline_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(categoryImage)
             }
@@ -43,7 +49,7 @@ class CategoriesRecyclerAdapter : ListAdapter<CategoryItem, CategoriesRecyclerAd
     )
 
 
-    override fun onBindViewHolder(holder: CategoriesRecyclerAdapter.CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.fill(getItem(position))
 
     }
@@ -55,7 +61,6 @@ class CategoryDiffCallback : DiffUtil.ItemCallback<CategoryItem>() {
     }
 
     override fun areContentsTheSame(oldItem: CategoryItem, newItem: CategoryItem): Boolean {
-        return oldItem.name == newItem.name
-        //todo
+        return oldItem == newItem
     }
 }

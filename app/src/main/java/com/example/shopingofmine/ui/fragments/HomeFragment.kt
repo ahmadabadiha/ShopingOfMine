@@ -15,7 +15,7 @@ import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 import com.example.shopingofmine.ui.viewmodels.HomeViewModel
-import com.example.shopingofmine.ui.ProductsRecyclerAdapter
+import com.example.shopingofmine.ui.adapters.ProductsRecyclerAdapter
 import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint

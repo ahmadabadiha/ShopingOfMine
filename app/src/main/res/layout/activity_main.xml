@@ -18,7 +18,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_nav_items">
+            app:menu="@menu/bottom_nav_items"
+            android:layoutDirection="rtl">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 
@@ -32,29 +33,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navGraph="@navigation/shopping_nav"
-
-            />
+            app:navGraph="@navigation/shopping_nav" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:liftOnScroll="true">
+        >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-
             app:menu="@menu/top_app_bar"
             app:navigationIcon="@drawable/ic_round_home_24"
-            app:title="SHOPPING OF MINE" />
-
+            app:title="SHOPPING OF MINE"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            />
     </com.google.android.material.appbar.AppBarLayout>
-
-
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

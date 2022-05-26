@@ -1,7 +1,7 @@
 package com.example.shopingofmine.model.serverdataclass
 
 data class CategoryItem(
-    val _links: LinksXX,
+    val _links: Links,
     val count: Int,
     val description: String,
     val display: String,

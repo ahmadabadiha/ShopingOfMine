@@ -20,4 +20,12 @@
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopingofmine.ui.fragments.ProductDetailsFragment"
         android:label="ProductDetailsFragment" />
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.example.shopingofmine.ui.fragments.OptionsFragment"
+        android:label="OptionsFragment" >
+        <argument
+            android:name="nightMode"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

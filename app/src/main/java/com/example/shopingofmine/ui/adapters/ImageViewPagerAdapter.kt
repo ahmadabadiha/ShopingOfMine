@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ class ImageViewPagerAdapter(private val imageUrlList: List<String>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun setData(imageUrl: String) {
-            Log.d("ahmad", "setData: " + imageUrl)
             Glide.with(binding.root.context)
                 .load(imageUrl)
+                .placeholder(R.drawable.ic_baseline_shopping_basket_24)
                 .error(R.drawable.ic_baseline_error_outline_24)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.roundedImageView)

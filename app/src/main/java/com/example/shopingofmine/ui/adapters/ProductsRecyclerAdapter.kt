@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,9 @@ import com.example.shopingofmine.databinding.ProductLayoutBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 
 
-class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit) : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(ProductDiffCallback()) {
+class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit) : ListAdapter<ProductItem, ProductsRecyclerAdapter.ProductViewHolder>(
+    ProductDiffCallback()
+) {
 
     inner class ProductViewHolder(private val binding: ProductLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,6 +29,7 @@ class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Uni
                 Glide.with(root)
                     .load(item.images[0].src)
                     .error(R.drawable.ic_baseline_error_outline_24)
+                    .placeholder(R.drawable.ic_baseline_shopping_basket_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(productImage)
             }
@@ -43,7 +46,7 @@ class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Uni
         )
     )
 
-    override fun onBindViewHolder(holder: ProductsRecyclerAdapter.ProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.fill(getItem(position))
 
     }

@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
-    android:orientation="vertical"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/productImage"
@@ -14,25 +15,26 @@
 
     <TextView
         android:id="@+id/productName"
+        style="@style/textStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="name"
         android:ellipsize="end"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
         android:maxLines="2"
-        android:singleLine="true" />
+        android:singleLine="true"
+        tools:text="name"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/averageRating"
+        style="@style/textStyle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="0"
         android:ellipsize="marquee"
+        android:singleLine="true"
+        tools:text="0"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:singleLine="true" />
+        android:textSize="16sp" />
 </LinearLayout>

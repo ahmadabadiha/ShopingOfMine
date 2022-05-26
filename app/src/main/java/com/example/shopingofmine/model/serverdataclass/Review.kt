@@ -1,7 +1,7 @@
 package com.example.shopingofmine.model.serverdataclass
 
 data class Review(
-    val _links: LinksX,
+    val _links: Links,
     val date_created: String,
     val date_created_gmt: String,
     val id: Int,

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCategoriesBinding
-import com.example.shopingofmine.ui.CategoriesRecyclerAdapter
+import com.example.shopingofmine.ui.adapters.CategoriesRecyclerAdapter
 import com.example.shopingofmine.ui.viewmodels.CategoriesViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
