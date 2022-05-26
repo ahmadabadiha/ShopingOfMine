@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui
+package com.example.shopingofmine.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,7 +18,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ActivityMainBinding
 import com.example.shopingofmine.datastore.Theme
-import com.example.shopingofmine.ui.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.fragments
+package com.example.shopingofmine.ui.options
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentOptionsBinding
 import com.example.shopingofmine.datastore.Theme
-import com.example.shopingofmine.ui.viewmodels.OptionsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

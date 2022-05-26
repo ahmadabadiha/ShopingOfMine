@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.shopingofmine.ui.fragments.HomeFragment"
+        android:name="com.example.shopingofmine.ui.home.HomeFragment"
         android:label="Home" >
         <action
             android:id="@+id/action_homeFragment_to_productDetailsFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="com.example.shopingofmine.ui.fragments.CategoriesFragment"
+        android:name="com.example.shopingofmine.ui.categories.CategoriesFragment"
         android:label="Categories" >
         <action
             android:id="@+id/action_categoriesFragment_to_productsFragment"
@@ -22,11 +22,11 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.example.shopingofmine.ui.fragments.ProductDetailsFragment"
+        android:name="com.example.shopingofmine.ui.productdetails.ProductDetailsFragment"
         android:label="ProductDetailsFragment" />
     <fragment
         android:id="@+id/optionsFragment"
-        android:name="com.example.shopingofmine.ui.fragments.OptionsFragment"
+        android:name="com.example.shopingofmine.ui.options.OptionsFragment"
         android:label="OptionsFragment" >
         <argument
             android:name="nightMode"
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/productsFragment"
-        android:name="com.example.shopingofmine.ui.fragments.ProductsFragment"
+        android:name="com.example.shopingofmine.ui.products.ProductsFragment"
         android:label="ProductsFragment" >
         <argument
             android:name="categoryId"

@@ -26,7 +26,7 @@ class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem)
             product = item
             binding.apply {
                 productName.text = product.name
-                averageRating.text = item.average_rating
+                averageRating.text = "امتیاز ${item.average_rating} از 5"
                 Glide.with(root)
                     .load(item.images[0].src)
                     .error(R.drawable.ic_baseline_error_outline_24)

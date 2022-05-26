@@ -1,9 +1,8 @@
-package com.example.shopingofmine.ui.fragments
+package com.example.shopingofmine.ui.categories
 
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCategoriesBinding
 import com.example.shopingofmine.ui.adapters.CategoriesRecyclerAdapter
-import com.example.shopingofmine.ui.viewmodels.CategoriesViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -62,7 +60,11 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
     }
 
     private fun onItemClick(categoryId: String) {
-        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(categoryId))
+        findNavController().navigate(
+            CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(
+                categoryId
+            )
+        )
     }
 
     override fun onDestroy() {

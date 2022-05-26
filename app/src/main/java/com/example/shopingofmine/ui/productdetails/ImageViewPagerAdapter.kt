@@ -1,6 +1,5 @@
-package com.example.shopingofmine.ui.adapters
+package com.example.shopingofmine.ui.productdetails
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

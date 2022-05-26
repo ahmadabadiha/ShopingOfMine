@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.fragments
+package com.example.shopingofmine.ui.home
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -15,8 +15,7 @@ import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
-import com.example.shopingofmine.ui.viewmodels.HomeViewModel
-import com.example.shopingofmine.ui.viewmodels.SharedViewModel
+import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

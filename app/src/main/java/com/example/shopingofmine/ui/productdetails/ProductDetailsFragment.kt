@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.fragments
+package com.example.shopingofmine.ui.productdetails
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
-import com.example.shopingofmine.ui.adapters.ImageViewPagerAdapter
-import com.example.shopingofmine.ui.viewmodels.SharedViewModel
+import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 

@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.viewmodels
+package com.example.shopingofmine.ui.sharedviewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.shopingofmine.model.serverdataclass.ProductItem
