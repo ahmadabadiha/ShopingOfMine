@@ -1,5 +1,6 @@
 package com.example.shopingofmine.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCategoriesBinding
 import com.example.shopingofmine.ui.adapters.CategoriesRecyclerAdapter
@@ -25,7 +27,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCategoriesBinding.bind(view)
-        val categoriesRecyclerAdapter = CategoriesRecyclerAdapter()
+        val categoriesRecyclerAdapter = CategoriesRecyclerAdapter(::onItemClick)
         binding.recyclerView.adapter = categoriesRecyclerAdapter
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -41,12 +43,26 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
                             }
-                            is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                        }
+                            is ResultWrapper.Error ->{
+                                val alertDialog: AlertDialog? = activity?.let {
+                                    AlertDialog.Builder(it)
+                                }?.setMessage(it.message)
+                                    ?.setTitle("خطا")
+                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                        viewModel.getCategories()
+                                    }
+                                    ?.setNegativeButton("انصراف") { _, _ ->
+                                    }?.create()
+                                alertDialog?.show()
+                            }  }
                     }
                 }
             }
         }
+    }
+
+    private fun onItemClick(categoryId: String) {
+        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(categoryId))
     }
 
     override fun onDestroy() {

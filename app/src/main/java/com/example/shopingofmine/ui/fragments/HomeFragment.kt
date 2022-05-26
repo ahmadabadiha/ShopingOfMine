@@ -1,5 +1,6 @@
 package com.example.shopingofmine.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,7 +16,7 @@ import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
 import com.example.shopingofmine.ui.viewmodels.HomeViewModel
-import com.example.shopingofmine.ui.adapters.ProductsRecyclerAdapter
+import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
 import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,9 +32,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
-        val popularRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
-        val topRatedRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
-        val recentRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
+        val popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        val topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        val recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
         binding.popularRecyclerView.adapter = popularRecyclerAdapter
         binding.topRatedRecyclerView.adapter = topRatedRecyclerAdapter
         binding.recentRecyclerView.adapter = recentRecyclerAdapter
@@ -67,7 +68,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
                             }
-                            is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            is ResultWrapper.Error -> {
+                                val alertDialog: AlertDialog? = activity?.let {
+                                    AlertDialog.Builder(it)
+                                }?.setMessage(it.message)
+                                    ?.setTitle("خطا")
+                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                        viewModel.getProducts()
+                                    }
+                                    ?.setNegativeButton("انصراف") { _, _ ->
+                                    }?.create()
+                                alertDialog?.show()
+                            }
                         }
                     }
                 }

@@ -14,7 +14,8 @@ import com.example.shopingofmine.model.serverdataclass.CategoryItem
 import java.util.*
 
 
-class CategoriesRecyclerAdapter : ListAdapter<CategoryItem, CategoriesRecyclerAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
+class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
+    ListAdapter<CategoryItem, CategoriesRecyclerAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
 
     inner class CategoryViewHolder(private val binding: CategoryLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,6 +38,9 @@ class CategoriesRecyclerAdapter : ListAdapter<CategoryItem, CategoriesRecyclerAd
                     .error(R.drawable.ic_baseline_error_outline_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(categoryImage)
+            }
+            itemView.setOnClickListener {
+                onClick(item.id.toString())
             }
         }
     }

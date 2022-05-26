@@ -13,4 +13,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
     suspend fun getCategories ()= safeApiCall{
         remoteDataSource.getCategories()
     }
+
+    suspend fun getProductsByCategory(categoryId: String) = safeApiCall {
+        remoteDataSource.getProductsByCategory(categoryId)
+    }
 }

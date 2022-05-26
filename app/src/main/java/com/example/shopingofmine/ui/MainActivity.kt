@@ -2,6 +2,8 @@ package com.example.shopingofmine.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,24 +27,48 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
-    private var isDarkMode = false
+    private var isDarkMode: Boolean? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        val s = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        themeSetInit()
         topAppBarInit()
+        bottomNavigationInit()
+        keepSplashScreen()
+    }
+
+    private fun bottomNavigationInit() {
         val bottomNavigationView = binding.bottomNavigation
         navController = findNavController(R.id.fragmentContainerView)
         bottomNavigationView.setupWithNavController(navController)
+    }
+
+    private fun keepSplashScreen() {
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener(
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (isDarkMode != null) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+        )
+    }
+
+    private fun themeSetInit() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.preferences.collect { theme ->
-                    if (theme == Theme.NIGHT) isDarkMode = true
-                    if (AppCompatDelegate.getDefaultNightMode() != theme.value){
+                    if (AppCompatDelegate.getDefaultNightMode() != theme.value) {
                         AppCompatDelegate.setDefaultNightMode(theme.value)
                     }
+                    isDarkMode = theme == Theme.NIGHT
                 }
             }
         }
@@ -55,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.options -> {
-                    navController.navigate(R.id.optionsFragment, bundleOf("darkMode" to isDarkMode))
+                    navController.navigate(R.id.optionsFragment, bundleOf("darkMode" to isDarkMode!!))
                     true
                 }
                 R.id.cart -> {

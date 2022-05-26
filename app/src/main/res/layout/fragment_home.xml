@@ -100,5 +100,4 @@
             app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,textView,textView2,textView3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
 </androidx.core.widget.NestedScrollView>

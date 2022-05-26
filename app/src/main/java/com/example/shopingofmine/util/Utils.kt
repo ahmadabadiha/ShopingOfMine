@@ -37,26 +37,18 @@ suspend inline fun <T> safeApiCall(
                 val responseError = Gson().fromJson<ServerError>(errorBody.charStream(), type)
                 var errorMessage = ""
                 when (response.code()) {
-                    400 -> errorMessage = " درخواست شما نامعتبر است "
+                    400 -> errorMessage = " درخواست ارسال شده نامعتبر است "
                     401 -> errorMessage = " درخواست غیر مجاز "
                     404 -> errorMessage = " پاسخ مطابق با درخواست شما یافت نشد "
-                    500 -> errorMessage = " سرور با مشکل مواجه شده است "
+                    500 -> errorMessage = " سرور با مشکل مواجه شده است. چند دقیقه دیگر دوباره امتحان کنید. "
                 }
                 emit(ResultWrapper.Error(errorMessage + responseError.message))
             } else {
                 emit(ResultWrapper.Error<T>("خطای غیرمنتظره"))
             }
-            //todo
+
         }
-    } catch (e: SSLException) {
-        emit(ResultWrapper.Error(e.message))
-    } catch (e: IOException) {
-        emit(ResultWrapper.Error(e.message))
-    } catch (e: HttpException) {
-        emit(ResultWrapper.Error(e.message))
     } catch (e: Throwable) {
-        emit(ResultWrapper.Error(e.message))
-    } finally {
-        // emit(ResultWrapper.Error("finally you .."))
+        emit(ResultWrapper.Error("خطای غیرمنتظره :${e.message}"))
     }
 }

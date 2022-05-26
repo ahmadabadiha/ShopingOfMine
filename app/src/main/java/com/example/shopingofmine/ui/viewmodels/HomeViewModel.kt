@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Vi
         getProducts()
     }
 
-    private fun getProducts() {
+    fun getProducts() {
         viewModelScope.launch {
             repository.getProducts("popularity").collect {
                 _popularProducts.emit(it)
