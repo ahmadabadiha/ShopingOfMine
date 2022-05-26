@@ -3,7 +3,6 @@ package com.example.shopingofmine.ui.fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,8 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.model.serverdataclass.ProductItem
-import com.example.shopingofmine.ui.viewmodels.HomeViewModel
 import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
+import com.example.shopingofmine.ui.viewmodels.HomeViewModel
 import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +51,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
                             }
-                            is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            is ResultWrapper.Error -> {
+                                val alertDialog: AlertDialog? = activity?.let {
+                                    AlertDialog.Builder(it)
+                                }?.setMessage(it.message)
+                                    ?.setTitle("خطا")
+                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                        viewModel.getProducts()
+                                    }
+                                    ?.setNegativeButton("انصراف") { _, _ ->
+                                    }?.create()
+                                alertDialog?.show()
+                            }
                         }
                     }
                 }
@@ -95,7 +105,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
                             }
-                            is ResultWrapper.Error -> Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            is ResultWrapper.Error -> {
+                                val alertDialog: AlertDialog? = activity?.let {
+                                    AlertDialog.Builder(it)
+                                }?.setMessage(it.message)
+                                    ?.setTitle("خطا")
+                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                        viewModel.getProducts()
+                                    }
+                                    ?.setNegativeButton("انصراف") { _, _ ->
+                                    }?.create()
+                                alertDialog?.show()
+                            }
                         }
                     }
                 }

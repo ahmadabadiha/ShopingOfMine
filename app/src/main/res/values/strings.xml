@@ -6,4 +6,7 @@
     <string name="options">options</string>
     <string name="price">قیمت</string>
     <string name="addToCart">اضافه به سبد خرید</string>
+    <string name="mostRecent">جدیدترین</string>
+    <string name="mostVisited">بیشترین بازدید</string>
+    <string name="mostRated">بیشترین امتیاز</string>
 </resources>

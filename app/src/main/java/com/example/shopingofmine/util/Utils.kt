@@ -4,16 +4,9 @@ import android.util.Log
 import com.example.shopingofmine.model.serverdataclass.ServerError
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
-import java.lang.Exception
-import java.util.concurrent.Flow
-import javax.net.ssl.SSLException
 
 sealed class ResultWrapper<out T> {
     data class Success<out T>(val value: T) : ResultWrapper<T>()
@@ -44,11 +37,14 @@ suspend inline fun <T> safeApiCall(
                 }
                 emit(ResultWrapper.Error(errorMessage + responseError.message))
             } else {
-                emit(ResultWrapper.Error<T>("خطای غیرمنتظره"))
+                emit(ResultWrapper.Error("خطای غیرمنتظره"))
             }
 
         }
-    } catch (e: Throwable) {
+    } catch (e: IOException) {
+        emit(ResultWrapper.Error("امکان برقراری ارتباط با سرور وجود ندارد :${e.message}"))
+    }  catch (e: Throwable) {
+        Log.d("ahmad", "safeApiCall: th")
         emit(ResultWrapper.Error("خطای غیرمنتظره :${e.message}"))
     }
 }

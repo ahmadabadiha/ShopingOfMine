@@ -10,7 +10,6 @@ import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.ui.adapters.ImageViewPagerAdapter
 import com.example.shopingofmine.ui.viewmodels.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.String
 
 
 @AndroidEntryPoint

@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+   >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        >
 
         <TextView
             android:id="@+id/textView"
@@ -18,7 +20,7 @@
             android:layout_margin="8dp"
             android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
-            android:text="بیشترین بازدید"
+            android:text="@string/mostVisited"
             style="@style/textStyle"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +42,7 @@
             android:layout_gravity="end"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif-black"
-            android:text="بیشترین امتیاز"
+            android:text="@string/mostRated"
             style="@style/textStyle"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +64,7 @@
             android:layout_gravity="end"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif-black"
-            android:text="جدیدترین"
+            android:text="@string/mostRecent"
             style="@style/textStyle"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
