@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ActivityMainBinding
@@ -77,7 +78,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun bottomNavigationInit() {
         val bottomNavigationView = binding.bottomNavigation
-        navController = findNavController(R.id.fragmentContainerView)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
     }
 

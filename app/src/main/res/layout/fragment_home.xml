@@ -4,16 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-   >
+
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        >
+        android:layout_marginTop="80dp">
+
 
         <TextView
             android:id="@+id/textView"
+            style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -21,10 +24,9 @@
             android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
             android:text="@string/mostVisited"
-            style="@style/textStyle"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/popularRecyclerView" />
+            app:layout_constraintBottom_toTopOf="@id/popularRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/popularRecyclerView"
@@ -37,13 +39,13 @@
 
         <TextView
             android:id="@+id/textView2"
+            style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/mostRated"
-            style="@style/textStyle"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/popularRecyclerView" />
@@ -59,13 +61,13 @@
 
         <TextView
             android:id="@+id/textView3"
+            style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/mostRecent"
-            style="@style/textStyle"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topRatedRecyclerView" />
@@ -98,7 +100,7 @@
             android:id="@+id/productsGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+
             app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,textView,textView2,textView3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

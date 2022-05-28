@@ -4,57 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="136dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/category_background"
-    android:layout_margin="8dp"
-   >
+    android:layout_margin="8dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:orientation="vertical"
-        >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="#B3D5D5D5"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
 
-
-        <FrameLayout
-            android:id="@+id/layout"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            >
+            android:layout_margin="4dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/categoryImage"
-                android:layout_width="104dp"
-                android:layout_height="104dp"
+
+            <FrameLayout
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/categoryImage"
+                    android:layout_width="104dp"
+                    android:layout_height="104dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp" />
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/categoryTitle"
+                style="@style/textStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="8dp" />
-        </FrameLayout>
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                tools:text="name" />
 
+            <TextView
+                android:id="@+id/productCount"
+                style="@style/textStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                tools:text="name" />
 
-        <TextView
-            android:id="@+id/categoryTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="marquee"
-            android:singleLine="true"
-            android:textAlignment="center"
-            style="@style/textStyle"
-            android:textSize="24sp"
-            tools:text="name" />
-
-        <TextView
-            android:id="@+id/productCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            style="@style/textStyle"
-            android:textSize="16sp"
-            tools:text="name" />
-
-
-    </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>
