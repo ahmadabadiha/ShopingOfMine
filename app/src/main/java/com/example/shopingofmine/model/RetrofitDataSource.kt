@@ -19,5 +19,10 @@ class RetrofitDataSource @Inject constructor(private val retrofitMethods: Retrof
 
     override suspend fun getProductsByCategory(categoryId: String): Response<List<ProductItem>> {
         return retrofitMethods.getProductsByCategory(categoryId)
+
+    }
+
+    override suspend fun getProductsByIds(productIds: Array<Int>): Response<List<ProductItem>> {
+        return retrofitMethods.getProductsByIds(productIds)
     }
 }

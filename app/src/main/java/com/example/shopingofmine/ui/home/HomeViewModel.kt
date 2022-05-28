@@ -8,11 +8,16 @@ import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+
+    companion object {
+        private val sliderProductIds = arrayOf(608)
+    }
 
     private val _popularProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val popularProducts = _popularProducts.asStateFlow()
@@ -23,25 +28,35 @@ class HomeViewModel @Inject constructor(private val repository: Repository) : Vi
     private val _newProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val newProducts = _newProducts.asStateFlow()
 
+    private val _sliderProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
+    val sliderProducts = _sliderProducts.asStateFlow()
+
     init {
         getProducts()
+        getSliderProducts()
     }
 
     fun getProducts() {
         viewModelScope.launch {
-            repository.getProducts("popularity").collect {
+            repository.getProducts("popularity").collectLatest {
                 _popularProducts.emit(it)
             }
         }
         viewModelScope.launch {
-            repository.getProducts("rating").collect {
+            repository.getProducts("rating").collectLatest {
                 _topRatedProducts.emit(it)
             }
         }
         viewModelScope.launch {
-            repository.getProducts("date").collect {
+            repository.getProducts("date").collectLatest {
                 _newProducts.emit(it)
             }
+        }
+    }
+
+    private fun getSliderProducts() = viewModelScope.launch {
+        repository.getProductByIds(sliderProductIds).collectLatest {
+            _sliderProducts.emit(it)
         }
     }
 }
