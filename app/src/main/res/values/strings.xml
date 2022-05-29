@@ -9,4 +9,5 @@
     <string name="mostRecent">جدیدترین</string>
     <string name="mostVisited">بیشترین بازدید</string>
     <string name="mostRated">بیشترین امتیاز</string>
+    <string name="cartSumTitle">جمع سبد خرید</string>
 </resources>

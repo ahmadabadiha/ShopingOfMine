@@ -27,7 +27,7 @@ class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Uni
             product = item
             binding.apply {
                 productName.text = product.name
-                price.text = "%,d".format(product.price.toInt()) + " ریال"
+                if (product.price.isNotBlank()) price.text = "%,d".format(product.price.toInt()) + " ریال"
                 averageRating.text = "امتیاز ${item.average_rating} از 5"
                 Glide.with(root)
                     .load(item.images[0].src)

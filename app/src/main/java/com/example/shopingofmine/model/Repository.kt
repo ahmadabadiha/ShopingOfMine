@@ -1,5 +1,6 @@
 package com.example.shopingofmine.model
 
+import com.example.shopingofmine.model.serverdataclass.OrderClass
 import com.example.shopingofmine.util.safeApiCall
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,4 +22,9 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
     suspend fun getProductByIds (productIds: Array<Int>) = safeApiCall {
         remoteDataSource.getProductsByIds(productIds)
     }
+
+    suspend fun addOrder (order: OrderClass){
+        remoteDataSource.addOrder(order)
+    }
+
 }

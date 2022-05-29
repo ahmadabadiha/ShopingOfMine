@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
@@ -31,10 +32,16 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             product.description.replace("<br />", "").replace("<p>", "").replace("</ br>", "").replace("</", "")
                 .replace("<br", "").replace("p>", "").replace("<p", "")
         binding.description.text = description
-        binding.price.text = "%,d".format(product.price.toInt()) + " ریال"
+        val price = "%,d".format(product.price.toInt()) + " ریال"
+        if (product.price.isNotBlank()) binding.price.text = price
+        binding.bottomPrice.text = price
         viewPagerAdapter = ImageViewPagerAdapter(imageUrls)
         Log.d("ahmad", "onViewCreated: " + imageUrls.toString())
         setUpViewPager()
+        binding.addToCartButton.setOnClickListener {
+            //todo
+            findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToCartFragment())
+        }
     }
 
     private fun setUpViewPager() {

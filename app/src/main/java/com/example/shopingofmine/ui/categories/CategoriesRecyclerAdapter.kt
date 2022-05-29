@@ -39,7 +39,7 @@ class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(categoryImage)
             }
-            itemView.setOnClickListener {
+            binding.layout.setOnClickListener {
                 onClick(item.id.toString())
             }
         }

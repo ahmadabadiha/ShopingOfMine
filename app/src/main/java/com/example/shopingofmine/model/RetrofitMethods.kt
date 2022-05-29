@@ -41,8 +41,8 @@ interface RetrofitMethods {
 
     @POST("orders")
     suspend fun addOrder(
+        @Body order: OrderClass,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
-        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET,
-        @Body order: OrderClass
-    ): Response<String>
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    )
 }

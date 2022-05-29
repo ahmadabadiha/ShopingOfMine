@@ -23,15 +23,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginBottom="16dp"
-            android:layoutDirection="rtl"
-            app:ci_drawable="@color/transparent_orange"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager" />
-
 
         <TextView
             android:id="@+id/textView"
@@ -121,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,textView,textView2,textView3,viewPager,indicator" />
+            app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,textView,textView2,textView3,viewPager" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
