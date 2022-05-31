@@ -85,7 +85,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding.apply {
             (sharedViewModel.cartItems.values.sum().toString() + " کالا").also { productCount.text = it }
             (viewModel.priceComputerWithoutDiscount(sharedViewModel.cartItems).toString() + " ریال").also { productsPrice.text = it }
-            (discountComputed.first.toString() + "ریال " + discountComputed.second.toString() + "%").also { discount.text = it }
+            ("(%${discountComputed.second}) " + discountComputed.first.toString() + " ریال").also { discount.text = it }
             ("$cartSumAmount ریال").also { cartSum.text = it }
             ("$cartSumAmount ریال").also { bottomPrice.text = it }
         }
@@ -94,13 +94,37 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initSetRecyclerAdapter() {
         val countList = sharedViewModel.cartItems.values.toList()
-        cartRecyclerAdapter = CartRecyclerAdapter(countList, ::onItemClick)
+        cartRecyclerAdapter = CartRecyclerAdapter(countList, ::onItemImageClick, ::onItemAddClick, ::onItemSubtractClick)
         binding.recyclerView.adapter = cartRecyclerAdapter
     }
 
-    private fun onItemClick(product: ProductItem) {
+    private fun onItemImageClick(product: ProductItem) {
         sharedViewModel.productItem = product
         findNavController().navigate(CartFragmentDirections.actionCartFragmentToProductDetailsFragment())
+    }
+
+    private fun onItemAddClick(product: ProductItem) {
+        val productCount = sharedViewModel.cartItems[product]?.plus(1)
+        if (productCount != null) {
+            sharedViewModel.cartItems[product] = productCount
+        }
+        val countList = sharedViewModel.cartItems.values.toList()
+        cartRecyclerAdapter.countList = countList
+        initSetViews()
+    }
+
+    private fun onItemSubtractClick(product: ProductItem) {
+
+        val productCount = sharedViewModel.cartItems[product]?.minus(1)
+        if (productCount != 0) {
+            if (productCount != null) {
+                sharedViewModel.cartItems[product] = productCount
+            }
+        } else sharedViewModel.cartItems.remove(product)
+        val countList = sharedViewModel.cartItems.values.toList()
+        cartRecyclerAdapter.submitList(sharedViewModel.cartItems.keys.toList())
+        cartRecyclerAdapter.countList = countList
+        initSetViews()
     }
 
     override fun onDestroy() {

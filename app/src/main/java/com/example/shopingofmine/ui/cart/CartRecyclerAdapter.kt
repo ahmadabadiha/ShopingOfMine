@@ -1,7 +1,5 @@
 package com.example.shopingofmine.ui.cart
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,18 +9,23 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.CartItemBinding
-import com.example.shopingofmine.model.serverdataclass.CategoryItem
 import com.example.shopingofmine.model.serverdataclass.ProductItem
-import java.util.*
 
-class CartRecyclerAdapter(private val countList: List<Int>, private val onClick: (product: ProductItem) -> Unit) :
+class CartRecyclerAdapter(
+    private val _countList: List<Int>,
+    private val onImageClick: (product: ProductItem) -> Unit,
+    private val onAddClick: (product: ProductItem) -> Unit,
+    private val onSubtractClick: (product: ProductItem) -> Unit
+) :
     ListAdapter<ProductItem, CartRecyclerAdapter.CartViewHolder>(CartDiffCallback()) {
+    var countList = _countList
 
     inner class CartViewHolder(private val binding: CartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private lateinit var item: ProductItem
 
-
-        fun fill(item: ProductItem, position: Int) {
+        fun fill(item: ProductItem) {
+            this.item = item
             binding.apply {
                 Glide.with(root)
                     .load(item.images[0].src)
@@ -31,16 +34,32 @@ class CartRecyclerAdapter(private val countList: List<Int>, private val onClick:
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(productImage)
                 productName.text = item.name
-                price.text = "%,d".format(item.regular_price.toInt()) + " ریال"
+                val computedPrice = item.regular_price.toInt() * countList[adapterPosition]
+                price.text = "%,d".format(computedPrice) + " ریال"
                 if (item.regular_price != item.price) {
-                    val discountAmount = item.regular_price.toDouble() - item.price.toDouble()
-                    val discountPercent = ((discountAmount / item.regular_price.toInt()) * 100).toInt()
-                    discount.text = "%,d".format(discountAmount.toInt()) + " ریال" + discountPercent + "%"
+                    val discountAmount = (item.regular_price.toDouble() - item.price.toDouble()) * countList[adapterPosition]
+                    discount.text = "%,d".format(discountAmount.toInt()) + " ریال" + " تخفیف"
                 }
-                count.text = countList[position].toString()
+                count.text = countList[adapterPosition].toString()
             }
-            itemView.setOnClickListener {
-                onClick(item)
+            setOnClickListeners()
+
+        }
+
+        private fun setOnClickListeners() {
+
+            binding.productImage.setOnClickListener {
+                onImageClick(item)
+            }
+
+            binding.add.setOnClickListener {
+                onAddClick(item)
+                fill(item)
+            }
+
+            binding.subtract.setOnClickListener {
+                onSubtractClick(item)
+                if (countList.isNotEmpty()) fill(item)
             }
         }
     }
@@ -54,7 +73,7 @@ class CartRecyclerAdapter(private val countList: List<Int>, private val onClick:
 
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        holder.fill(getItem(position), position)
+        holder.fill(getItem(position))
 
     }
 }

@@ -11,4 +11,5 @@
     <string name="mostRated">بیشترین امتیاز</string>
     <string name="cartSumTitle">جمع سبد خرید</string>
     <string name="continueProcess">ادامه فرایند خرید</string>
+    <string name="attentionText">کالاهای موجود در سبد خرید شما ثبت و رزرو نشده اند. برای ثبت سفارش مراحل بعدی را تکمیل کنید.</string>
 </resources>
