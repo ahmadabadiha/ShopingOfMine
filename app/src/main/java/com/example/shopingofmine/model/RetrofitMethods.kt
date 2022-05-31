@@ -34,7 +34,7 @@ interface RetrofitMethods {
 
     @GET("products")
     suspend fun getProductsByIds(
-        @Query("include") categoryIds: Array<Int>,
+        @Query("include")  productIds: String,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<ProductItem>>

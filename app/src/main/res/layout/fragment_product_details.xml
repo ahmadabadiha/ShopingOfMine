@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/grandParent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomLayout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -75,12 +79,15 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomLayout"
+        style="@style/Theme.ShopingOfMine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/grandParent"
         app:layout_constraintEnd_toEndOf="@id/grandParent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/grandParent">
 
         <com.google.android.material.button.MaterialButton
@@ -96,7 +103,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
             android:id="@+id/bottomPrice"
             style="@style/textStyle"
@@ -107,8 +113,64 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/addToCartButton"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="قیمت" />
 
+        <LinearLayout
+            android:id="@+id/productCountLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/add_to_cart_number_shape"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/subtract"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_round_horizontal_rule_24" />
+
+            <TextView
+                android:id="@+id/count"
+                style="@style/textStyle"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:text="1"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_round_add_24" />
+        </LinearLayout>
+
+        <!--      <TextView
+            android:id="@+id/showCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="مشاهده سبد خرید"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            android:textStyle=""
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAlignment="center"
+            />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

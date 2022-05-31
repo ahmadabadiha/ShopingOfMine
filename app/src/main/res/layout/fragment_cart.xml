@@ -7,8 +7,11 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
+        app:layout_constraintTop_toTopOf="@+id/productsGroup">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,11 +22,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cartGist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -126,21 +131,23 @@
     </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Theme.ShopingOfMine"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addToCartButton"
+            android:id="@+id/continueProcessButton"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="ادامه فرایند خرید"
+            android:text="@string/continueProcess"
             android:textStyle="bold"
             app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -171,4 +178,25 @@
             tools:text="قیمت" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingAnim"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/cart"
+        app:lottie_repeatMode="restart" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/productsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:constraint_referenced_ids="topLayout,bottomLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

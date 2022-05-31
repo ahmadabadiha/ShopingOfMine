@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/add_to_cart_number_shape.xml" value="0.221" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/category_background.xml" value="0.2705" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.111" />
@@ -16,12 +17,13 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_shopping_cart_24.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout-land/fragment_categories.xml" value="0.4510416666666667" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/cart_item.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/category_layout.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_cart.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_categories.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_options.xml" value="0.33" />
-        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_product_details.xml" value="0.29545454545454547" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_product_details.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_products.xml" value="0.2625" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/image_layout.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/large_product_layout.xml" value="0.29791666666666666" />

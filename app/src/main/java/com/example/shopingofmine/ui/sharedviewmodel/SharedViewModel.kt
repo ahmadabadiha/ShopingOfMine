@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SharedViewModel @Inject constructor(): ViewModel() {
+class SharedViewModel @Inject constructor() : ViewModel() {
     lateinit var productItem: ProductItem
+    val cartItems = mutableMapOf<ProductItem, Int>()
 }

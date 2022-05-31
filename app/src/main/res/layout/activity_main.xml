@@ -20,7 +20,6 @@
             app:navigationIcon="@drawable/ic_round_home_24"
             app:title="SHOPPING OF MINE"
             />
-        <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
     </com.google.android.material.appbar.AppBarLayout>
 
 

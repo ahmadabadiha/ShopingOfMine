@@ -123,8 +123,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.cart -> {
-                    Toast.makeText(this, "cart clicked", Toast.LENGTH_SHORT).show()
-                    true
+                    navController.navigate(R.id.cartFragment)
+                        true
                 }
                 else -> false
             }
