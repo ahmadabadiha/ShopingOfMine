@@ -1,5 +1,6 @@
 package com.example.shopingofmine.ui.cart
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -35,12 +36,13 @@ class CartRecyclerAdapter(
                     .into(productImage)
                 productName.text = item.name
                 val computedPrice = item.regular_price.toInt() * countList[adapterPosition]
-                price.text = "%,d".format(computedPrice) + " ریال"
+                ("%,d".format(computedPrice) + " ریال").also { price.text = it }
                 if (item.regular_price != item.price) {
                     val discountAmount = (item.regular_price.toDouble() - item.price.toDouble()) * countList[adapterPosition]
-                    discount.text = "%,d".format(discountAmount.toInt()) + " ریال" + " تخفیف"
+                    ("%,d".format(discountAmount.toInt()) + " ریال" + " تخفیف").also { discount.text = it }
                 }
                 count.text = countList[adapterPosition].toString()
+                Log.d("ahmad", "fill: " + countList[adapterPosition].toString())
             }
             setOnClickListeners()
 

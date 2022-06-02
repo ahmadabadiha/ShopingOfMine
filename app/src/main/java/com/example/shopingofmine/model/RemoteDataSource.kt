@@ -1,5 +1,6 @@
 package com.example.shopingofmine.model
 
+import com.example.shopingofmine.model.localdataclass.LocalOrderClass
 import com.example.shopingofmine.model.serverdataclass.CategoryItem
 import com.example.shopingofmine.model.serverdataclass.OrderClass
 import com.example.shopingofmine.model.serverdataclass.ProductItem
@@ -8,7 +9,8 @@ import retrofit2.Response
 interface RemoteDataSource {
     suspend fun getProducts(orderBy: String): Response<List<ProductItem>>
     suspend fun getCategories(): Response<List<CategoryItem>>
-    suspend fun getProductsByCategory(categoryId: String): Response<List<ProductItem>>
+    suspend fun getProductsByCategory(categoryId: String, orderBy: String): Response<List<ProductItem>>
     suspend fun getProductsByIds(productIds: String): Response<List<ProductItem>>
-    suspend fun addOrder (order: OrderClass)
+    suspend fun addOrder (order: LocalOrderClass)
+    suspend fun searchProducts (query: String, orderBy: String): Response<List<ProductItem>>
 }

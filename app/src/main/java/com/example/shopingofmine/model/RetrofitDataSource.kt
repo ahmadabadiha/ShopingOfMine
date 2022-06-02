@@ -1,5 +1,6 @@
 package com.example.shopingofmine.model
 
+import com.example.shopingofmine.model.localdataclass.LocalOrderClass
 import com.example.shopingofmine.model.serverdataclass.CategoryItem
 import com.example.shopingofmine.model.serverdataclass.OrderClass
 import com.example.shopingofmine.model.serverdataclass.ProductItem
@@ -18,8 +19,8 @@ class RetrofitDataSource @Inject constructor(private val retrofitMethods: Retrof
         return retrofitMethods.getCategories()
     }
 
-    override suspend fun getProductsByCategory(categoryId: String): Response<List<ProductItem>> {
-        return retrofitMethods.getProductsByCategory(categoryId)
+    override suspend fun getProductsByCategory(categoryId: String, orderBy: String): Response<List<ProductItem>> {
+        return retrofitMethods.getProductsByCategory(categoryId,orderBy)
 
     }
 
@@ -27,7 +28,11 @@ class RetrofitDataSource @Inject constructor(private val retrofitMethods: Retrof
         return retrofitMethods.getProductsByIds(productIds)
     }
 
-    override suspend fun addOrder(order: OrderClass) {
+    override suspend fun addOrder(order: LocalOrderClass) {
         retrofitMethods.addOrder(order)
+    }
+
+    override suspend fun searchProducts(query: String, orderBy: String): Response<List<ProductItem>> {
+        return retrofitMethods.searchProducts(query, orderBy)
     }
 }

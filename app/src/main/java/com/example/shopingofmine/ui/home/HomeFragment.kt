@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,16 +31,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     val TAG = "ahmad"
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
+    private lateinit var popularRecyclerAdapter: ProductsPreviewRecyclerAdapter
+    private lateinit var topRatedRecyclerAdapter: ProductsPreviewRecyclerAdapter
+    private lateinit var recentRecyclerAdapter: ProductsPreviewRecyclerAdapter
     private lateinit var homeSliderViewPagerAdapter: HomeSliderViewPagerAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
-        val popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
-        val topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
-        val recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductsFragment(null, query))
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+        initializeRecyclerAdapters()
+        initCollectFlows()
+    }
+
+    private fun initializeRecyclerAdapters() {
+        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
         binding.popularRecyclerView.adapter = popularRecyclerAdapter
         binding.topRatedRecyclerView.adapter = topRatedRecyclerAdapter
         binding.recentRecyclerView.adapter = recentRecyclerAdapter
+    }
+
+    private fun initCollectFlows() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -156,6 +178,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
     }
+
 
     private fun takeImageListFromProductList(productList: List<ProductItem>): List<String> {
         val imageUrls = mutableListOf<String>()

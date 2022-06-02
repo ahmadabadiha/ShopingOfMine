@@ -5,7 +5,8 @@
     android:id="@+id/grandParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -157,20 +158,5 @@
                 android:src="@drawable/ic_round_add_24" />
         </LinearLayout>
 
-        <!--      <TextView
-            android:id="@+id/showCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="مشاهده سبد خرید"
-            android:textSize="16sp"
-            android:textColor="@color/blue"
-            android:textStyle=""
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textAlignment="center"
-            />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,7 +41,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
                             }
-                            is ResultWrapper.Error ->{
+                            is ResultWrapper.Error -> {
                                 val alertDialog: AlertDialog? = activity?.let {
                                     AlertDialog.Builder(it)
                                 }?.setMessage(it.message)
@@ -52,7 +52,8 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
                                     ?.setNegativeButton("انصراف") { _, _ ->
                                     }?.create()
                                 alertDialog?.show()
-                            }  }
+                            }
+                        }
                     }
                 }
             }
@@ -60,11 +61,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
     }
 
     private fun onItemClick(categoryId: String) {
-        findNavController().navigate(
-            CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(
-                categoryId
-            )
-        )
+        findNavController().navigate(CategoriesFragmentDirections.actionCategoriesFragmentToProductsFragment(categoryId, null))
     }
 
     override fun onDestroy() {

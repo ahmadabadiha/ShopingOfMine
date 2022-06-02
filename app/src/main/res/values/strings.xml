@@ -12,4 +12,8 @@
     <string name="cartSumTitle">جمع سبد خرید</string>
     <string name="continueProcess">ادامه فرایند خرید</string>
     <string name="attentionText">کالاهای موجود در سبد خرید شما ثبت و رزرو نشده اند. برای ثبت سفارش مراحل بعدی را تکمیل کنید.</string>
+    <string name="cartGist">خلاصه سبد</string>
+    <string name="priceTitle">قیمت کالاها</string>
+    <string name="discountTitle">تخفیف کالاها</string>
+    <string name="priceWithDiscountTitle">جمع سبد خرید</string>
 </resources>

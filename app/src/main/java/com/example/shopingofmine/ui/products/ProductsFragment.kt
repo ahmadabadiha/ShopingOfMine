@@ -21,6 +21,7 @@ import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,14 +31,21 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private val navArgs: ProductsFragmentArgs by navArgs()
     private val viewModel: ProductsViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var productsRecyclerAdapter: ProductsRecyclerAdapter
+    private var category: String? = null
+    private var query: String? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProductsBinding.bind(view)
-        val category = navArgs.categoryId
-        viewModel.getProducts(category)
-        val productsRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
+        category = navArgs.category
+        query = navArgs.query
+        productsRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
         binding.recyclerView.adapter = productsRecyclerAdapter
-        viewModel.products.collectIt(viewLifecycleOwner){
+        initCollectFlows()
+    }
+
+    private fun initCollectFlows() {
+        viewModel.categorizedProducts.collectIt(viewLifecycleOwner) {
             when (it) {
                 ResultWrapper.Loading -> {
                     binding.loadingAnim.playAnimation()
@@ -54,7 +62,32 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     }?.setMessage(it.message)
                         ?.setTitle("خطا")
                         ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                            viewModel.getProducts(category)
+                            viewModel.getProducts(category!!)
+                        }
+                        ?.setNegativeButton("انصراف") { _, _ ->
+                        }?.create()
+                    alertDialog?.show()
+                }
+            }
+        }
+        viewModel.searchedResult.collectIt(viewLifecycleOwner){
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                }
+                is ResultWrapper.Success -> {
+                    productsRecyclerAdapter.submitList(it.value)
+                    binding.recyclerView.isGone = false
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
+                is ResultWrapper.Error -> {
+                    val alertDialog: AlertDialog? = activity?.let {
+                        AlertDialog.Builder(it)
+                    }?.setMessage(it.message)
+                        ?.setTitle("خطا")
+                        ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                            viewModel.searchProducts(query!!)
                         }
                         ?.setNegativeButton("انصراف") { _, _ ->
                         }?.create()
@@ -69,10 +102,10 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment())
     }
 
-    fun <T> StateFlow<T>.collectIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {
+    private fun <T> StateFlow<T>.collectIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {
         lifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                collect {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                collectLatest {
                     function.invoke(it)
                 }
             }
