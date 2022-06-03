@@ -31,7 +31,7 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
             it.key.price.toInt() * it.value
         }.sum()
 
-    fun discountComputer(cartItems: MutableMap<ProductItem, Int>): Pair<Int, Int> {
+    fun computeDiscount(cartItems: MutableMap<ProductItem, Int>): Pair<Int, Int> {
         val discountAmount = cartItems.map {
             (it.key.regular_price.toInt() - it.key.price.toInt()) * it.value
         }.sum()
@@ -42,7 +42,7 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
         return Pair(discountAmount, discountPercent)
     }
 
-    fun priceComputerWithoutDiscount(cartItems: MutableMap<ProductItem, Int>) =
+    fun ComputePriceWithoutDiscount(cartItems: MutableMap<ProductItem, Int>) =
         cartItems.map {
             it.key.regular_price.toInt() * it.value
         }.sum()
