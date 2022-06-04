@@ -13,9 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCartBinding
-import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
-import com.example.shopingofmine.util.ResultWrapper
+import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun initCollectFlows() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartProducts.collectLatest {
+                viewModel.cartProducts.collectLatest{
                     when (it) {
                         ResultWrapper.Loading -> {
                             binding.loadingAnim.playAnimation()

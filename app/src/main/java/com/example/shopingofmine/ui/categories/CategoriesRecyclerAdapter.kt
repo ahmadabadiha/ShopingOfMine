@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.CategoryLayoutBinding
-import com.example.shopingofmine.model.serverdataclass.CategoryItem
+import com.example.shopingofmine.data.model.serverdataclass.CategoryItem
 import java.util.*
 
 

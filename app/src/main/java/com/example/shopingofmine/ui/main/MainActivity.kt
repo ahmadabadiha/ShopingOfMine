@@ -23,7 +23,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ActivityMainBinding
-import com.example.shopingofmine.datastore.Theme
+import com.example.shopingofmine.data.datastore.Theme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -15,10 +15,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductsBinding
-import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.ui.adapters.ProductsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
-import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

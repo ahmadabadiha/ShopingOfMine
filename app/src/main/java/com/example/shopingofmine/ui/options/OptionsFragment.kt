@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentOptionsBinding
-import com.example.shopingofmine.datastore.Theme
+import com.example.shopingofmine.data.datastore.Theme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

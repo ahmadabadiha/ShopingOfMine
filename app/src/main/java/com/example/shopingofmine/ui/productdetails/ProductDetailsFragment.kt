@@ -7,15 +7,11 @@ import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
-import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint

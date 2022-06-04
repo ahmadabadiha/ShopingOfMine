@@ -1,11 +1,10 @@
 package com.example.shopingofmine.ui.cart
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopingofmine.model.Repository
-import com.example.shopingofmine.model.serverdataclass.ProductItem
-import com.example.shopingofmine.util.ResultWrapper
+import com.example.shopingofmine.data.remote.repository.Repository
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

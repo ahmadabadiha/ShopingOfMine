@@ -2,9 +2,7 @@ package com.example.shopingofmine.ui.home
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,10 +13,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentHomeBinding
-import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
-import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest

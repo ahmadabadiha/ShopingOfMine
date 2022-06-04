@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ProductLayoutBinding
-import com.example.shopingofmine.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.serverdataclass.ProductItem
 
 
 class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit) :

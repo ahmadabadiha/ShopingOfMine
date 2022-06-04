@@ -1,0 +1,28 @@
+package com.example.shopingofmine.data.model.serverdataclass
+
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class CustomerBilling(
+    @JsonProperty("address_1")
+    val address_1: String,
+    @JsonProperty("address_2")
+    val address_2: String,
+    @JsonProperty("city")
+    val city: String,
+    @JsonProperty("company")
+    val company: String,
+    @JsonProperty("country")
+    val country: String,
+    @JsonProperty("email")
+    val email: String,
+    @JsonProperty("first_name")
+    val first_name: String,
+    @JsonProperty("last_name")
+    val last_name: String,
+    @JsonProperty("phone")
+    val phone: String,
+    @JsonProperty("postcode")
+    val postcode: String,
+    @JsonProperty("state")
+    val state: String
+)

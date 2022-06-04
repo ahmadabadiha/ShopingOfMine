@@ -7,9 +7,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentOrderDetailsBinding
-import com.example.shopingofmine.model.localdataclass.LocalLineItem
-import com.example.shopingofmine.model.localdataclass.LocalOrderClass
-import com.example.shopingofmine.model.localdataclass.LocalOrderShipping
+import com.example.shopingofmine.data.model.localdataclass.LocalLineItem
+import com.example.shopingofmine.data.model.localdataclass.LocalOrderClass
+import com.example.shopingofmine.data.model.localdataclass.LocalOrderShipping
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

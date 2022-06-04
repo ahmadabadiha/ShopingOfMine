@@ -1,7 +1,7 @@
 package com.example.shopingofmine.ui.main
 
 import androidx.lifecycle.ViewModel
-import com.example.shopingofmine.datastore.OptionsDataStore
+import com.example.shopingofmine.data.datastore.OptionsDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

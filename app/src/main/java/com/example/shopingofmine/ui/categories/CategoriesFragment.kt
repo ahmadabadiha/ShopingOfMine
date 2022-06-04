@@ -11,10 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
+import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentCategoriesBinding
 import com.example.shopingofmine.ui.adapters.CategoriesRecyclerAdapter
-import com.example.shopingofmine.util.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,7 +31,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.categories.collect {
+                    viewModel.categories.collectLatest {
                         when (it) {
                             ResultWrapper.Loading -> {
                                 binding.loadingAnim.playAnimation()
