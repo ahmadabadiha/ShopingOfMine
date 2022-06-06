@@ -2,7 +2,7 @@ package com.example.shopingofmine.util
 
 import android.util.Log
 import com.example.shopingofmine.data.remote.ResultWrapper
-import com.example.shopingofmine.data.model.serverdataclass.ServerError
+import com.example.shopingofmine.data.model.apimodels.ServerError
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.flow

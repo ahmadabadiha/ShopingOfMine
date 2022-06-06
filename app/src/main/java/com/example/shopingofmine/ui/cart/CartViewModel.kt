@@ -3,7 +3,7 @@ package com.example.shopingofmine.ui.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopingofmine.data.remote.repository.Repository
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,12 +25,12 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
         }
     }
 
-    fun priceComputerWithDiscount(cartItems: MutableMap<ProductItem, Int>) =
+    fun computePriceWithDiscount(cartItems: Map<ProductItem, Int>) =
         cartItems.map {
             it.key.price.toInt() * it.value
         }.sum()
 
-    fun computeDiscount(cartItems: MutableMap<ProductItem, Int>): Pair<Int, Int> {
+    fun computeDiscount(cartItems: Map<ProductItem, Int>): Pair<Int, Int> {
         val discountAmount = cartItems.map {
             (it.key.regular_price.toInt() - it.key.price.toInt()) * it.value
         }.sum()
@@ -41,7 +41,7 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
         return Pair(discountAmount, discountPercent)
     }
 
-    fun ComputePriceWithoutDiscount(cartItems: MutableMap<ProductItem, Int>) =
+    fun ComputePriceWithoutDiscount(cartItems: Map<ProductItem, Int>) =
         cartItems.map {
             it.key.regular_price.toInt() * it.value
         }.sum()

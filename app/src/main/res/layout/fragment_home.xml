@@ -17,9 +17,8 @@
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             app:iconifiedByDefault="false"
-
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="جستوی محصول"
+            app:queryHint="جستجوی محصول"
             android:layoutDirection="rtl"
             app:searchIcon="@drawable/ic_baseline_search_24" />
 

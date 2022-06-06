@@ -1,8 +1,9 @@
 package com.example.shopingofmine.data.remote
 
 import com.example.shopingofmine.data.model.localdataclass.LocalOrderClass
-import com.example.shopingofmine.data.model.serverdataclass.CategoryItem
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.CategoryItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
+import com.example.shopingofmine.data.model.apimodels.Review
 import com.example.shopingofmine.util.CONSUMER_KEY
 import com.example.shopingofmine.util.CONSUMER_SECRET
 import retrofit2.Response
@@ -11,7 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface RetrofitMethods {
+interface RetrofitService {
     @GET("products")
     suspend fun getProducts(
         @Query("orderby") orderBy: String,
@@ -23,6 +24,7 @@ interface RetrofitMethods {
     suspend fun searchProducts(
         @Query("search") query: String,
         @Query("orderby") orderBy: String,
+        @Query("order") order: String,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<ProductItem>>
@@ -37,6 +39,7 @@ interface RetrofitMethods {
     suspend fun getProductsByCategory(
         @Query("category") categoryId: String,
         @Query("orderby") orderBy: String,
+        @Query("order") order: String,
         @Query("exclude") excludeId: String = "608",
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
@@ -56,5 +59,11 @@ interface RetrofitMethods {
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     )
 
-
+    @GET("products/reviews")
+    suspend fun getProductsReviews(
+        @Query("product") productIds: String,
+        @Query("per_page") perPage: Int,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<List<Review>>
 }

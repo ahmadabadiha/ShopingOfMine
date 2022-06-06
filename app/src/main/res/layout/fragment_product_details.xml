@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="افزودن به سبد خرید"
+            android:text="@string/addToCart"
             android:textStyle="bold"
             app:cornerRadius="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -146,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:text="1"
+                android:text="@string/_1"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 

@@ -16,8 +16,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getCategories()
     }
 
-    suspend fun getProductsByCategory(categoryId: String, orderBy: String) = safeApiCall {
-        remoteDataSource.getProductsByCategory(categoryId, orderBy)
+    suspend fun getProductsByCategory(categoryId: String, orderBy: String, order: String) = safeApiCall {
+        remoteDataSource.getProductsByCategory(categoryId, orderBy, order)
     }
 
     suspend fun getProductByIds(productIds: Array<Int>) = safeApiCall {
@@ -28,7 +28,11 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.addOrder(order)
     }
 
-    suspend fun searchProducts(query: String, orderBy: String) = safeApiCall {
-        remoteDataSource.searchProducts(query, orderBy)
+    suspend fun searchProducts(query: String, orderBy: String, order: String) = safeApiCall {
+        remoteDataSource.searchProducts(query, orderBy, order)
+    }
+
+    suspend fun getProductReviews(productIds: Array<Int>, perPage: Int) = safeApiCall {
+        remoteDataSource.getProductReviews(productIds.joinToString(","), perPage)
     }
 }

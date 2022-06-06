@@ -1,8 +1,8 @@
-package com.example.shopingofmine.data.model.serverdataclass
+package com.example.shopingofmine.data.model.apimodels
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class Up(
+data class Collection(
     @JsonProperty("href")
     val href: String
 )

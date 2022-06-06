@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.CartItemBinding
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 
 class CartRecyclerAdapter(
     private val _countList: List<Int>,

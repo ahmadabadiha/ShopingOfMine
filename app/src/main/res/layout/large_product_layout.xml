@@ -11,6 +11,7 @@
         android:id="@+id/productImage"
         android:layout_width="280dp"
         android:layout_height="280dp"
+        android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:textSize="24sp"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productImage"
         tools:text="نام محصول" />
@@ -32,6 +34,7 @@
         android:layout_margin="8dp"
         style="@style/textStyle"
         android:textSize="24sp"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productName"
         tools:text="@string/price" />
@@ -42,6 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:padding="4dp"
+        android:layout_margin="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="346dp"
         tools:text="0.0"

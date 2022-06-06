@@ -2,6 +2,7 @@ package com.example.shopingofmine.ui.cart
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentCartBinding
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +41,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 viewModel.productIds = cartProducts.map {
                     it.id
                 }.toTypedArray()
+                Log.d("ahmad", "onViewCreated: " + viewModel.productIds.toString())
                 viewModel.getCartProducts()
             }
             initSetRecyclerAdapter()
@@ -52,7 +54,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun initCollectFlows() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartProducts.collectLatest{
+                viewModel.cartProducts.collectLatest {
                     when (it) {
                         ResultWrapper.Loading -> {
                             binding.loadingAnim.playAnimation()
@@ -89,7 +91,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initSetViews() {
         val discountComputed = viewModel.computeDiscount(sharedViewModel.cartItems)
-        val cartSumAmount = viewModel.priceComputerWithDiscount(sharedViewModel.cartItems)
+        val cartSumAmount = viewModel.computePriceWithDiscount(sharedViewModel.cartItems)
 
         binding.apply {
             (sharedViewModel.cartItems.values.sum().toString() + " کالا").also { productCount.text = it }
@@ -115,7 +117,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun onItemAddClick(product: ProductItem) {
         val productCount = sharedViewModel.cartItems[product]?.plus(1)
         if (productCount != null) {
-            sharedViewModel.cartItems[product] = productCount
+            sharedViewModel.addToCart(product)
         }
         val countList = sharedViewModel.cartItems.values.toList()
         cartRecyclerAdapter.countList = countList
@@ -127,9 +129,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         val productCount = sharedViewModel.cartItems[product]?.minus(1)
         if (productCount != 0) {
             if (productCount != null) {
-                sharedViewModel.cartItems[product] = productCount
+                sharedViewModel.removeFromCart(product)
             }
-        } else sharedViewModel.cartItems.remove(product)
+        } else sharedViewModel.removeFromCart(product)
         val countList = sharedViewModel.cartItems.values.toList()
         cartRecyclerAdapter.submitList(sharedViewModel.cartItems.keys.toList())
         cartRecyclerAdapter.countList = countList

@@ -3,7 +3,9 @@ package com.example.shopingofmine.ui.products
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.core.view.isGone
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductsBinding
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.ui.adapters.ProductsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
@@ -42,6 +44,50 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         productsRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
         binding.recyclerView.adapter = productsRecyclerAdapter
         initCollectFlows()
+        setDropDownItems()
+        setSorting()
+    }
+
+    private fun setSorting() {
+        binding.autoCompleteTextView.addTextChangedListener {
+            binding.loadedGroup.isGone = true
+            binding.loadingAnim.playAnimation()
+            binding.loadingAnim.isGone = false
+            when (it.toString()) {
+                "امتیاز-صعودی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "rating", order = "asc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "asc")
+                }
+                "امتیاز-نزولی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "rating", order = "desc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "desc")
+                }
+                "بازدید-صعودی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "popularity", order = "asc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "asc")
+                }
+                "بازدید-نزولی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "popularity", order = "desc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "desc")
+                }
+                "قیمت-صعودی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "price", order = "asc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "price", order = "asc")
+                }
+                "قیمت-نزولی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "price", order = "desc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "price", order = "desc")
+                }
+                "تاریخ-صعودی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "date", order = "asc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "date", order = "asc")
+                }
+                "تاریخ-نزولی" -> {
+                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "date", order = "desc")
+                    else viewModel.searchProducts(query = query!!, orderBy = "date", order = "desc")
+                }
+            }
+        }
     }
 
     private fun initCollectFlows() {
@@ -52,7 +98,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 }
                 is ResultWrapper.Success -> {
                     productsRecyclerAdapter.submitList(it.value)
-                    binding.recyclerView.isGone = false
+                    binding.loadedGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
                 }
@@ -70,14 +116,14 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 }
             }
         }
-        viewModel.searchedResult.collectIt(viewLifecycleOwner){
+        viewModel.searchedResult.collectIt(viewLifecycleOwner) {
             when (it) {
                 ResultWrapper.Loading -> {
                     binding.loadingAnim.playAnimation()
                 }
                 is ResultWrapper.Success -> {
                     productsRecyclerAdapter.submitList(it.value)
-                    binding.recyclerView.isGone = false
+                    binding.loadedGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
                 }
@@ -100,6 +146,13 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
         findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment())
+    }
+
+    private fun setDropDownItems() {
+        val items =
+            listOf("تاریخ-نزولی", "تاریخ-صعودی", "قیمت-نزولی", "قیمت-صعودی", "بازدید-نزولی", "بازدید-صعودی", "امتیاز-نزولی", "امتیاز-صعودی")
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        binding.autoCompleteTextView.setAdapter(adapter)
     }
 
     private fun <T> StateFlow<T>.collectIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {

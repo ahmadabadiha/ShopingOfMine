@@ -1,6 +1,6 @@
 package com.example.shopingofmine.data.di
 
-import com.example.shopingofmine.data.remote.RetrofitMethods
+import com.example.shopingofmine.data.remote.RetrofitService
 import com.example.shopingofmine.util.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -41,5 +41,5 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofitService(retrofit: Retrofit): RetrofitMethods = retrofit.create(RetrofitMethods::class.java)
+    fun provideRetrofitService(retrofit: Retrofit): RetrofitService = retrofit.create(RetrofitService::class.java)
 }

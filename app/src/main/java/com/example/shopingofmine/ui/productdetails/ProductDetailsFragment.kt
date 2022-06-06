@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,15 +42,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         binding.addToCartButton.setOnClickListener {
             it.isGone = true
             binding.productCountLayout.isGone = false
-            Log.d("ahmad", "initSetClickListeners: " + product.toString())
-            sharedViewModel.cartItems[product] = 1
+            sharedViewModel.addToCart(product)
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
         }
 
         binding.add.setOnClickListener {
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
-            sharedViewModel.cartItems[product] = count
+            sharedViewModel.addToCart(product)
             Log.d("ahmad", "initSetClickListeners: " + sharedViewModel.cartItems.size)
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
             if (count != 1) {
@@ -64,16 +63,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
             val count = binding.count.text.toString().toInt() - 1
             if (count == 0) {
-                sharedViewModel.cartItems.remove(product)
+                sharedViewModel.removeFromCart(product)
                 binding.productCountLayout.isGone = true
                 binding.addToCartButton.isGone = false
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
             } else {
                 binding.count.text = count.toString()
-                sharedViewModel.cartItems[product] = count
+                sharedViewModel.removeFromCart(product)
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
-            }
-            if (count != 0) {
                 val price = product.price.toInt() * count
                 val priceString = "%,d".format(price) + " ریال"
                 binding.bottomPrice.text = priceString

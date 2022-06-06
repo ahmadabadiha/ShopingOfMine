@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
@@ -25,6 +26,7 @@ import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ActivityMainBinding
 import com.example.shopingofmine.data.datastore.Theme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                 alertDialog?.dismiss()
+                alertDialog?.dismiss()
             }
 
             override fun onLost(network: Network) {
@@ -107,11 +109,11 @@ class MainActivity : AppCompatActivity() {
     private fun themeSetInit() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.preferences.collect { theme ->
-                    if (AppCompatDelegate.getDefaultNightMode() != theme.value) {
-                        AppCompatDelegate.setDefaultNightMode(theme.value)
+                viewModel.preferences.collectLatest { info ->
+                    if (AppCompatDelegate.getDefaultNightMode() != info.theme.value) {
+                        AppCompatDelegate.setDefaultNightMode(info.theme.value)
                     }
-                    isDarkMode = theme == Theme.NIGHT
+                    isDarkMode = info.theme == Theme.NIGHT
                 }
             }
         }
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.cart -> {
                     navController.navigate(R.id.cartFragment)
-                        true
+                    true
                 }
                 else -> false
             }

@@ -3,8 +3,7 @@ package com.example.shopingofmine.ui.products
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopingofmine.data.remote.repository.Repository
-import com.example.shopingofmine.data.model.serverdataclass.ProductItem
+import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsViewModel @Inject constructor(private val repository: com.example.shopingofmine.data.remote.repository.Repository, private val savedStateHandle: SavedStateHandle) :
+class ProductsViewModel @Inject constructor(
+    private val repository: com.example.shopingofmine.data.remote.repository.Repository,
+    private val savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
 
     private val categoryId get() = savedStateHandle.get<String>("category")
@@ -32,14 +34,14 @@ class ProductsViewModel @Inject constructor(private val repository: com.example.
         query?.let { searchProducts(it) }
     }
 
-    fun getProducts(categoryId: String, orderBy: String = "date") = viewModelScope.launch {
-        repository.getProductsByCategory(categoryId, orderBy).collectLatest {
+    fun getProducts(categoryId: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
+        repository.getProductsByCategory(categoryId, orderBy, order).collectLatest {
             _categorizedProducts.emit(it)
         }
     }
 
-    fun searchProducts(query: String, orderBy: String = "date") = viewModelScope.launch {
-        repository.searchProducts(query, orderBy).collectLatest {
+    fun searchProducts(query: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
+        repository.searchProducts(query, orderBy, order).collectLatest {
             _searchedResult.emit(it)
         }
     }

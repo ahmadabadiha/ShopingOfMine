@@ -1,4 +1,4 @@
-package com.example.shopingofmine.data.model.serverdataclass
+package com.example.shopingofmine.data.model.apimodels
 
 data class ReviewerAvatarUrls(
     val `24`: String,
