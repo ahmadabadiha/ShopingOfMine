@@ -41,7 +41,7 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
         return Pair(discountAmount, discountPercent)
     }
 
-    fun ComputePriceWithoutDiscount(cartItems: Map<ProductItem, Int>) =
+    fun computePriceWithoutDiscount(cartItems: Map<ProductItem, Int>) =
         cartItems.map {
             it.key.regular_price.toInt() * it.value
         }.sum()

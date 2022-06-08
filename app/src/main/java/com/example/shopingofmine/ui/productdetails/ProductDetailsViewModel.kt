@@ -17,10 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-  //  private val _reviewsFlow = MutableStateFlow<ResultWrapper<List<Review>>>(ResultWrapper.Loading)
-  //  val reviewsFlow = _reviewsFlow.asStateFlow()
-
-
     suspend fun getProductReviews(productId: Int, perPage: Int = 10): StateFlow<ResultWrapper<List<Review>>> {
         return repository.getProductReviews(arrayOf(productId), perPage).stateIn(viewModelScope)
     }

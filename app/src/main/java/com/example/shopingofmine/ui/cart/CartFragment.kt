@@ -95,7 +95,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
         binding.apply {
             (sharedViewModel.cartItems.values.sum().toString() + " کالا").also { productCount.text = it }
-            (viewModel.ComputePriceWithoutDiscount(sharedViewModel.cartItems).toString() + " ریال").also { productsPrice.text = it }
+            (viewModel.computePriceWithoutDiscount(sharedViewModel.cartItems).toString() + " ریال").also { productsPrice.text = it }
             ("(${discountComputed.second}%) " + "%,d".format(discountComputed.first) + " ریال").also { discount.text = it }
             ("%,d".format(cartSumAmount) + " ریال").also { cartSum.text = it }
             ("%,d".format(cartSumAmount) + " ریال").also { bottomPrice.text = it }
