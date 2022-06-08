@@ -1,8 +1,8 @@
-package com.example.shopingofmine.data.model.localdataclass
+package com.example.shopingofmine.data.model.appmodels
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class LocalLineItem(
+class AppLineItem(
     @JsonProperty("product_id")
     val product_id: Int,
     @JsonProperty("quantity")

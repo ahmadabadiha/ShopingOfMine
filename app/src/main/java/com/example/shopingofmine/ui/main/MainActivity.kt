@@ -85,6 +85,10 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.categoriesFragment -> binding.bottomNavigation.visibility = View.VISIBLE
                 R.id.homeFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                R.id.addReviewFragment -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                    binding.topAppBar.visibility = View.GONE
+                }
                 else -> binding.bottomNavigation.visibility = View.GONE
             }
         }

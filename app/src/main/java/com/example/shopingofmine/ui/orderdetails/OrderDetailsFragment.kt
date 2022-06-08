@@ -7,9 +7,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentOrderDetailsBinding
-import com.example.shopingofmine.data.model.localdataclass.LocalLineItem
-import com.example.shopingofmine.data.model.localdataclass.LocalOrderClass
-import com.example.shopingofmine.data.model.localdataclass.LocalOrderShipping
+import com.example.shopingofmine.data.model.appmodels.AppLineItem
+import com.example.shopingofmine.data.model.appmodels.AppOrderClass
+import com.example.shopingofmine.data.model.appmodels.AppOrderShipping
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,19 +22,19 @@ class OrderDetailsFragment : Fragment(R.layout.fragment_order_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentOrderDetailsBinding.bind(view)
-        val lineItems = mutableListOf<LocalLineItem>()
+        val lineItems = mutableListOf<AppLineItem>()
         sharedViewModel.cartItems.forEach {
-            lineItems.add(LocalLineItem(it.key.id, it.value))
+            lineItems.add(AppLineItem(it.key.id, it.value))
         }
         binding.orderButton.setOnClickListener {
-            val shipping = LocalOrderShipping(
+            val shipping = AppOrderShipping(
                 first_name = binding.firstName.text.toString(),
                 last_name = binding.lastName.text.toString(),
                 city = binding.city.text.toString(),
                 address_1 = binding.address.text.toString(),
                 postcode = binding.postCode.text.toString()
             )
-            viewModel.addOrder(LocalOrderClass(lineItems, shipping))
+            viewModel.addOrder(AppOrderClass(lineItems, shipping))
         }
     }
 

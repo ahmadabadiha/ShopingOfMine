@@ -1,8 +1,8 @@
-package com.example.shopingofmine.data.model.localdataclass
+package com.example.shopingofmine.data.model.appmodels
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class LocalOrderShipping (
+class AppOrderShipping (
     @JsonProperty("address_1")
     val address_1: String,
     @JsonProperty("city")

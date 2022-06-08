@@ -1,9 +1,10 @@
 package com.example.shopingofmine.data.remote
 
-import com.example.shopingofmine.data.model.localdataclass.LocalOrderClass
+import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.apimodels.CategoryItem
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.apimodels.Review
+import com.example.shopingofmine.data.model.appmodels.AppReview
 import com.example.shopingofmine.util.CONSUMER_KEY
 import com.example.shopingofmine.util.CONSUMER_SECRET
 import retrofit2.Response
@@ -54,7 +55,7 @@ interface RetrofitService {
 
     @POST("orders")
     suspend fun addOrder(
-        @Body order: LocalOrderClass,
+        @Body order: AppOrderClass,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     )
@@ -66,4 +67,11 @@ interface RetrofitService {
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<Review>>
+
+    @POST("products/reviews")
+    suspend fun addReview(
+        @Body order: AppReview,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<Any>
 }

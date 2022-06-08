@@ -39,4 +39,12 @@
         <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.ShopingOfMine</item>
     </style>
+    <style name="My_Tooltip" parent="@style/Widget.MaterialComponents.Tooltip">
+        <item name="backgroundTint">@color/red</item>
+
+    </style>
+    <style name="Myslider" parent="@style/Widget.MaterialComponents.Slider">
+    <item name="labelStyle">@style/My_Tooltip</item>
+    </style>
+
 </resources>

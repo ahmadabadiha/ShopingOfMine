@@ -1,6 +1,7 @@
 package com.example.shopingofmine.data.remote.repository
 
-import com.example.shopingofmine.data.model.localdataclass.LocalOrderClass
+import com.example.shopingofmine.data.model.appmodels.AppOrderClass
+import com.example.shopingofmine.data.model.appmodels.AppReview
 import com.example.shopingofmine.data.remote.RemoteDataSource
 import com.example.shopingofmine.util.safeApiCall
 import javax.inject.Inject
@@ -24,7 +25,7 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getProductsByIds(productIds.joinToString(","))
     }
 
-    suspend fun addOrder(order: LocalOrderClass) {
+    suspend fun addOrder(order: AppOrderClass) {
         remoteDataSource.addOrder(order)
     }
 
@@ -35,4 +36,9 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
     suspend fun getProductReviews(productIds: Array<Int>, perPage: Int) = safeApiCall {
         remoteDataSource.getProductReviews(productIds.joinToString(","), perPage)
     }
+
+    suspend fun addReview(review: AppReview)= safeApiCall {
+        remoteDataSource.addReview(review)
+    }
+
 }

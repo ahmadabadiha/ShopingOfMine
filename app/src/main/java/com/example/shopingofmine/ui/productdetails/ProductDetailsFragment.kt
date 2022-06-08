@@ -131,6 +131,10 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                 binding.bottomPrice.text = priceString
             }
         }
+
+        binding.addReviewButton.setOnClickListener {
+            findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToAddReviewFragment())
+        }
     }
 
 

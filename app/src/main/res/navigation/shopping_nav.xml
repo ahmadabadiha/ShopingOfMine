@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_addReviewFragment"
+            app:destination="@id/addReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
@@ -80,5 +83,13 @@
         <argument
             android:name="productId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addReviewFragment"
+        android:name="com.example.shopingofmine.ui.addreview.AddReviewFragment"
+        android:label="AddReviewFragment" >
+        <action
+            android:id="@+id/action_addReviewFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
 </navigation>
