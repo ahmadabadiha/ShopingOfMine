@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_productDetailsFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
@@ -70,4 +73,12 @@
         android:id="@+id/orderDetailsFragment"
         android:name="com.example.shopingofmine.ui.orderdetails.OrderDetailsFragment"
         android:label="OrderDetailsFragment" />
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="com.example.shopingofmine.ui.reviews.ReviewsFragment"
+        android:label="ReviewsFragment" >
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

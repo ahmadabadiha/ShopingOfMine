@@ -18,6 +18,7 @@ import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
+import com.example.shopingofmine.ui.adapters.ShortReviewsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

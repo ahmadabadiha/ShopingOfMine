@@ -1,17 +1,31 @@
 package com.example.shopingofmine.ui.productdetails
 
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
+import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.ui.adapters.ShortReviewsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -22,19 +36,60 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var product: ProductItem
     private lateinit var viewPagerAdapter: ImageViewPagerAdapter
+    private lateinit var shortReviewsRecyclerAdapter: ShortReviewsRecyclerAdapter
+    val viewModel: ProductDetailsViewModel by viewModels()
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProductDetailsBinding.bind(view)
 
         product = sharedViewModel.productItem
-        val imageUrls = product.images.map { image ->
-            image.src
-        }
-        viewPagerAdapter = ImageViewPagerAdapter(imageUrls)
+
 
         initSetViews()
         initSetClickListeners()
         setUpViewPager()
+        initSetReviewsRecyclerView()
+    }
+
+    private fun initSetReviewsRecyclerView() {
+        shortReviewsRecyclerAdapter = ShortReviewsRecyclerAdapter(::onReviewItemClick)
+        binding.recyclerView.adapter = shortReviewsRecyclerAdapter
+        collectReviews()
+
+
+    }
+
+    private fun collectReviews() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getProductReviews(product.id).collectLatest {
+                    when (it) {
+                        ResultWrapper.Loading -> {
+                            binding.reviewsCount.text = "در حال بارگیری"
+                        }
+                        is ResultWrapper.Success -> {
+                            val reviews = it.value
+                            (reviews.size.toString() + " دیدگاه").also { binding.reviewsCount.text = it }
+                            shortReviewsRecyclerAdapter.submitList(reviews)
+                        }
+                        is ResultWrapper.Error -> {
+                            val alertDialog: AlertDialog? = activity?.let {
+                                AlertDialog.Builder(it)
+                            }?.setMessage(it.message)
+                                ?.setTitle(" خطا در بارگیری نظرات")
+                                ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                    collectReviews()
+                                }
+                                ?.setNegativeButton("انصراف") { _, _ ->
+                                }?.create()
+                            alertDialog?.show()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun initSetClickListeners() {
@@ -79,11 +134,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initSetViews() {
         binding.productName.text = product.name
         val description =
-            product.description.replace("<br />", "").replace("<p>", "").replace("</ br>", "").replace("</", "")
-                .replace("<br", "").replace("p>", "").replace("<p", "")
+            HtmlCompat.fromHtml(
+                HtmlCompat.fromHtml(product.description, HtmlCompat.FROM_HTML_MODE_COMPACT).toString(),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
         binding.description.text = description
         val price = "%,d".format(product.price.toInt()) + " ریال"
         if (product.price.isNotBlank()) binding.price.text = price
@@ -91,8 +149,16 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun setUpViewPager() {
+        val imageUrls = product.images.map { image ->
+            image.src
+        }
+        viewPagerAdapter = ImageViewPagerAdapter(imageUrls)
         binding.viewPager.adapter = viewPagerAdapter
         binding.indicator.setViewPager(binding.viewPager)
+    }
+
+    private fun onReviewItemClick() {
+        findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToReviewsFragment(product.id))
     }
 
     override fun onDestroy() {

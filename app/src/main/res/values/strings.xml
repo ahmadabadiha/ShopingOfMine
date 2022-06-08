@@ -18,4 +18,6 @@
     <string name="priceWithDiscountTitle">جمع سبد خرید</string>
     <string name="_1">1</string>
     <string name="sortBy">مرتب سازی بر اساس:</string>
+    <string name="reviewsTitle">دیدگاه کاربران</string>
+    <string name="add_your_review">دیدگاه خود را درباره این کالا بنویسید.</string>
 </resources>
