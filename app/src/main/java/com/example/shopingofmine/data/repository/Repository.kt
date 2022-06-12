@@ -1,7 +1,9 @@
-package com.example.shopingofmine.data.remote.repository
+package com.example.shopingofmine.data.repository
 
+import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
+import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
 import com.example.shopingofmine.data.remote.RemoteDataSource
 import com.example.shopingofmine.util.safeApiCall
 import javax.inject.Inject
@@ -25,7 +27,7 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getProductsByIds(productIds.joinToString(","))
     }
 
-    suspend fun addOrder(order: AppOrderClass) {
+    suspend fun addOrder(order: AppOrderClass) = safeApiCall {
         remoteDataSource.addOrder(order)
     }
 
@@ -37,8 +39,23 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getProductReviews(productIds.joinToString(","), perPage)
     }
 
-    suspend fun addReview(review: AppReview)= safeApiCall {
+    suspend fun addReview(review: AppReview) = safeApiCall {
         remoteDataSource.addReview(review)
     }
 
+    suspend fun createCustomer(customer: AppCustomer) = safeApiCall {
+        remoteDataSource.createCustomer(customer)
+    }
+
+    suspend fun getCustomer(customerId: Int) = safeApiCall {
+        remoteDataSource.getCustomer(customerId)
+    }
+
+    suspend fun getCustomerOrders(customerId: Int) = safeApiCall {
+        remoteDataSource.getCustomerOrders(customerId)
+    }
+
+    suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass) = safeApiCall {
+        remoteDataSource.updateOrder(orderId, updatedOrder)
+    }
 }

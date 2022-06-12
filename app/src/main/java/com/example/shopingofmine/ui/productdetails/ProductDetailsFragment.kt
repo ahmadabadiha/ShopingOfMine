@@ -3,7 +3,6 @@ package com.example.shopingofmine.ui.productdetails
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -46,18 +45,35 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
         product = sharedViewModel.productItem
 
-
         initSetViews()
         initSetClickListeners()
         setUpViewPager()
         initSetReviewsRecyclerView()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.customerIsKnown.collectLatest {
+                    if (!it) {
+                        val alertDialog: AlertDialog? = activity?.let {
+                            AlertDialog.Builder(it)
+                        }?.setMessage("برای اضافه کردن کالا به سبد خرید ابتدا باید وارد شوید.")
+                            ?.setTitle("خطا")
+                            ?.setPositiveButton("ثبت نام") { _, _ ->
+                                findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToLoginFragment())
+                            }
+                            ?.setNegativeButton("انصراف") { _, _ ->
+                            }?.create()
+                        alertDialog?.show()
+                    }
+                }
+            }
+        }
     }
 
     private fun initSetReviewsRecyclerView() {
         shortReviewsRecyclerAdapter = ShortReviewsRecyclerAdapter(::onReviewItemClick)
         binding.recyclerView.adapter = shortReviewsRecyclerAdapter
         collectReviews()
-
 
     }
 
@@ -95,16 +111,20 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun initSetClickListeners() {
 
         binding.addToCartButton.setOnClickListener {
+
             it.isGone = true
             binding.productCountLayout.isGone = false
-            sharedViewModel.addToCart(product)
+            //sharedViewModel.addToCart(product)
+            viewModel.addToCart(product)
+            callAndCollectOrderResponses()
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
         }
 
         binding.add.setOnClickListener {
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
-            sharedViewModel.addToCart(product)
+            viewModel.addToCart(product)
+            //sharedViewModel.addToCart(product)
             Log.d("ahmad", "initSetClickListeners: " + sharedViewModel.cartItems.size)
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
             if (count != 1) {
@@ -118,13 +138,15 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
             val count = binding.count.text.toString().toInt() - 1
             if (count == 0) {
-                sharedViewModel.removeFromCart(product)
+
+                //sharedViewModel.removeFromCart(product)
                 binding.productCountLayout.isGone = true
                 binding.addToCartButton.isGone = false
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
             } else {
                 binding.count.text = count.toString()
-                sharedViewModel.removeFromCart(product)
+                viewModel.removeFromCart(product)
+               // sharedViewModel.removeFromCart(product)
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
                 val price = product.price.toInt() * count
                 val priceString = "%,d".format(price) + " ریال"
@@ -134,6 +156,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
         binding.addReviewButton.setOnClickListener {
             findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToAddReviewFragment())
+        }
+    }
+
+    private fun callAndCollectOrderResponses() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                //viewModel.addOrder()
+            }
         }
     }
 

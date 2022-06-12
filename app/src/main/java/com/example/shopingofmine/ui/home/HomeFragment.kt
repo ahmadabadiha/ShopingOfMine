@@ -21,6 +21,7 @@ import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
 import com.example.shopingofmine.ui.adapters.ShortReviewsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

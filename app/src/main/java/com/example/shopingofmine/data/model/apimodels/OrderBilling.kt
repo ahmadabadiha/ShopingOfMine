@@ -3,24 +3,24 @@ package com.example.shopingofmine.data.model.apimodels
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class OrderBilling(
-    @JsonProperty("slug")
+    @JsonProperty("address_1")
     val address_1: String,
-    @JsonProperty("slug")
+    @JsonProperty("address_2")
     val address_2: String,
-    @JsonProperty("slug")
+    @JsonProperty("city")
     val city: String,
-    @JsonProperty("slug")
+    @JsonProperty("country")
     val country: String,
-    @JsonProperty("slug")
+    @JsonProperty("email")
     val email: String,
-    @JsonProperty("slug")
+    @JsonProperty("first_name")
     val first_name: String,
-    @JsonProperty("slug")
+    @JsonProperty("last_name")
     val last_name: String,
-    @JsonProperty("slug")
+    @JsonProperty("phone")
     val phone: String,
-    @JsonProperty("slug")
+    @JsonProperty("postcode")
     val postcode: String,
-    @JsonProperty("slug")
+    @JsonProperty("state")
     val state: String
 )

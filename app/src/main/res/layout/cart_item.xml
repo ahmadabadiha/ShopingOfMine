@@ -66,6 +66,7 @@
         android:ellipsize="end"
         android:maxLines="3"
         android:textSize="20sp"
+        android:padding="4dp"
         app:layout_constraintEnd_toStartOf="@+id/productImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

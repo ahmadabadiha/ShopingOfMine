@@ -41,7 +41,6 @@ suspend inline fun <T> safeApiCall(
     } catch (e: IOException) {
         emit(ResultWrapper.Error("امکان برقراری ارتباط با سرور وجود ندارد :${e.message}"))
     }  catch (e: Throwable) {
-        Log.d("ahmad", "safeApiCall: th")
         emit(ResultWrapper.Error("خطای غیرمنتظره :${e.message}"))
     }
 }

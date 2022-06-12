@@ -35,9 +35,7 @@ class ReviewsFragment : Fragment(R.layout.fragment_reviews) {
 
                 viewModel.getProductReviews().collectLatest {
                     when (it) {
-                        ResultWrapper.Loading -> {
-
-                        }
+                        ResultWrapper.Loading -> {}
                         is ResultWrapper.Success -> {
                             completeReviewsRecyclerAdapter = CompleteReviewsRecyclerAdapter()
                             binding.recyclerView.adapter = completeReviewsRecyclerAdapter

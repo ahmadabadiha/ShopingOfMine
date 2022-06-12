@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.main
+package com.example.shopingofmine.ui.mainactivity
 
 
 import android.app.AlertDialog
@@ -8,7 +8,6 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels

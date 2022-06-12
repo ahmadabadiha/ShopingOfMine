@@ -28,14 +28,14 @@
         android:name="com.example.shopingofmine.ui.productdetails.ProductDetailsFragment"
         android:label="ProductDetailsFragment" >
         <action
-            android:id="@+id/action_productDetailsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
-        <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
         <action
             android:id="@+id/action_productDetailsFragment_to_addReviewFragment"
             app:destination="@id/addReviewFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"
@@ -90,6 +90,14 @@
         android:label="AddReviewFragment" >
         <action
             android:id="@+id/action_addReviewFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.shopingofmine.ui.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
     </fragment>
 </navigation>

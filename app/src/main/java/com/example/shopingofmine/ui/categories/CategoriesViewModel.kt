@@ -2,7 +2,7 @@ package com.example.shopingofmine.ui.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopingofmine.data.remote.repository.Repository
+import com.example.shopingofmine.data.repository.Repository
 import com.example.shopingofmine.data.model.apimodels.CategoryItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel

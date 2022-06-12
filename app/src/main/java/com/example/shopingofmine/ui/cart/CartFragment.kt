@@ -31,24 +31,22 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCartBinding.bind(view)
-        if (sharedViewModel.cartItems.isEmpty()) {
-            binding.loadingAnim.isGone = true
-            binding.emptyGroup.isGone = false
-            binding.emptyAnim.playAnimation()
-        } else {
+      //  if (sharedViewModel.cartItems.isEmpty()) {
+        //    binding.loadingAnim.isGone = true
+        //    binding.emptyGroup.isGone = false
+        //    binding.emptyAnim.playAnimation()
+       // } else {
             if (savedInstanceState == null) {
                 val cartProducts = sharedViewModel.cartItems.keys
-                viewModel.productIds = cartProducts.map {
-                    it.id
-                }.toTypedArray()
-                Log.d("ahmad", "onViewCreated: " + viewModel.productIds.toString())
-                viewModel.getCartProducts()
+
+                viewModel.getCustomerOrder()
+                Log.d("http", "onViewCreated: ")
             }
-            initSetRecyclerAdapter()
+            //initSetRecyclerAdapter()
             initSetViews()
             initSetOnClickListeners()
             initCollectFlows()
-        }
+       // }
     }
 
     private fun initCollectFlows() {
@@ -60,6 +58,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                             binding.loadingAnim.playAnimation()
                         }
                         is ResultWrapper.Success -> {
+                            val countList = viewModel.countList
+                            cartRecyclerAdapter = CartRecyclerAdapter(countList, ::onItemImageClick, ::onItemAddClick, ::onItemSubtractClick)
+                            binding.recyclerView.adapter = cartRecyclerAdapter
                             cartRecyclerAdapter.submitList(it.value)
                             binding.productsGroup.isGone = false
                             binding.loadingAnim.pauseAnimation()
@@ -71,7 +72,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                             }?.setMessage(it.message)
                                 ?.setTitle("خطا")
                                 ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                    viewModel.getCartProducts()
+                                    viewModel.getCustomerOrder()
                                 }
                                 ?.setNegativeButton("انصراف") { _, _ ->
                                 }?.create()
@@ -104,7 +105,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
 
     private fun initSetRecyclerAdapter() {
-        val countList = sharedViewModel.cartItems.values.toList()
+        val countList = viewModel.countList
         cartRecyclerAdapter = CartRecyclerAdapter(countList, ::onItemImageClick, ::onItemAddClick, ::onItemSubtractClick)
         binding.recyclerView.adapter = cartRecyclerAdapter
     }
@@ -117,7 +118,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun onItemAddClick(product: ProductItem) {
         val productCount = sharedViewModel.cartItems[product]?.plus(1)
         if (productCount != null) {
-            sharedViewModel.addToCart(product)
+           // sharedViewModel.addToCart(product)
         }
         val countList = sharedViewModel.cartItems.values.toList()
         cartRecyclerAdapter.countList = countList
@@ -129,9 +130,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         val productCount = sharedViewModel.cartItems[product]?.minus(1)
         if (productCount != 0) {
             if (productCount != null) {
-                sharedViewModel.removeFromCart(product)
+                //sharedViewModel.removeFromCart(product)
             }
-        } else sharedViewModel.removeFromCart(product)
+        } //else sharedViewModel.removeFromCart(product)
         val countList = sharedViewModel.cartItems.values.toList()
         cartRecyclerAdapter.submitList(sharedViewModel.cartItems.keys.toList())
         cartRecyclerAdapter.countList = countList

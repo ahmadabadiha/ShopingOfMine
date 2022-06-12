@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val repository: com.example.shopingofmine.data.remote.repository.Repository,
+    private val repository: com.example.shopingofmine.data.repository.Repository,
     private val savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {

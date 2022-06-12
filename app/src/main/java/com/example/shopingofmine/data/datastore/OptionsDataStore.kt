@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.shopingofmine.data.model.apimodels.Customer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -21,7 +23,7 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
 
     companion object {
         private val THEME_KEY = stringPreferencesKey("theme key")
-        private val Cart_Key = stringPreferencesKey("cart key")
+        private val CUSTOMER_KEY = intPreferencesKey("customer key")
     }
 
     private val dataStore = context.dataStore
@@ -30,8 +32,8 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
         Log.d("data store problem", it.message.toString())
     }.map { preferences ->
         val theme: Theme = Theme.valueOf(preferences[THEME_KEY] ?: Theme.AUTO.name)
-        val cartIds: String = preferences[Cart_Key] ?: ""
-        PreferencesInfo(theme, cartIds)
+        val customerId = preferences[CUSTOMER_KEY]
+        PreferencesInfo(theme, customerId)
     }
 
     suspend fun updateTheme(theme: Theme) {
@@ -40,10 +42,9 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
         }
     }
 
-    suspend fun updateCartItems(ids: String) {
+    suspend fun updateCustomerId(id: Int) {
         dataStore.edit { mutablePreferences ->
-            mutablePreferences[Cart_Key] = ids
+            mutablePreferences[CUSTOMER_KEY] = id
         }
     }
-
 }

@@ -27,12 +27,14 @@ class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem)
             binding.apply {
                 productName.text = product.name
                 "امتیاز ${item.average_rating} از 5".also { averageRating.text = it }
-                Glide.with(root)
-                    .load(item.images[0].src)
-                    .error(R.drawable.ic_baseline_error_outline_24)
-                    .placeholder(R.drawable.ic_baseline_shopping_basket_24)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(productImage)
+                if (item.images.isNotEmpty()) {
+                    Glide.with(root)
+                        .load(item.images[0].src)
+                        .error(R.drawable.ic_baseline_error_outline_24)
+                        .placeholder(R.drawable.ic_baseline_shopping_basket_24)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(productImage)
+                }
             }
             itemView.setOnClickListener {
                 onClick(product)

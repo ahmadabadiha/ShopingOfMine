@@ -1,19 +1,17 @@
 package com.example.shopingofmine.data.remote
 
+import androidx.room.Index
+import com.example.shopingofmine.data.model.apimodels.*
+import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
-import com.example.shopingofmine.data.model.apimodels.CategoryItem
-import com.example.shopingofmine.data.model.apimodels.ProductItem
-import com.example.shopingofmine.data.model.apimodels.Review
 import com.example.shopingofmine.data.model.appmodels.AppReview
+import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
 import com.example.shopingofmine.util.CONSUMER_KEY
 import com.example.shopingofmine.util.CONSUMER_SECRET
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
-interface RetrofitService {
+interface ShopService {
     @GET("products")
     suspend fun getProducts(
         @Query("orderby") orderBy: String,
@@ -58,7 +56,7 @@ interface RetrofitService {
         @Body order: AppOrderClass,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
-    )
+    ): Response<Order>
 
     @GET("products/reviews")
     suspend fun getProductsReviews(
@@ -74,4 +72,34 @@ interface RetrofitService {
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<Any>
+
+    @POST("customers")
+    suspend fun createCustomer(
+        @Body customer: AppCustomer,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<Customer>
+
+    @GET("customers/{id}")
+    suspend fun getCustomer(
+        @Path("id") id: Int,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<Customer>
+
+    @GET("orders")
+    suspend fun getCustomerOrders(
+        @Query("customer") customerId: Int,
+        @Query("status") status: String = "pending",
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<List<Order>>
+
+    @PUT("orders/{id}")
+    suspend fun updateOrder(
+        @Path("id") id: Int,
+        @Body updatedOrder: UpdateOrderClass,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<Order>
 }

@@ -1,10 +1,10 @@
 package com.example.shopingofmine.data.model.appmodels
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.example.shopingofmine.data.model.apimodels.Customer
+import com.example.shopingofmine.data.model.apimodels.CustomerShipping
 
-class AppOrderClass(
-    @JsonProperty("line_items")
+data class AppOrderClass(
+    val customer_id: Int,
     val line_items: List<AppLineItem>,
-    @JsonProperty("orderShipping")
-    val orderShipping: AppOrderShipping,
+    val shipping: AppShipping
 )

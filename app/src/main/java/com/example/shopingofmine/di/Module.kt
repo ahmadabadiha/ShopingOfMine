@@ -1,9 +1,9 @@
-package com.example.shopingofmine.data.di
+package com.example.shopingofmine.di
 
 import com.example.shopingofmine.data.remote.RemoteDataSource
-import com.example.shopingofmine.data.remote.repository.Repository
+import com.example.shopingofmine.data.repository.Repository
 import com.example.shopingofmine.data.remote.RetrofitDataSource
-import com.example.shopingofmine.data.remote.RetrofitService
+import com.example.shopingofmine.data.remote.ShopService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object Module {
 
     @Singleton
     @Provides
-    fun provideRetrofitDataSource(retrofitService: RetrofitService): RemoteDataSource = RetrofitDataSource(retrofitService)
+    fun provideRetrofitDataSource(shopService: ShopService): RemoteDataSource = RetrofitDataSource(shopService)
 
     @Singleton
     @Provides

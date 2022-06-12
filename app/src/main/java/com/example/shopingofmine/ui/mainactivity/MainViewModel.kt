@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.main
+package com.example.shopingofmine.ui.mainactivity
 
 import androidx.lifecycle.ViewModel
 import com.example.shopingofmine.data.datastore.OptionsDataStore
