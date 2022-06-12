@@ -8,10 +8,7 @@ import com.example.shopingofmine.data.model.apimodels.Customer
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.apimodels.Review
-import com.example.shopingofmine.data.model.appmodels.AppLineItem
-import com.example.shopingofmine.data.model.appmodels.AppOrderClass
-import com.example.shopingofmine.data.model.appmodels.AppShipping
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.*
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +23,8 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
     private val _customerIsKnown = MutableSharedFlow<Boolean>()
     val customerIsKnown = _customerIsKnown.asSharedFlow()
 
+    private val _errorMessage = MutableSharedFlow<String>()
+    val errorMessage = _errorMessage.asSharedFlow()
     var orderId: Int? = null
 
     private val preferences = optionsDataStore.preferences
@@ -34,10 +33,10 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
         return repository.getProductReviews(arrayOf(productId), perPage).stateIn(viewModelScope)
     }
 
-
     private lateinit var customer: Customer
+
     private suspend fun addOrder(addedProduct: ProductItem) {
-        val lineItem = AppLineItem(addedProduct.id, 1)
+        val lineItem = AppLineItem(product_id = addedProduct.id, quantity = 1)
         val productsList = listOf<AppLineItem>(lineItem)
         val shipping = customer.shipping
         val appShipping = AppShipping(shipping.address_1, shipping.city, shipping.first_name, shipping.last_name, shipping.postcode)
@@ -92,17 +91,17 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
                                }
                                if (orderProductIds.contains(addedProduct.id)) {
                                    val updatedProducts = orderProducts.map { lineItem ->
-                                       if (lineItem.product_id == addedProduct.id) AppLineItem(lineItem.product_id, lineItem.quantity + 1)
-                                       else AppLineItem(lineItem.product_id, lineItem.quantity)
+                                       if (lineItem.product_id == addedProduct.id) UpdateLineItem(lineItem.id,lineItem.product_id, lineItem.quantity + 1)
+                                       else UpdateLineItem(lineItem.id,lineItem.product_id, lineItem.quantity)
                                    }
                                    val updatedOrder = UpdateOrderClass(updatedProducts)
                                    collectUpdatedOrder(orderId, updatedOrder)
                                } else {
-                                   val updatedProducts = orderProducts.map { lineItem ->
-                                       AppLineItem(lineItem.product_id, lineItem.quantity)
+                                   val updatedProducts: MutableList<Any> = orderProducts.map { lineItem ->
+                                       UpdateLineItem(lineItem.id,lineItem.product_id, lineItem.quantity)
                                    }.toMutableList()
                                    updatedProducts.add(AppLineItem(addedProduct.id, 1))
-                                   val updatedOrder = UpdateOrderClass(updatedProducts)
+                                   val updatedOrder = UpdateOrderClass(updatedProducts.toList())
                                    collectUpdatedOrder(orderId, updatedOrder)
                                }
                            }
@@ -154,8 +153,8 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
                                 }
                             //    if (orderProductIds.contains(removedProduct.id)) {
                                     val updatedProducts = orderProducts.map { lineItem ->
-                                        if (lineItem.product_id == removedProduct.id) AppLineItem(lineItem.product_id, lineItem.quantity - 1)
-                                        else AppLineItem(lineItem.product_id, lineItem.quantity)
+                                        if (lineItem.product_id == removedProduct.id) UpdateLineItem(lineItem.id,lineItem.product_id, lineItem.quantity - 1)
+                                        else UpdateLineItem(lineItem.id,lineItem.product_id, lineItem.quantity)
                                     }
                                     val updatedOrder = UpdateOrderClass(updatedProducts)
                                     collectUpdatedOrder(orderId, updatedOrder)

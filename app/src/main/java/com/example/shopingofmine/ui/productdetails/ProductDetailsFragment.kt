@@ -114,7 +114,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
             it.isGone = true
             binding.productCountLayout.isGone = false
-            //sharedViewModel.addToCart(product)
             viewModel.addToCart(product)
             callAndCollectOrderResponses()
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
@@ -124,7 +123,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
             viewModel.addToCart(product)
-            //sharedViewModel.addToCart(product)
             Log.d("ahmad", "initSetClickListeners: " + sharedViewModel.cartItems.size)
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
             if (count != 1) {
@@ -135,18 +133,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         }
 
         binding.subtract.setOnClickListener {
-
+            viewModel.removeFromCart(product)
             val count = binding.count.text.toString().toInt() - 1
             if (count == 0) {
-
-                //sharedViewModel.removeFromCart(product)
                 binding.productCountLayout.isGone = true
                 binding.addToCartButton.isGone = false
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
             } else {
                 binding.count.text = count.toString()
-                viewModel.removeFromCart(product)
-               // sharedViewModel.removeFromCart(product)
                 Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
                 val price = product.price.toInt() * count
                 val priceString = "%,d".format(price) + " ریال"
@@ -162,7 +156,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun callAndCollectOrderResponses() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                //viewModel.addOrder()
+                //todo update texts for product count here
             }
         }
     }

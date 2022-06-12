@@ -23,9 +23,9 @@ class OrderDetailsFragment : Fragment(R.layout.fragment_order_details) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentOrderDetailsBinding.bind(view)
         val lineItems = mutableListOf<AppLineItem>()
-        sharedViewModel.cartItems.forEach {
+       /* sharedViewModel.cartItems.forEach {
             lineItems.add(AppLineItem(it.key.id, it.value))
-        }
+        }*/
         binding.orderButton.setOnClickListener {
             val shipping = AppShipping(
                 first_name = binding.firstName.text.toString(),
