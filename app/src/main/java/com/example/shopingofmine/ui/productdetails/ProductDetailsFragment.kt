@@ -123,7 +123,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             val count = binding.count.text.toString().toInt() + 1
             binding.count.text = count.toString()
             viewModel.addToCart(product)
-            Log.d("ahmad", "initSetClickListeners: " + sharedViewModel.cartItems.size)
             Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
             if (count != 1) {
                 val price = product.price.toInt() * count

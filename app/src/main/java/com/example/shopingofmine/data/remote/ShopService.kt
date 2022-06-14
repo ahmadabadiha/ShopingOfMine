@@ -90,7 +90,7 @@ interface ShopService {
     @GET("orders")
     suspend fun getCustomerOrders(
         @Query("customer") customerId: Int,
-        @Query("status") status: String = "pending",
+        @Query("status") status: String,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<Order>>

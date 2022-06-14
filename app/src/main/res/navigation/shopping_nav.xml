@@ -70,12 +70,19 @@
             app:destination="@id/productDetailsFragment" />
         <action
             android:id="@+id/action_cartFragment_to_orderDetailsFragment"
-            app:destination="@id/orderDetailsFragment" />
+            app:destination="@id/completeOrderFragment" />
     </fragment>
     <fragment
-        android:id="@+id/orderDetailsFragment"
-        android:name="com.example.shopingofmine.ui.orderdetails.OrderDetailsFragment"
-        android:label="OrderDetailsFragment" />
+        android:id="@+id/completeOrderFragment"
+        android:name="com.example.shopingofmine.ui.completeorder.CompleteOrderFragment"
+        android:label="CompleteOrderFragment" >
+        <action
+            android:id="@+id/action_completeOrderFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_completeOrderFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
         android:name="com.example.shopingofmine.ui.reviews.ReviewsFragment"

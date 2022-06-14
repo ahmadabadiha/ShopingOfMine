@@ -53,7 +53,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     when (it) {
                         ResultWrapper.Loading -> {}
                         is ResultWrapper.Success -> {
-                            Toast.makeText(requireContext(), "مشتری جدید با موفقیت ساخته شد.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "ثبت نام شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show()
                             sharedViewModel.customerId = it.value.id
                             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment())
                         }

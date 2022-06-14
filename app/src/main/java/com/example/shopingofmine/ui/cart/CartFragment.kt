@@ -27,26 +27,26 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private val binding get() = _binding!!
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: CartViewModel by viewModels()
+    private lateinit var cartProducts: List<ProductItem>
     private lateinit var cartRecyclerAdapter: CartRecyclerAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCartBinding.bind(view)
-      //  if (sharedViewModel.cartItems.isEmpty()) {
+        //  if (sharedViewModel.cartItems.isEmpty()) {
         //    binding.loadingAnim.isGone = true
         //    binding.emptyGroup.isGone = false
         //    binding.emptyAnim.playAnimation()
-       // } else {
-            if (savedInstanceState == null) {
-                val cartProducts = sharedViewModel.cartItems.keys
+        // } else {
+        if (savedInstanceState == null) {
 
-                viewModel.getCustomerOrder()
-                Log.d("http", "onViewCreated: ")
-            }
-            //initSetRecyclerAdapter()
-            initSetViews()
-            initSetOnClickListeners()
-            initCollectFlows()
-       // }
+            viewModel.getCustomerOrder()
+            Log.d("http", "onViewCreated: ")
+        }
+        //initSetRecyclerAdapter()
+
+        initSetOnClickListeners()
+        initCollectFlows()
+        // }
     }
 
     private fun initCollectFlows() {
@@ -59,12 +59,17 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                         }
                         is ResultWrapper.Success -> {
                             val countList = viewModel.countList
-                            cartRecyclerAdapter = CartRecyclerAdapter(countList, ::onItemImageClick, ::onItemAddClick, ::onItemSubtractClick)
+                            cartRecyclerAdapter =
+                                CartRecyclerAdapter(countList, ::onItemImageClick, ::onItemAddClick, ::onItemSubtractClick)
                             binding.recyclerView.adapter = cartRecyclerAdapter
-                            cartRecyclerAdapter.submitList(it.value)
+                            cartProducts = it.value
+                            cartRecyclerAdapter.submitList(cartProducts)
+                            setViews(countList)
+                            Log.d("ahmadabadi", "initCollectFlows: " + countList.toString())
                             binding.productsGroup.isGone = false
                             binding.loadingAnim.pauseAnimation()
                             binding.loadingAnim.isGone = true
+
                         }
                         is ResultWrapper.Error -> {
                             val alertDialog: AlertDialog? = activity?.let {
@@ -86,23 +91,25 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initSetOnClickListeners() {
         binding.continueProcessButton.setOnClickListener {
+            sharedViewModel.countList = viewModel.countList
+            sharedViewModel.cartProducts = cartProducts
+            sharedViewModel.order = viewModel.order
             findNavController().navigate(CartFragmentDirections.actionCartFragmentToOrderDetailsFragment())
         }
     }
 
-    private fun initSetViews() {
-        val discountComputed = viewModel.computeDiscount(sharedViewModel.cartItems)
-        val cartSumAmount = viewModel.computePriceWithDiscount(sharedViewModel.cartItems)
-
+    private fun setViews(productsCount: MutableList<Int>) {
+        val discountComputed = viewModel.computeDiscount(cartProducts, productsCount)
+        val cartSumAmount = viewModel.computePriceWithDiscount(cartProducts, productsCount)
+        val priceWithoutDiscountComputed = viewModel.computePriceWithoutDiscount(cartProducts, productsCount)
         binding.apply {
-            (sharedViewModel.cartItems.values.sum().toString() + " کالا").also { productCount.text = it }
-            (viewModel.computePriceWithoutDiscount(sharedViewModel.cartItems).toString() + " ریال").also { productsPrice.text = it }
+            (productsCount.sum().toString() + " کالا").also { productCount.text = it }
+            ("%,d".format(priceWithoutDiscountComputed) + " ریال").also { productsPrice.text = it }
             ("(${discountComputed.second}%) " + "%,d".format(discountComputed.first) + " ریال").also { discount.text = it }
             ("%,d".format(cartSumAmount) + " ریال").also { cartSum.text = it }
             ("%,d".format(cartSumAmount) + " ریال").also { bottomPrice.text = it }
         }
     }
-
 
     private fun initSetRecyclerAdapter() {
         val countList = viewModel.countList
@@ -116,27 +123,19 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun onItemAddClick(product: ProductItem) {
-        val productCount = sharedViewModel.cartItems[product]?.plus(1)
-        if (productCount != null) {
-           // sharedViewModel.addToCart(product)
-        }
-        val countList = sharedViewModel.cartItems.values.toList()
+
+        val countList = viewModel.countList
         cartRecyclerAdapter.countList = countList
-        initSetViews()
+        viewModel.addToCart(product)
+
     }
 
     private fun onItemSubtractClick(product: ProductItem) {
 
-        val productCount = sharedViewModel.cartItems[product]?.minus(1)
-        if (productCount != 0) {
-            if (productCount != null) {
-                //sharedViewModel.removeFromCart(product)
-            }
-        } //else sharedViewModel.removeFromCart(product)
-        val countList = sharedViewModel.cartItems.values.toList()
-        cartRecyclerAdapter.submitList(sharedViewModel.cartItems.keys.toList())
+        val countList = viewModel.countList
         cartRecyclerAdapter.countList = countList
-        initSetViews()
+        viewModel.removeFromCart(product)
+
     }
 
     override fun onDestroy() {

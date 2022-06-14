@@ -18,6 +18,6 @@ interface RemoteDataSource {
     suspend fun addReview(review: AppReview): Response<Any>
     suspend fun createCustomer(customer: AppCustomer): Response<Customer>
     suspend fun getCustomer(id: Int): Response<Customer>
-    suspend fun getCustomerOrders(customerId: Int): Response<List<Order>>
+    suspend fun getCustomerOrders(customerId: Int, status:String): Response<List<Order>>
     suspend fun updateOrder(orderId : Int, updatedOrder: UpdateOrderClass): Response<Order>
 }

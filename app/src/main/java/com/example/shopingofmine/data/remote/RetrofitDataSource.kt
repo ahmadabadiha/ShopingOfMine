@@ -53,8 +53,8 @@ class RetrofitDataSource @Inject constructor(private val shopService: ShopServic
         return shopService.getCustomer(id)
     }
 
-    override suspend fun getCustomerOrders(customerId: Int): Response<List<Order>> {
-        return shopService.getCustomerOrders(customerId)
+    override suspend fun getCustomerOrders(customerId: Int, status: String): Response<List<Order>> {
+        return shopService.getCustomerOrders(customerId, status)
     }
 
     override suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass): Response<Order> {

@@ -51,8 +51,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getCustomer(customerId)
     }
 
-    suspend fun getCustomerOrders(customerId: Int) = safeApiCall {
-        remoteDataSource.getCustomerOrders(customerId)
+    suspend fun getCustomerOrders(customerId: Int,status: String = "pending") = safeApiCall {
+        remoteDataSource.getCustomerOrders(customerId, status)
     }
 
     suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass) = safeApiCall {

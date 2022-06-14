@@ -2,6 +2,7 @@ package com.example.shopingofmine.ui.options
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,15 +24,27 @@ class OptionsFragment : Fragment(R.layout.fragment_options) {
         _binding = FragmentOptionsBinding.bind(view)
         val isDarkMode = arguments?.getBoolean("darkMode") ?: false
         binding.themeSwitch.isChecked = isDarkMode
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) optionsViewModel.updateTheme(Theme.NIGHT)
-                    else optionsViewModel.updateTheme(Theme.LIGHT)
-                }
-            }
+
+        binding.themeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            updateTheme(isChecked)
         }
 
+        setDropDownItems()
+    }
+
+    private fun updateTheme(isChecked: Boolean) {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                if (isChecked) optionsViewModel.updateTheme(Theme.NIGHT)
+                else optionsViewModel.updateTheme(Theme.LIGHT)
+            }
+        }
+    }
+
+    private fun setDropDownItems() {
+        val items = listOf("3", "5", "8", "12")
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+        binding.autoCompleteTextView.setAdapter(adapter)
     }
 
     override fun onDestroy() {

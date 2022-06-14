@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/darkMode"
+        style="@style/textStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/darkMode"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/themeSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/themeSwitch"
@@ -14,18 +24,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintVertical_bias="0.1" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_margin="8dp"
         android:src="@drawable/ic_baseline_dark_mode_24"
         app:layout_constraintBottom_toBottomOf="@+id/themeSwitch"
         app:layout_constraintStart_toEndOf="@+id/themeSwitch"
-        app:layout_constraintTop_toTopOf="@+id/themeSwitch"
-        android:layout_margin="8dp"/>
+        app:layout_constraintTop_toTopOf="@+id/themeSwitch" />
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="8dp"
@@ -34,4 +46,44 @@
         app:layout_constraintEnd_toStartOf="@+id/themeSwitch"
         app:layout_constraintTop_toTopOf="@+id/themeSwitch"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/timeIntervalTitle"
+        style="@style/textStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/timeIntervalTitle"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />
+
+    <TextView
+        style="@style/textStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/hour"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeInterval"
+        app:layout_constraintEnd_toStartOf="@+id/timeInterval"
+        app:layout_constraintTop_toTopOf="@id/timeInterval" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/timeInterval"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/timeIntervalTitle"
+        app:layout_constraintEnd_toStartOf="@+id/timeIntervalTitle"
+        app:layout_constraintTop_toTopOf="@+id/timeIntervalTitle">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/_3" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
