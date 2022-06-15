@@ -145,7 +145,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment())
+        findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(product.id))
     }
 
     private fun setDropDownItems() {

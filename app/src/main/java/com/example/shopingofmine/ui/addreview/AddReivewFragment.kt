@@ -88,7 +88,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                                 "با تشکر. نظر شما با موفقیت ثبت شد.",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            findNavController().navigate(AddReviewFragmentDirections.actionAddReviewFragmentToProductDetailsFragment())
+                            findNavController().navigate(AddReviewFragmentDirections.actionAddReviewFragmentToProductDetailsFragment(product.id))
                         }
                         is ResultWrapper.Error<*> -> {
                             val alertDialog: AlertDialog? = activity?.let {

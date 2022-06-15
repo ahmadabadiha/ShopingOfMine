@@ -16,8 +16,7 @@ import javax.inject.Inject
 class ProductsViewModel @Inject constructor(
     private val repository: com.example.shopingofmine.data.repository.Repository,
     private val savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
+) : ViewModel() {
 
     private val categoryId get() = savedStateHandle.get<String>("category")
     private val query get() = savedStateHandle.get<String>("query")
@@ -27,7 +26,6 @@ class ProductsViewModel @Inject constructor(
 
     private val _searchedResult = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val searchedResult = _searchedResult.asStateFlow()
-
 
     init {
         categoryId?.let { getProducts(it) }

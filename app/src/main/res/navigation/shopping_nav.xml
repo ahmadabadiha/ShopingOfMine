@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_productDetailsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="productId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/optionsFragment"

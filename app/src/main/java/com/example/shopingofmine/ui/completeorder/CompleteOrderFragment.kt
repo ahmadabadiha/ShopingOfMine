@@ -95,9 +95,9 @@ class CompleteOrderFragment : Fragment(R.layout.fragment_complete_order) {
         }
     }
 
-    private fun onItemClick(productItem: ProductItem) {
-        sharedViewModel.productItem = productItem
-        findNavController().navigate(CompleteOrderFragmentDirections.actionCompleteOrderFragmentToProductDetailsFragment())
+    private fun onItemClick(product: ProductItem) {
+        sharedViewModel.productItem = product
+        findNavController().navigate(CompleteOrderFragmentDirections.actionCompleteOrderFragmentToProductDetailsFragment(product.id))
     }
 
     override fun onDestroy() {

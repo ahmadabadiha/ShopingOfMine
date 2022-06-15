@@ -3,7 +3,6 @@ package com.example.shopingofmine.ui.productdetails
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -17,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
+import com.example.shopingofmine.data.model.apimodels.OrderLineItem
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
@@ -49,7 +49,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         initSetClickListeners()
         setUpViewPager()
         initSetReviewsRecyclerView()
-
+        initCollectReviews()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.customerIsKnown.collectLatest {
@@ -73,14 +73,14 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun initSetReviewsRecyclerView() {
         shortReviewsRecyclerAdapter = ShortReviewsRecyclerAdapter(::onReviewItemClick)
         binding.recyclerView.adapter = shortReviewsRecyclerAdapter
-        collectReviews()
+
 
     }
 
-    private fun collectReviews() {
+    private fun initCollectReviews() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getProductReviews(product.id).collectLatest {
+                viewModel.review.collectLatest {
                     when (it) {
                         ResultWrapper.Loading -> {
                             binding.reviewsCount.text = "در حال بارگیری"
@@ -96,7 +96,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                             }?.setMessage(it.message)
                                 ?.setTitle(" خطا در بارگیری نظرات")
                                 ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                    collectReviews()
+                                    initCollectReviews()
                                 }
                                 ?.setNegativeButton("انصراف") { _, _ ->
                                 }?.create()
@@ -111,40 +111,27 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun initSetClickListeners() {
 
         binding.addToCartButton.setOnClickListener {
-
+            binding.loadingAnim.playAnimation()
+            binding.loadingAnim.isGone = false
             it.isGone = true
             binding.productCountLayout.isGone = false
             viewModel.addToCart(product)
-            callAndCollectOrderResponses()
-            Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
+            collectOrderResponses()
         }
 
         binding.add.setOnClickListener {
-            val count = binding.count.text.toString().toInt() + 1
-            binding.count.text = count.toString()
+            binding.loadingAnim.playAnimation()
+            binding.loadingAnim.isGone = false
             viewModel.addToCart(product)
-            Toast.makeText(requireContext(), "کالا به سبد خرید شما افزوده شد.", Toast.LENGTH_SHORT).show()
-            if (count != 1) {
-                val price = product.price.toInt() * count
-                val priceString = "%,d".format(price) + " ریال"
-                binding.bottomPrice.text = priceString
-            }
+
+
         }
 
         binding.subtract.setOnClickListener {
+            binding.loadingAnim.playAnimation()
+            binding.loadingAnim.isGone = false
             viewModel.removeFromCart(product)
-            val count = binding.count.text.toString().toInt() - 1
-            if (count == 0) {
-                binding.productCountLayout.isGone = true
-                binding.addToCartButton.isGone = false
-                Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
-            } else {
-                binding.count.text = count.toString()
-                Toast.makeText(requireContext(), "کالا از سبد خرید شما حذف شد.", Toast.LENGTH_SHORT).show()
-                val price = product.price.toInt() * count
-                val priceString = "%,d".format(price) + " ریال"
-                binding.bottomPrice.text = priceString
-            }
+//
         }
 
         binding.addReviewButton.setOnClickListener {
@@ -152,14 +139,50 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         }
     }
 
-    private fun callAndCollectOrderResponses() {
+    private fun collectOrderResponses() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                //todo update texts for product count here
+                viewModel.updatedOrder.collectLatest {
+                    when (it) {
+                        ResultWrapper.Loading -> {
+                            //todo
+                        }
+                        is ResultWrapper.Success -> {
+                            val order = it.value
+                            for (item in order.line_items) {
+                                if (item.product_id == product.id) {
+                                    updateViews(item)
+                                    Toast.makeText(requireContext(), "تغییرات در سبد خرید شما اعمال شد.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                        is ResultWrapper.Error -> {
+                            val alertDialog: AlertDialog? = activity?.let {
+                                AlertDialog.Builder(it)
+                            }?.setMessage(it.message + " لطفا چند لحظه دیگر دوباره امتحان کنید. ")
+                                ?.setTitle(" خطا در بروزرسانی سفارش")
+                                ?.setNegativeButton("باشه") { _, _ ->
+                                }?.create()
+                            alertDialog?.show()
+                        }
+                    }
+                }
             }
         }
     }
 
+    private fun updateViews(item: OrderLineItem) {
+        val count = item.quantity
+        binding.count.text = count.toString()
+        val price = item.total.toInt() * count
+        ("%,d".format(price) + " ریال").also { binding.bottomPrice.text = it }
+        if (count == 0) {
+            binding.productCountLayout.isGone = true
+            binding.addToCartButton.isGone = false
+        }
+        binding.loadingAnim.pauseAnimation()
+        binding.loadingAnim.isGone = true
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initSetViews() {

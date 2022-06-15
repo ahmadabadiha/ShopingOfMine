@@ -1,12 +1,16 @@
 package com.example.shopingofmine.ui.productdetails
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.shopingofmine.data.NotificationWorker
 import com.example.shopingofmine.data.datastore.OptionsDataStore
 import com.example.shopingofmine.data.model.apimodels.Customer
+import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.apimodels.Review
 import com.example.shopingofmine.data.model.appmodels.*
@@ -19,20 +23,38 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductDetailsViewModel @Inject constructor(private val repository: Repository, private val optionsDataStore: OptionsDataStore) :
-    ViewModel() {
+class ProductDetailsViewModel @Inject constructor(
+    private val repository: Repository,
+    private val optionsDataStore: OptionsDataStore,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
+    private val productId get() = savedStateHandle.get<Int>("productId")
 
     private val _customerIsKnown = MutableSharedFlow<Boolean>()
     val customerIsKnown = _customerIsKnown.asSharedFlow()
 
     private val _errorMessage = MutableSharedFlow<String>()
     val errorMessage = _errorMessage.asSharedFlow()
+
+    private val _review = MutableStateFlow<ResultWrapper<List<Review>>>(ResultWrapper.Loading)
+    val review = _review.asStateFlow()
+
+    private val _updatedOrder = MutableStateFlow<ResultWrapper<Order>>(ResultWrapper.Loading)
+    val updatedOrder = _updatedOrder.asStateFlow()
+
     var orderId: Int? = null
 
     private val preferences = optionsDataStore.preferences
 
-    suspend fun getProductReviews(productId: Int, perPage: Int = 10): StateFlow<ResultWrapper<List<Review>>> {
-        return repository.getProductReviews(arrayOf(productId), perPage).stateIn(viewModelScope)
+    init {
+        getProductReviews(productId!!)
+    }
+
+    private fun getProductReviews(productId: Int, perPage: Int = 10) = viewModelScope.launch {
+        repository.getProductReviews(arrayOf(productId), perPage).collectLatest {
+            _review.emit(it)
+        }
     }
 
     private lateinit var customer: Customer
@@ -114,6 +136,7 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
                             val updatedOrder = UpdateOrderClass(updatedProducts.toList())
                             collectUpdatedOrder(orderId, updatedOrder)
                         }
+
                     } else addOrder(addedProduct)
                 }
                 is ResultWrapper.Error -> {
@@ -146,7 +169,6 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
                 }
 
                 collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
-
             }
         } else _customerIsKnown.emit(false)
     }
@@ -182,19 +204,8 @@ class ProductDetailsViewModel @Inject constructor(private val repository: Reposi
 
     private fun collectUpdatedOrder(orderId: Int, updatedOrder: UpdateOrderClass) = viewModelScope.launch {
         repository.updateOrder(orderId, updatedOrder).collectLatest {
-            when (it) {
-                ResultWrapper.Loading -> {}
-                is ResultWrapper.Success -> {
-                    //todo
-                    Log.d("httpsuccess", "collect updated order: " + it.value)
-                }
-                is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "collect updated order: " + it.message)
-                }
-            }
+           _updatedOrder.emit(it)
         }
     }
-
 
 }

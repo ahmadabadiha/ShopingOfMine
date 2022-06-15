@@ -24,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.databinding.ActivityMainBinding
 import com.example.shopingofmine.data.datastore.Theme
+import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

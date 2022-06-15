@@ -26,6 +26,9 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     private val _cartProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val cartProducts = _cartProducts.asStateFlow()
 
+    private val _errorInViewModelApiCalls = MutableSharedFlow<String>()
+    val errorInViewModelApiCalls = _errorInViewModelApiCalls.asSharedFlow()
+
     var countList = mutableListOf<Int>()
 
     private lateinit var customer: Customer
@@ -33,8 +36,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     fun getCustomerOrder() = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
-        val customerId = preferencesInfo.customerId
-        if (customerId != null) {
+        val customerId = preferencesInfo.customerId!!
             repository.getCustomerOrders(customerId).collectLatest {
                 when (it) {
                     ResultWrapper.Loading -> {}
@@ -42,22 +44,21 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
                         val productIds = mutableListOf<Int>()
                         order = it.value[0]
-
-                        order.line_items.forEach {
-                            productIds.add(it.product_id)
-                        }
-                        getCartProducts(productIds.toTypedArray())
-
+                        val lineItems = order.line_items
+                        if (lineItems.isNotEmpty()) {
+                            lineItems.forEach {
+                                productIds.add(it.product_id)
+                            }
+                            getCartProducts(productIds.toTypedArray())
+                        }else  _errorInViewModelApiCalls.emit("cart empty")
                     }
                     is ResultWrapper.Error -> {
-                        //todo
+                        _errorInViewModelApiCalls.emit(it.message.toString())
                         Log.d("httperr", "getCustomerOrder: " + it.message)
                     }
                 }
             }
-        } else {
-            Log.d("ahmad", "getCustomerOrder: error: null customer id from data store")
-        }
+
     }
 
     private fun getCartProducts(productIds: Array<Int>) = viewModelScope.launch {
@@ -90,7 +91,6 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     fun addToCart(addedProduct: ProductItem) = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
         val customerId = preferencesInfo.customerId
-
         if (customerId != null) {
             collectCustomer(customerId)
             collectCustomerOrderWithAddedProduct(customerId, addedProduct)

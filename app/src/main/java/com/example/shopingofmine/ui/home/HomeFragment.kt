@@ -213,7 +213,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment())
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(product.id))
     }
 
     private fun ViewGroup.rtl() {

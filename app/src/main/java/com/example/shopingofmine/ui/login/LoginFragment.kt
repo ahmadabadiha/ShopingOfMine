@@ -55,7 +55,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         is ResultWrapper.Success -> {
                             Toast.makeText(requireContext(), "ثبت نام شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show()
                             sharedViewModel.customerId = it.value.id
-                            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment())
+                            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment(sharedViewModel.productItem.id))
                         }
                         is ResultWrapper.Error -> {
                             val alertDialog: AlertDialog? = activity?.let {
