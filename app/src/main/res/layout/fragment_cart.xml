@@ -135,10 +135,8 @@
                 android:layout_margin="16dp"
                 android:text="@string/attentionText"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@id/attentionIcon"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cartGist" />
+                app:layout_constraintEnd_toStartOf="@id/attentionIcon"
+                app:layout_constraintTop_toBottomOf="@id/couponTIL" />
 
             <ImageView
                 android:id="@+id/attentionIcon"
@@ -149,9 +147,37 @@
                 android:src="@drawable/ic_baseline_error_outline_24"
                 app:layout_constraintBottom_toBottomOf="@id/attention"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/attention"
                 app:layout_constraintTop_toTopOf="@id/attention"
                 app:tint="@color/light_gray" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/couponTIL"
+                android:layout_width="152dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cartGist"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxCornerRadiusBottomEnd="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/couponET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="کد تخفیف داری؟" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/checkCoupon"
+                style="@style/buttonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingHorizontal="32dp"
+                android:text="بررسی کد"
+                app:layout_constraintBottom_toBottomOf="@id/couponTIL"
+                app:layout_constraintEnd_toStartOf="@id/couponTIL"
+                app:layout_constraintTop_toTopOf="@id/couponTIL" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -174,7 +200,7 @@
             android:layout_margin="8dp"
             android:text="@string/continueProcess"
             android:textStyle="bold"
-            app:cornerRadius="16dp"
+            app:cornerRadius="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -216,6 +242,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499"
         app:lottie_autoPlay="false"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/cart"
@@ -233,7 +260,7 @@
         app:lottie_autoPlay="false"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/empty_cart"
-        app:lottie_repeatMode="restart"/>
+        app:lottie_repeatMode="restart" />
 
     <TextView
         android:id="@+id/emptyText"
@@ -249,7 +276,7 @@
         android:id="@+id/productsGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+
         app:constraint_referenced_ids="topLayout,bottomLayout" />
 
     <androidx.constraintlayout.widget.Group

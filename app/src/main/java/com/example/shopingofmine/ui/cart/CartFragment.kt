@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,8 +51,8 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun initCollectFlows() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartProducts.collectLatest {
-                    launch {
+                launch {
+                    viewModel.cartProducts.collectLatest {
                         when (it) {
                             ResultWrapper.Loading -> {
                                 binding.loadingAnim.playAnimation()
@@ -84,21 +85,50 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                             }
                         }
                     }
-                    launch {
-                        viewModel.errorInViewModelApiCalls.collectLatest { errorMessage ->
-                            if (errorMessage == "cart empty") {
-                                binding.loadingAnim.isGone = true
-                                binding.emptyGroup.isGone = false
-                                binding.productsGroup.isGone = true
-                                binding.emptyAnim.playAnimation()
-                                WorkManager.getInstance(requireContext()).cancelUniqueWork("cart notification")
-                            } else {
+                }
+                launch {
+                    viewModel.errorInViewModelApiCalls.collectLatest { errorMessage ->
+                        if (errorMessage == "cart empty") {
+                            binding.loadingAnim.isGone = true
+                            binding.emptyGroup.isGone = false
+                            binding.productsGroup.isGone = true
+                            binding.emptyAnim.playAnimation()
+                            WorkManager.getInstance(requireContext()).cancelUniqueWork("cart notification")
+                        } else {
+                            val alertDialog: AlertDialog? = activity?.let {
+                                AlertDialog.Builder(it)
+                            }?.setMessage(errorMessage)
+                                ?.setTitle("خطا")
+                                ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                    viewModel.getCustomerOrder()
+                                }
+                                ?.setNegativeButton("انصراف") { _, _ ->
+                                }?.create()
+                            alertDialog?.show()
+                        }
+                    }
+                }
+                launch {
+                    viewModel.coupon.collectLatest {
+                        when (it) {
+                            ResultWrapper.Loading -> {
+                                //todo loading animation
+                            }
+                            is ResultWrapper.Success -> {
+                                val coupons = it.value
+                                if (coupons.isEmpty()) Toast.makeText(requireContext(), "کد تخفیف نامعتبر است.", Toast.LENGTH_SHORT).show()
+                                else {
+                                    Toast.makeText(requireContext(), "right", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            is ResultWrapper.Error -> {
+                                Log.d("ahmadabadi", "initCollectFlows: error")
                                 val alertDialog: AlertDialog? = activity?.let {
                                     AlertDialog.Builder(it)
-                                }?.setMessage(errorMessage)
-                                    ?.setTitle("خطا")
+                                }?.setMessage(it.message)
+                                    ?.setTitle("خطا در بررسی کد تخفیف")
                                     ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                        viewModel.getCustomerOrder()
+                                        viewModel.getCoupon(binding.couponET.text.toString())
                                     }
                                     ?.setNegativeButton("انصراف") { _, _ ->
                                     }?.create()
@@ -108,7 +138,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     }
                 }
             }
-
         }
     }
 
@@ -117,6 +146,14 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             sharedViewModel.cartProducts = cartProducts
             sharedViewModel.order = viewModel.order
             findNavController().navigate(CartFragmentDirections.actionCartFragmentToOrderDetailsFragment())
+        }
+
+        binding.checkCoupon.setOnClickListener {
+            val code = binding.couponET.text.toString()
+            if (code.isNotBlank()) {
+                viewModel.getCoupon(code)
+            } else Toast.makeText(requireContext(), "کد تخفیف وارد نشده است.", Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -139,26 +176,20 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun onItemAddClick(product: ProductItem) {
-
-        // val countList = viewModel.countList
-        //cartRecyclerAdapter.countList = countList
         viewModel.addToCart(product)
-
     }
 
     private fun onItemSubtractClick(product: ProductItem) {
-
-        // val countList = viewModel.countList
-        // cartRecyclerAdapter.countList = countList
         viewModel.removeFromCart(product)
-
     }
+
 
     override fun onStop() {
         sharedViewModel.countList = viewModel.countList
         enqueueWork()
         super.onStop()
     }
+
     override fun onDestroy() {
         binding.loadingAnim.isGone = false
         binding.emptyGroup.isGone = true

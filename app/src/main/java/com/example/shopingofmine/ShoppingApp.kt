@@ -20,7 +20,7 @@ class ShoppingApp : Application(), Configuration.Provider {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val descriptionText = "asks you to complete your order if you have products in your cart"
             val channel =
-                NotificationChannel("shopping channel", "complete order notification", NotificationManager.IMPORTANCE_HIGH).apply {
+                NotificationChannel(NOTIFICATION_CHANNEL_ID, "complete order notification", NotificationManager.IMPORTANCE_HIGH).apply {
                     description = descriptionText
                 }
 

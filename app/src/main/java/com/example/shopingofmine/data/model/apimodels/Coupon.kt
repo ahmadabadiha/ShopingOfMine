@@ -14,9 +14,9 @@ data class Coupon(
     @JsonProperty("date_created_gmt")
     val date_created_gmt: String,
     @JsonProperty("date_expires")
-    val date_expires: Any,
+    val date_expires: Any?,
     @JsonProperty("date_expires_gmt")
-    val date_expires_gmt: Any,
+    val date_expires_gmt: Any?,
     @JsonProperty("date_modified")
     val date_modified: String,
     @JsonProperty("date_modified_gmt")
@@ -40,7 +40,7 @@ data class Coupon(
     @JsonProperty("individual_use")
     val individual_use: Boolean,
     @JsonProperty("limit_usage_to_x_items")
-    val limit_usage_to_x_items: Any,
+    val limit_usage_to_x_items: Any?,
     @JsonProperty("maximum_amount")
     val maximum_amount: String,
     @JsonProperty("meta_data")
@@ -54,9 +54,9 @@ data class Coupon(
     @JsonProperty("usage_count")
     val usage_count: Int,
     @JsonProperty("usage_limit")
-    val usage_limit: Any,
+    val usage_limit: Any?,
     @JsonProperty("usage_limit_per_user")
-    val usage_limit_per_user: Any,
+    val usage_limit_per_user: Any?,
     @JsonProperty("used_by")
     val used_by: List<Any>
 )

@@ -9,6 +9,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.shopingofmine.NOTIFICATION_CHANNEL_ID
 import com.example.shopingofmine.R
 import com.example.shopingofmine.ui.mainactivity.MainActivity
 import dagger.assisted.Assisted
@@ -36,7 +37,7 @@ class NotificationWorker @AssistedInject constructor(@Assisted appContext: Conte
         }
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        return NotificationCompat.Builder(applicationContext, "shopping channel")
+        return NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_black_cart)
             .setContentTitle("خریدت یادت نره!")
             .setContentText("شما $count کالا در سبد خرید خود دارید.")

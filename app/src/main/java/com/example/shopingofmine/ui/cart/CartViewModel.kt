@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopingofmine.data.datastore.OptionsDataStore
+import com.example.shopingofmine.data.model.apimodels.Coupon
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.appmodels.AppLineItem
@@ -27,9 +28,18 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     private val _errorInViewModelApiCalls = MutableSharedFlow<String>()
     val errorInViewModelApiCalls = _errorInViewModelApiCalls.asSharedFlow()
 
+    private val _coupon = MutableSharedFlow<ResultWrapper<List<Coupon>>>()
+    val coupon = _coupon.asSharedFlow()
+
     var countList = mutableListOf<Int>()
 
     lateinit var order: Order
+
+    fun getCoupon(code: String)=viewModelScope.launch {
+        repository.getCoupon(code).collectLatest {
+            _coupon.emit(it)
+        }
+    }
 
     fun getCustomerOrder() = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
