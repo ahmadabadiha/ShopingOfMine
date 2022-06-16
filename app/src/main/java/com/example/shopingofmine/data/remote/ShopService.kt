@@ -1,6 +1,5 @@
 package com.example.shopingofmine.data.remote
 
-import androidx.room.Index
 import com.example.shopingofmine.data.model.apimodels.*
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
@@ -102,4 +101,11 @@ interface ShopService {
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<Order>
+
+    @GET("coupons")
+    suspend fun getCoupon(
+        @Query("code") code: String,
+        @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
+        @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
+    ): Response<List<Coupon>>
 }

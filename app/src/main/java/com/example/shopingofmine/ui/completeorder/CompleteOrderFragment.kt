@@ -85,7 +85,7 @@ class CompleteOrderFragment : Fragment(R.layout.fragment_complete_order) {
         val cartSumAmount = viewModel.computePriceWithDiscount(cartProducts, countList)
         val priceWithoutDiscountComputed = viewModel.computePriceWithoutDiscount(cartProducts, countList)
         val shipping = order.shipping
-        val address = shipping.city + "/n" + shipping.address_1 + "/n" + shipping.first_name + "/n" + shipping.last_name
+        val address = shipping.city + "\n" + shipping.address_1 + "\n" + shipping.first_name + "\n" + shipping.last_name
         binding.apply {
             binding.address.text = address
             (countList.sum().toString() + " کالا").also { productCount.text = it }

@@ -60,4 +60,8 @@ class RetrofitDataSource @Inject constructor(private val shopService: ShopServic
     override suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass): Response<Order> {
         return shopService.updateOrder(orderId, updatedOrder)
     }
+
+    override suspend fun getCoupon(code: String): Response<List<Coupon>> {
+        return shopService.getCoupon(code)
+    }
 }

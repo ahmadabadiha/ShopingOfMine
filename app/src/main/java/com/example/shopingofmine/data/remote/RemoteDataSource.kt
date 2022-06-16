@@ -20,4 +20,5 @@ interface RemoteDataSource {
     suspend fun getCustomer(id: Int): Response<Customer>
     suspend fun getCustomerOrders(customerId: Int, status:String): Response<List<Order>>
     suspend fun updateOrder(orderId : Int, updatedOrder: UpdateOrderClass): Response<Order>
+    suspend fun getCoupon(code: String): Response<List<Coupon>>
 }

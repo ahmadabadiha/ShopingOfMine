@@ -8,6 +8,4 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(optionsDataStore: OptionsDataStore): ViewModel() {
     val preferences = optionsDataStore.preferences
-
-
 }

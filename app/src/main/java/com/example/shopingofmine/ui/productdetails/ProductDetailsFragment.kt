@@ -17,9 +17,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.OrderLineItem
-import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.ui.adapters.ShortReviewsRecyclerAdapter
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +46,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         product = sharedViewModel.productItem
 
         initSetViews()
-        initSetClickListeners()
+        initSetOnClickListeners()
         setUpViewPager()
         initSetReviewsRecyclerView()
         initCollectReviews()
@@ -108,7 +108,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         }
     }
 
-    private fun initSetClickListeners() {
+    private fun initSetOnClickListeners() {
 
         binding.addToCartButton.setOnClickListener {
             binding.loadingAnim.playAnimation()

@@ -17,11 +17,11 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.shopingofmine.R
-import com.example.shopingofmine.data.NotificationWorker
-import com.example.shopingofmine.databinding.FragmentCartBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
-import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.databinding.FragmentCartBinding
+import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
+import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,17 +38,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCartBinding.bind(view)
-        //  if (sharedViewModel.cartItems.isEmpty()) {
-        //    binding.loadingAnim.isGone = true
-        //    binding.emptyGroup.isGone = false
-        //    binding.emptyAnim.playAnimation()
-        // } else {
+
         if (savedInstanceState == null) {
-
             viewModel.getCustomerOrder()
-            Log.d("http", "onViewCreated: ")
         }
-
         initSetOnClickListeners()
         initCollectFlows()
 
@@ -92,8 +85,25 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                         }
                     }
                     launch {
-                        viewModel.errorInViewModelApiCalls.collectLatest {
-
+                        viewModel.errorInViewModelApiCalls.collectLatest { errorMessage ->
+                            if (errorMessage == "cart empty") {
+                                binding.loadingAnim.isGone = true
+                                binding.emptyGroup.isGone = false
+                                binding.productsGroup.isGone = true
+                                binding.emptyAnim.playAnimation()
+                                WorkManager.getInstance(requireContext()).cancelUniqueWork("cart notification")
+                            } else {
+                                val alertDialog: AlertDialog? = activity?.let {
+                                    AlertDialog.Builder(it)
+                                }?.setMessage(errorMessage)
+                                    ?.setTitle("خطا")
+                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
+                                        viewModel.getCustomerOrder()
+                                    }
+                                    ?.setNegativeButton("انصراف") { _, _ ->
+                                    }?.create()
+                                alertDialog?.show()
+                            }
                         }
                     }
                 }
@@ -104,7 +114,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun initSetOnClickListeners() {
         binding.continueProcessButton.setOnClickListener {
-            sharedViewModel.countList = viewModel.countList
             sharedViewModel.cartProducts = cartProducts
             sharedViewModel.order = viewModel.order
             findNavController().navigate(CartFragmentDirections.actionCartFragmentToOrderDetailsFragment())
@@ -131,40 +140,49 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun onItemAddClick(product: ProductItem) {
 
-        val countList = viewModel.countList
-        cartRecyclerAdapter.countList = countList
+        // val countList = viewModel.countList
+        //cartRecyclerAdapter.countList = countList
         viewModel.addToCart(product)
 
     }
 
     private fun onItemSubtractClick(product: ProductItem) {
 
-        val countList = viewModel.countList
-        cartRecyclerAdapter.countList = countList
+        // val countList = viewModel.countList
+        // cartRecyclerAdapter.countList = countList
         viewModel.removeFromCart(product)
 
     }
 
+    override fun onStop() {
+        sharedViewModel.countList = viewModel.countList
+        enqueueWork()
+        super.onStop()
+    }
     override fun onDestroy() {
         binding.loadingAnim.isGone = false
         binding.emptyGroup.isGone = true
         binding.emptyAnim.pauseAnimation()
         _binding = null
-        if (requireActivity().isFinishing) {
-            val countList = viewModel.countList
-            if (countList.isNotEmpty()) {
-                val cartTotalCount = countList.sum()
-                val cartNotificationWorker =
-                    PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
-                        .setInputData(workDataOf("count" to cartTotalCount))
-                        .build()
-                WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
-                    "sendLogs",
-                    ExistingPeriodicWorkPolicy.REPLACE,
-                    cartNotificationWorker
-                )
-            }
-        }
         super.onDestroy()
+    }
+
+    private fun enqueueWork() {
+        val countList = sharedViewModel.countList
+        if (countList.isNotEmpty()) {
+            Log.d("ahmadabadi", "onDestroy: work manager updated" + countList.toString() + countList.size.toString())
+            val cartTotalCount = countList.sum()
+            val interval = sharedViewModel.notificationTimeInterval
+            val cartNotificationWorker =
+                PeriodicWorkRequestBuilder<NotificationWorker>(interval!!.toLong(), TimeUnit.HOURS)
+                    .setInputData(workDataOf("count" to cartTotalCount))
+                    //  .setInitialDelay(10,TimeUnit.MINUTES)
+                    .build()
+            WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+                "cart notification",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                cartNotificationWorker
+            )
+        }
     }
 }

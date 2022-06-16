@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.example.shopingofmine.data.NotificationWorker
+import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
 import com.example.shopingofmine.data.datastore.OptionsDataStore
 import com.example.shopingofmine.data.model.apimodels.Customer
 import com.example.shopingofmine.data.model.apimodels.Order
@@ -43,8 +41,7 @@ class ProductDetailsViewModel @Inject constructor(
     private val _updatedOrder = MutableStateFlow<ResultWrapper<Order>>(ResultWrapper.Loading)
     val updatedOrder = _updatedOrder.asStateFlow()
 
-    var orderId: Int? = null
-
+    private lateinit var customer: Customer
     private val preferences = optionsDataStore.preferences
 
     init {
@@ -57,7 +54,7 @@ class ProductDetailsViewModel @Inject constructor(
         }
     }
 
-    private lateinit var customer: Customer
+
 
     private suspend fun addOrder(addedProduct: ProductItem) {
         val lineItem = AppLineItem(product_id = addedProduct.id, quantity = 1)
@@ -83,9 +80,10 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     fun addToCart(addedProduct: ProductItem) = viewModelScope.launch {
+
         val preferencesInfo = preferences.take(1).first()
         val customerId = preferencesInfo.customerId
-
+        Log.d("ahmadabadi", "addToCart: " + customerId.toString())
         if (customerId != null) {
             repository.getCustomer(customerId).collectLatest {
                 when (it) {

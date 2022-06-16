@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -56,18 +57,27 @@
         android:text="@string/timeIntervalTitle"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />
+        app:layout_constraintTop_toBottomOf="@+id/timeIcon" />
 
-    <TextView
-        style="@style/textStyle"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/timeIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/hour"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/timeInterval"
-        app:layout_constraintEnd_toStartOf="@+id/timeInterval"
-        app:layout_constraintTop_toTopOf="@id/timeInterval" />
+        android:src="@drawable/ic_round_timer_24"
+        android:tint="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/themeSwitch" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layoutDirection="rtl"
+        android:text="بازه دلخواه(ساعت):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeIntervalTitle" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/timeInterval"
@@ -80,10 +90,32 @@
         app:layout_constraintTop_toTopOf="@+id/timeIntervalTitle">
 
         <AutoCompleteTextView
-            android:id="@+id/autoCompleteTextView"
+            android:id="@+id/timeIntervalET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="@string/_3" />
+            android:inputType="none"
+            android:text="@string/_3"
+            android:textAlignment="center"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/customTime"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="@+id/checkbox"
+        app:layout_constraintEnd_toEndOf="@+id/timeInterval"
+        app:layout_constraintStart_toStartOf="@+id/timeInterval"
+        app:layout_constraintTop_toTopOf="@+id/checkbox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/customTimeET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:inputType="number"
+            android:textAlignment="center" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,7 +49,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     }
 
     private fun setSorting() {
-        binding.autoCompleteTextView.addTextChangedListener {
+        binding.sortET.addTextChangedListener {
             binding.loadedGroup.isGone = true
             binding.loadingAnim.playAnimation()
             binding.loadingAnim.isGone = false
@@ -152,7 +152,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         val items =
             listOf("تاریخ-نزولی", "تاریخ-صعودی", "قیمت-نزولی", "قیمت-صعودی", "بازدید-نزولی", "بازدید-صعودی", "امتیاز-نزولی", "امتیاز-صعودی")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-        binding.autoCompleteTextView.setAdapter(adapter)
+        binding.sortET.setAdapter(adapter)
     }
 
     private fun <T> StateFlow<T>.collectIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {

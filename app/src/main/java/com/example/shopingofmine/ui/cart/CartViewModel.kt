@@ -4,19 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopingofmine.data.datastore.OptionsDataStore
-import com.example.shopingofmine.data.model.apimodels.Customer
 import com.example.shopingofmine.data.model.apimodels.Order
-import com.example.shopingofmine.data.repository.Repository
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.appmodels.AppLineItem
 import com.example.shopingofmine.data.model.appmodels.UpdateLineItem
 import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
 import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
 @HiltViewModel
 class CartViewModel @Inject constructor(private val repository: Repository, optionsDataStore: OptionsDataStore) : ViewModel() {
@@ -31,86 +29,64 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     var countList = mutableListOf<Int>()
 
-    private lateinit var customer: Customer
     lateinit var order: Order
 
     fun getCustomerOrder() = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
+        //todo cart fragment icon
         val customerId = preferencesInfo.customerId!!
-            repository.getCustomerOrders(customerId).collectLatest {
-                when (it) {
-                    ResultWrapper.Loading -> {}
-                    is ResultWrapper.Success -> {
-
-                        val productIds = mutableListOf<Int>()
-                        order = it.value[0]
-                        val lineItems = order.line_items
-                        if (lineItems.isNotEmpty()) {
-                            lineItems.forEach {
-                                productIds.add(it.product_id)
-                            }
-                            getCartProducts(productIds.toTypedArray())
-                        }else  _errorInViewModelApiCalls.emit("cart empty")
-                    }
-                    is ResultWrapper.Error -> {
-                        _errorInViewModelApiCalls.emit(it.message.toString())
-                        Log.d("httperr", "getCustomerOrder: " + it.message)
+        repository.getCustomerOrders(customerId).collectLatest {
+            when (it) {
+                ResultWrapper.Loading -> {}
+                is ResultWrapper.Success -> {
+                    val productIds = mutableListOf<Int>()
+                    order = it.value[0]
+                    val lineItems = order.line_items
+                    if (lineItems.isNotEmpty()) {
+                        lineItems.forEach {
+                            productIds.add(it.product_id)
+                        }
+                        getCartProducts(productIds.toTypedArray())
+                    } else {
+                        countList = emptyList<Int>().toMutableList()
+                        _errorInViewModelApiCalls.emit("cart empty")
                     }
                 }
+                is ResultWrapper.Error -> {
+                    _errorInViewModelApiCalls.emit(it.message.toString())
+                }
             }
+        }
 
     }
 
     private fun getCartProducts(productIds: Array<Int>) = viewModelScope.launch {
         repository.getProductByIds(productIds).collectLatest {
+
             if (it is ResultWrapper.Success) {
-
                 val lineItems = order.line_items.toMutableList()
-                if (lineItems.isNotEmpty()) {
-                    val receivedIds = it.value.map {
-                        it.id
-                    }
-
-                    countList = emptyList<Int>().toMutableList()
-                    for (id in receivedIds) {
-                        for (product in lineItems)
-                            if (id == product.product_id) {
-                                countList.add(product.quantity)
-                            }
-                    }
-                    Log.d("ahmad", "getCartProducts: " + countList.size)
-                    _cartProducts.emit(it)
-                } else {
-                    //todo show lottie for empty cart
+                val receivedIds = it.value.map {
+                    it.id
                 }
+                countList = emptyList<Int>().toMutableList()
+                for (id in receivedIds) {
+                    for (product in lineItems)
+                        if (id == product.product_id) {
+                            countList.add(product.quantity)
+                        }
+                }
+                Log.d("ahmad", "getCartProducts: " + countList.size)
+                _cartProducts.emit(it)
             }
+            _cartProducts.emit(it)
 
         }
     }
 
     fun addToCart(addedProduct: ProductItem) = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
-        val customerId = preferencesInfo.customerId
-        if (customerId != null) {
-            collectCustomer(customerId)
-            collectCustomerOrderWithAddedProduct(customerId, addedProduct)
-        } else Log.d("ahmad", "addToCart: customer null.")
-    }
-
-    private fun collectCustomer(customerId: Int) = viewModelScope.launch {
-        repository.getCustomer(customerId).collectLatest {
-            when (it) {
-                ResultWrapper.Loading -> {}
-                is ResultWrapper.Success -> {
-                    customer = it.value
-                    Log.d("http", "addToCart: get customer success" + it.value)
-                }
-                is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addToCart get customer err: " + it.message)
-                }
-            }
-        }
+        val customerId = preferencesInfo.customerId!!
+        collectCustomerOrderWithAddedProduct(customerId, addedProduct)
     }
 
     private fun collectCustomerOrderWithAddedProduct(customerId: Int, addedProduct: ProductItem) = viewModelScope.launch {
@@ -147,8 +123,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     }
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addToCart: " + it.message)
+                    _errorInViewModelApiCalls.emit(it.message.toString())
                 }
             }
         }
@@ -156,14 +131,8 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch { //todo make method shorter
         val preferencesInfo = preferences.take(1).first()
-        val customerId = preferencesInfo.customerId
-
-        if (customerId != null) {
-            viewModelScope.launch {
-                collectCustomer(customerId)
-                collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
-            }
-        } else Log.d("ahmad", "addToCart: customer null.")
+        val customerId = preferencesInfo.customerId!!
+        collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
     }
 
     private fun collectCustomerOrderWithRemovedProduct(customerId: Int, removedProduct: ProductItem) = viewModelScope.launch {
@@ -187,8 +156,8 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     collectUpdatedOrder(orderId, updatedOrder)
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addToCart: " + it.message)
+                    _errorInViewModelApiCalls.emit(it.message.toString())
+
                 }
             }
         }
@@ -201,12 +170,11 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 ResultWrapper.Loading -> {}
                 is ResultWrapper.Success -> {
                     getCustomerOrder()
-                    //todo
-                    Log.d("httpsuccess", "collect updated order: " + it.value)
+
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "collect updated order: " + it.message)
+                    _errorInViewModelApiCalls.emit(it.message.toString())
+
                 }
             }
         }

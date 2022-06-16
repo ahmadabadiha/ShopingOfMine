@@ -2,14 +2,12 @@ package com.example.shopingofmine.data.datastore
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.shopingofmine.data.model.apimodels.Customer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -24,6 +22,8 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
     companion object {
         private val THEME_KEY = stringPreferencesKey("theme key")
         private val CUSTOMER_KEY = intPreferencesKey("customer key")
+        private val NOTIFICATION_INTERVAL = intPreferencesKey("notification interval")
+        private val CART_PRODUCTS_COUNT = intPreferencesKey("cart products count")
     }
 
     private val dataStore = context.dataStore
@@ -33,7 +33,10 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
     }.map { preferences ->
         val theme: Theme = Theme.valueOf(preferences[THEME_KEY] ?: Theme.AUTO.name)
         val customerId = preferences[CUSTOMER_KEY]
-        PreferencesInfo(theme, customerId)
+        val notificationInterval = preferences[NOTIFICATION_INTERVAL]
+        val cartProductsCount = preferences[CART_PRODUCTS_COUNT]
+
+        PreferencesInfo(theme, customerId, notificationInterval ?: 3, cartProductsCount ?: 0)
     }
 
     suspend fun updateTheme(theme: Theme) {
@@ -45,6 +48,18 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
     suspend fun updateCustomerId(id: Int) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[CUSTOMER_KEY] = id
+        }
+    }
+
+    suspend fun updateNotificationInterval(interval: Int) {
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[NOTIFICATION_INTERVAL] = interval
+        }
+    }
+
+    suspend fun updateCartProductsCount(count: Int) {
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[CART_PRODUCTS_COUNT] = count
         }
     }
 }

@@ -20,7 +20,7 @@
     <string name="sortBy">مرتب سازی بر اساس:</string>
     <string name="reviewsTitle">دیدگاه کاربران</string>
     <string name="add_your_review">دیدگاه خود را درباره این کالا بنویسید.</string>
-    <string name="timeIntervalTitle">بازه زمانی یادآوری تکمیل خرید: هر</string>
+    <string name="timeIntervalTitle">بازه زمانی یادآوری تکمیل خرید(ساعت): </string>
     <string name="hour">ساعت</string>
     <string name="_3">3</string>
     <string name="darkMode">حالت تاریک:</string>

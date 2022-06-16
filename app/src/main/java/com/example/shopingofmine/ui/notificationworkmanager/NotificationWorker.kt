@@ -1,19 +1,18 @@
-package com.example.shopingofmine.data
+package com.example.shopingofmine.ui.notificationworkmanager
 
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.example.shopingofmine.R
 import com.example.shopingofmine.ui.mainactivity.MainActivity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.lang.IllegalStateException
 import kotlin.random.Random
 
 @HiltWorker
@@ -22,22 +21,13 @@ class NotificationWorker @AssistedInject constructor(@Assisted appContext: Conte
 
 
     override suspend fun doWork(): Result {
-        val count = inputData.getInt("count", 0)
         try {
-            startForegroundService(count)
-        } catch (e: IllegalStateException) {
-            return Result.retry()
+            val count = inputData.getInt("count", 0)
+            NotificationManagerCompat.from(applicationContext).notify(Random.nextInt(), createNotification(count))
+        } catch (e: Throwable) {
+            Result.failure()
         }
         return Result.success()
-    }
-
-    private suspend fun startForegroundService(count: Int) {
-        setForeground(
-            ForegroundInfo(
-                Random.nextInt(),
-                createNotification(count)
-            )
-        )
     }
 
     private fun createNotification(count: Int): Notification {
@@ -49,7 +39,7 @@ class NotificationWorker @AssistedInject constructor(@Assisted appContext: Conte
         return NotificationCompat.Builder(applicationContext, "shopping channel")
             .setSmallIcon(R.drawable.ic_black_cart)
             .setContentTitle("خریدت یادت نره!")
-            .setContentText("شما $count کالا در سبد خرید خود دارید. همین حالا سفارش خود را کامل کنید.")
+            .setContentText("شما $count کالا در سبد خرید خود دارید.")
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(pendingIntent)
             .setOnlyAlertOnce(true)

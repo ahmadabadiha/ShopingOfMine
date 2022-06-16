@@ -13,13 +13,13 @@ import com.example.shopingofmine.databinding.CartItemBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 
 class CartRecyclerAdapter(
-    private val _countList: List<Int>,
+    private val countList: List<Int>,
     private val onImageClick: (product: ProductItem) -> Unit,
     private val onAddClick: (product: ProductItem) -> Unit,
     private val onSubtractClick: (product: ProductItem) -> Unit
 ) :
     ListAdapter<ProductItem, CartRecyclerAdapter.CartViewHolder>(CartDiffCallback()) {
-    var countList = _countList
+
 
     inner class CartViewHolder(private val binding: CartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
