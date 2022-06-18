@@ -3,7 +3,7 @@ package com.example.shopingofmine.data.repository
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import com.example.shopingofmine.data.remote.RemoteDataSource
 import com.example.shopingofmine.util.safeApiCall
 import javax.inject.Inject
@@ -55,7 +55,7 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
         remoteDataSource.getCustomerOrders(customerId, status)
     }
 
-    suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass) = safeApiCall {
+    suspend fun updateOrder(orderId: Int, updatedOrder: UpdatingOrderClass) = safeApiCall {
         remoteDataSource.updateOrder(orderId, updatedOrder)
     }
 

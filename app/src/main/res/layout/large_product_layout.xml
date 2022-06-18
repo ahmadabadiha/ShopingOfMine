@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/add_to_cart_number_shape"
+    android:background="@drawable/frame_shape"
     android:layout_margin="8dp">
 
     <ImageView

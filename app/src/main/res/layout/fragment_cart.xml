@@ -155,10 +155,10 @@
                 android:layout_width="152dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cartGist"
+                app:boxCornerRadiusBottomEnd="16dp"
                 app:boxCornerRadiusTopStart="16dp"
-                app:boxCornerRadiusBottomEnd="16dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cartGist">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/couponET"
@@ -276,7 +276,7 @@
         android:id="@+id/productsGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:visibility="gone"
         app:constraint_referenced_ids="topLayout,bottomLayout" />
 
     <androidx.constraintlayout.widget.Group

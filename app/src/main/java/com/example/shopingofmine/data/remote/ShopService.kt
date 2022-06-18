@@ -4,7 +4,7 @@ import com.example.shopingofmine.data.model.apimodels.*
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import com.example.shopingofmine.util.CONSUMER_KEY
 import com.example.shopingofmine.util.CONSUMER_SECRET
 import retrofit2.Response
@@ -97,7 +97,7 @@ interface ShopService {
     @PUT("orders/{id}")
     suspend fun updateOrder(
         @Path("id") id: Int,
-        @Body updatedOrder: UpdateOrderClass,
+        @Body updatedOrder: UpdatingOrderClass,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<Order>

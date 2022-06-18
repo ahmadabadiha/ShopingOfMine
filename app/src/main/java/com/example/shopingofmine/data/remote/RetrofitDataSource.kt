@@ -4,7 +4,7 @@ import com.example.shopingofmine.data.model.apimodels.*
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -57,7 +57,7 @@ class RetrofitDataSource @Inject constructor(private val shopService: ShopServic
         return shopService.getCustomerOrders(customerId, status)
     }
 
-    override suspend fun updateOrder(orderId: Int, updatedOrder: UpdateOrderClass): Response<Order> {
+    override suspend fun updateOrder(orderId: Int, updatedOrder: UpdatingOrderClass): Response<Order> {
         return shopService.updateOrder(orderId, updatedOrder)
     }
 

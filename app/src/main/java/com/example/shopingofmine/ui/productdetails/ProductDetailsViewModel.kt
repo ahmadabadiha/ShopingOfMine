@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.PeriodicWorkRequestBuilder
-import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
 import com.example.shopingofmine.data.datastore.OptionsDataStore
 import com.example.shopingofmine.data.model.apimodels.Customer
 import com.example.shopingofmine.data.model.apimodels.Order
@@ -14,6 +13,7 @@ import com.example.shopingofmine.data.model.apimodels.Review
 import com.example.shopingofmine.data.model.appmodels.*
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.repository.Repository
+import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
     private val repository: Repository,
-    private val optionsDataStore: OptionsDataStore,
+    optionsDataStore: OptionsDataStore,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -34,6 +34,7 @@ class ProductDetailsViewModel @Inject constructor(
 
     private val _errorMessage = MutableSharedFlow<String>()
     val errorMessage = _errorMessage.asSharedFlow()
+    //todo handle errors
 
     private val _review = MutableStateFlow<ResultWrapper<List<Review>>>(ResultWrapper.Loading)
     val review = _review.asStateFlow()
@@ -117,21 +118,21 @@ class ProductDetailsViewModel @Inject constructor(
                         }
                         if (orderProductIds.contains(addedProduct.id)) {
                             val updatedProducts = orderProducts.map { lineItem ->
-                                if (lineItem.product_id == addedProduct.id) UpdateLineItem(
+                                if (lineItem.product_id == addedProduct.id) UpdatingLineItem(
                                     lineItem.id,
                                     lineItem.product_id,
                                     lineItem.quantity + 1
                                 )
-                                else UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                                else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                             }
-                            val updatedOrder = UpdateOrderClass(updatedProducts)
+                            val updatedOrder = UpdatingOrderClass(updatedProducts)
                             collectUpdatedOrder(orderId, updatedOrder)
                         } else {
                             val updatedProducts: MutableList<Any> = orderProducts.map { lineItem ->
-                                UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                                UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                             }.toMutableList()
                             updatedProducts.add(AppLineItem(addedProduct.id, 1))
-                            val updatedOrder = UpdateOrderClass(updatedProducts.toList())
+                            val updatedOrder = UpdatingOrderClass(updatedProducts.toList())
                             collectUpdatedOrder(orderId, updatedOrder)
                         }
 
@@ -181,14 +182,14 @@ class ProductDetailsViewModel @Inject constructor(
                     val orderId = order.id
                     val orderProducts = order.line_items.toMutableList()
                     val updatedProducts = orderProducts.map { lineItem ->
-                        if (lineItem.product_id == removedProduct.id) UpdateLineItem(
+                        if (lineItem.product_id == removedProduct.id) UpdatingLineItem(
                             lineItem.id,
                             lineItem.product_id,
                             lineItem.quantity - 1
                         )
-                        else UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                        else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                     }
-                    val updatedOrder = UpdateOrderClass(updatedProducts)
+                    val updatedOrder = UpdatingOrderClass(updatedProducts)
                     collectUpdatedOrder(orderId, updatedOrder)
                 }
                 is ResultWrapper.Error -> {
@@ -200,7 +201,7 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
 
-    private fun collectUpdatedOrder(orderId: Int, updatedOrder: UpdateOrderClass) = viewModelScope.launch {
+    private fun collectUpdatedOrder(orderId: Int, updatedOrder: UpdatingOrderClass) = viewModelScope.launch {
         repository.updateOrder(orderId, updatedOrder).collectLatest {
            _updatedOrder.emit(it)
         }

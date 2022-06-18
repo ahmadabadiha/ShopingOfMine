@@ -15,9 +15,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsDataStore) :
     ViewModel() {
+
     lateinit var productItem: ProductItem
     lateinit var order: Order
     lateinit var cartProducts: List<ProductItem>
+
     var countList: List<Int> = emptyList()
         set(value) {
             viewModelScope.launch {
@@ -29,11 +31,10 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
     val cartProductsCount: Int
         get() {
             var value = 0
-            viewModelScope.launch {
-                runBlocking {
-                    val preferencesInfo = optionsDataStore.preferences.take(1).first()
-                    value = preferencesInfo.cartProductsCount
-                }
+            runBlocking {
+                val preferencesInfo = optionsDataStore.preferences.take(1).first()
+                value = preferencesInfo.cartProductsCount
+                return@runBlocking value
             }
             return value
         }
@@ -50,12 +51,11 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
 
     var notificationTimeInterval: Int? = null
         get() {
-            var value: Int? = null
-            viewModelScope.launch {
-                runBlocking {
-                    val preferencesInfo = optionsDataStore.preferences.take(1).first()
-                    value = preferencesInfo.notificationInterval
-                }
+            var value: Int?
+            runBlocking {
+                val preferencesInfo = optionsDataStore.preferences.take(1).first()
+                value = preferencesInfo.notificationInterval
+                return@runBlocking value
             }
             return value
         }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/add_to_cart_number_shape">
+    android:background="@drawable/frame_shape">
 
     <ImageView
         android:id="@+id/productImage"
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@drawable/add_to_cart_number_shape"
+        android:background="@drawable/frame_shape"
         android:orientation="horizontal"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"

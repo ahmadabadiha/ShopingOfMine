@@ -8,8 +8,8 @@ import com.example.shopingofmine.data.model.apimodels.Coupon
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.appmodels.AppLineItem
-import com.example.shopingofmine.data.model.appmodels.UpdateLineItem
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingLineItem
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -114,22 +114,22 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     }
                     if (orderProductIds.contains(addedProduct.id)) {
                         val updatedProducts = orderProducts.map { lineItem ->
-                            if (lineItem.product_id == addedProduct.id) UpdateLineItem(
+                            if (lineItem.product_id == addedProduct.id) UpdatingLineItem(
                                 lineItem.id,
                                 lineItem.product_id,
                                 lineItem.quantity + 1
                             )
-                            else UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                            else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                         }
-                        val updatedOrder = UpdateOrderClass(updatedProducts)
-                        collectUpdatedOrder(orderId, updatedOrder)
+                        val updatedOrder = UpdatingOrderClass(updatedProducts)
+                        updateAndCollectOrder(orderId, updatedOrder)
                     } else {
                         val updatedProducts: MutableList<Any> = orderProducts.map { lineItem ->
-                            UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                            UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                         }.toMutableList()
                         updatedProducts.add(AppLineItem(addedProduct.id, 1))
-                        val updatedOrder = UpdateOrderClass(updatedProducts.toList())
-                        collectUpdatedOrder(orderId, updatedOrder)
+                        val updatedOrder = UpdatingOrderClass(updatedProducts.toList())
+                        updateAndCollectOrder(orderId, updatedOrder)
                     }
                 }
                 is ResultWrapper.Error -> {
@@ -155,15 +155,15 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     val orderId = order.id
                     val orderProducts = order.line_items.toMutableList()
                     val updatedProducts = orderProducts.map { lineItem ->
-                        if (lineItem.product_id == removedProduct.id) UpdateLineItem(
+                        if (lineItem.product_id == removedProduct.id) UpdatingLineItem(
                             lineItem.id,
                             lineItem.product_id,
                             lineItem.quantity - 1
                         )
-                        else UpdateLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
+                        else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                     }
-                    val updatedOrder = UpdateOrderClass(updatedProducts)
-                    collectUpdatedOrder(orderId, updatedOrder)
+                    val updatedOrder = UpdatingOrderClass(updatedProducts)
+                    updateAndCollectOrder(orderId, updatedOrder)
                 }
                 is ResultWrapper.Error -> {
                     _errorInViewModelApiCalls.emit(it.message.toString())
@@ -174,7 +174,8 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     }
 
 
-    private fun collectUpdatedOrder(orderId: Int, updatedOrder: UpdateOrderClass) = viewModelScope.launch {
+
+    private fun updateAndCollectOrder(orderId: Int, updatedOrder: UpdatingOrderClass) = viewModelScope.launch {
         repository.updateOrder(orderId, updatedOrder).collectLatest {
             when (it) {
                 ResultWrapper.Loading -> {}
@@ -184,7 +185,6 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 }
                 is ResultWrapper.Error -> {
                     _errorInViewModelApiCalls.emit(it.message.toString())
-
                 }
             }
         }

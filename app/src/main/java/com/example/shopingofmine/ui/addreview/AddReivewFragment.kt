@@ -116,5 +116,4 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
         _binding = null
         super.onDestroy()
     }
-
 }

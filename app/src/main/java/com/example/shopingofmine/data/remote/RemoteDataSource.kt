@@ -4,7 +4,7 @@ import com.example.shopingofmine.data.model.apimodels.*
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import retrofit2.Response
 
 interface RemoteDataSource {
@@ -19,6 +19,6 @@ interface RemoteDataSource {
     suspend fun createCustomer(customer: AppCustomer): Response<Customer>
     suspend fun getCustomer(id: Int): Response<Customer>
     suspend fun getCustomerOrders(customerId: Int, status:String): Response<List<Order>>
-    suspend fun updateOrder(orderId : Int, updatedOrder: UpdateOrderClass): Response<Order>
+    suspend fun updateOrder(orderId : Int, updatedOrder: UpdatingOrderClass): Response<Order>
     suspend fun getCoupon(code: String): Response<List<Coupon>>
 }

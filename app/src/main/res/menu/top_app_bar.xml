@@ -10,7 +10,7 @@
         />
     <item
         android:id="@+id/options"
-        android:icon="@drawable/ic_baseline_menu_24"
+        android:icon="@drawable/ic_round_settings_24"
         android:title="@string/options"
         app:showAsAction="ifRoom" />
 </menu>

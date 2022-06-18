@@ -6,11 +6,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -22,9 +22,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.ActivityMainBinding
 import com.example.shopingofmine.data.datastore.Theme
-import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
+import com.example.shopingofmine.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -89,7 +88,10 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigation.visibility = View.GONE
                     binding.topAppBar.visibility = View.GONE
                 }
-                else -> binding.bottomNavigation.visibility = View.GONE
+                else -> {
+                    binding.bottomNavigation.visibility = View.GONE
+                    binding.topAppBar.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -124,17 +126,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun topAppBarInit() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
         binding.topAppBar.setNavigationOnClickListener {
-            navController.navigate(R.id.homeFragment)
+
+            if (navController.currentDestination?.id != R.id.homeFragment)
+                navController.navigate(R.id.homeFragment)
         }
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.options -> {
-                    navController.navigate(R.id.optionsFragment, bundleOf("darkMode" to isDarkMode!!))
+                    if (navController.currentDestination?.id != R.id.optionsFragment)
+                        navController.navigate(R.id.optionsFragment, bundleOf("darkMode" to isDarkMode!!))
                     true
                 }
                 R.id.cart -> {
-                    navController.navigate(R.id.cartFragment)
+                    if (navController.currentDestination?.id != R.id.cartFragment)
+                        navController.navigate(R.id.cartFragment)
                     true
                 }
                 else -> false

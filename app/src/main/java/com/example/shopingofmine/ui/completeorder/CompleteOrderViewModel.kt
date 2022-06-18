@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
-import com.example.shopingofmine.data.model.appmodels.UpdateOrderClass
+import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CompleteOrderViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     suspend fun updateOrder(orderId: Int): SharedFlow<ResultWrapper<Order>> {
-       return repository.updateOrder(orderId,UpdateOrderClass(status = "completed")).shareIn(viewModelScope, SharingStarted.Lazily)
+       return repository.updateOrder(orderId,UpdatingOrderClass(status = "completed")).shareIn(viewModelScope, SharingStarted.Lazily)
     }
 
     fun computePriceWithDiscount(cartItems: List<ProductItem>, productsCount: List<Int>) =

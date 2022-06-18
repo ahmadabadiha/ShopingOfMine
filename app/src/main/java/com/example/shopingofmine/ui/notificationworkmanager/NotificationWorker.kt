@@ -9,8 +9,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.shopingofmine.NOTIFICATION_CHANNEL_ID
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ui.NOTIFICATION_CHANNEL_ID
 import com.example.shopingofmine.ui.mainactivity.MainActivity
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -22,13 +22,14 @@ class NotificationWorker @AssistedInject constructor(@Assisted appContext: Conte
 
 
     override suspend fun doWork(): Result {
-        try {
+
+        return try {
             val count = inputData.getInt("count", 0)
             NotificationManagerCompat.from(applicationContext).notify(Random.nextInt(), createNotification(count))
+             Result.success()
         } catch (e: Throwable) {
-            Result.failure()
+             Result.failure()
         }
-        return Result.success()
     }
 
     private fun createNotification(count: Int): Notification {

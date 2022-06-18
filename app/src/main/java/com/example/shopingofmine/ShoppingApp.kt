@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.example.shopingofmine.ui.NOTIFICATION_CHANNEL_ID
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

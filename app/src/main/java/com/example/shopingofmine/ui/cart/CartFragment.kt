@@ -49,7 +49,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun initCollectFlows() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.cartProducts.collectLatest {
@@ -122,7 +122,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                                 }
                             }
                             is ResultWrapper.Error -> {
-                                Log.d("ahmadabadi", "initCollectFlows: error")
                                 val alertDialog: AlertDialog? = activity?.let {
                                     AlertDialog.Builder(it)
                                 }?.setMessage(it.message)

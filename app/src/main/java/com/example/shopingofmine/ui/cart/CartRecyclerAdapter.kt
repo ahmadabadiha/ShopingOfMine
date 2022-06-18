@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.CartItemBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
+import com.example.shopingofmine.databinding.CartItemBinding
 
 class CartRecyclerAdapter(
     private val countList: List<Int>,
@@ -19,7 +19,6 @@ class CartRecyclerAdapter(
     private val onSubtractClick: (product: ProductItem) -> Unit
 ) :
     ListAdapter<ProductItem, CartRecyclerAdapter.CartViewHolder>(CartDiffCallback()) {
-
 
     inner class CartViewHolder(private val binding: CartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
