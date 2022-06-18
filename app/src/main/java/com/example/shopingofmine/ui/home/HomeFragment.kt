@@ -51,7 +51,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
+                if (!newText.isNullOrBlank())
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
                 return true
             }
         })
@@ -210,7 +211,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         sharedViewModel.productItem = product
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(product.id))
     }
-
 
 
     override fun onDestroy() {

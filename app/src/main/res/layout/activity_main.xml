@@ -55,8 +55,9 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
+            style="@style/BottomNavigation"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="56dp"
             android:layout_gravity="bottom"
             android:layoutDirection="rtl"
             app:layout_constraintBottom_toBottomOf="parent"

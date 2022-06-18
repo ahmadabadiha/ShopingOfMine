@@ -14,7 +14,7 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment"
-            app:launchSingleTop="true" />
+             />
         <action
             android:id="@+id/action_homeFragment_to_productDetailsFragment2"
             app:destination="@id/productDetailsFragment" />
@@ -122,13 +122,11 @@
         <action
             android:id="@+id/action_searchFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
         <argument
             android:name="query"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
 </navigation>
