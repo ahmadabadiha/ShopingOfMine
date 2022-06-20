@@ -9,11 +9,11 @@
     android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
-        android:fillViewport="true"
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -172,11 +172,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                tools:text="0 دیدگاه"
                 app:layout_constraintBottom_toBottomOf="@+id/reviewsTitle"
                 app:layout_constraintBottom_toTopOf="@id/recyclerView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/reviewsTitle" />
+                app:layout_constraintTop_toTopOf="@id/reviewsTitle"
+                tools:text="0 دیدگاه" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -218,28 +218,58 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:padding="8dp"
-                app:cornerRadius="16dp"
                 android:text="ثبت دیدگاه"
-                app:strokeColor="@color/red"
                 android:textColor="@color/red"
                 android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/addReviewTv" />
+                app:cornerRadius="16dp"
+                app:layout_constraintTop_toBottomOf="@id/addReviewTv"
+                app:strokeColor="@color/red"
+                tools:layout_editor_absoluteX="8dp" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/reviewsTitle"
+                app:shimmer_auto_start="false"
+                app:shimmer_repeat_mode="restart">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/short_shimmer_layout" />
+
+                    <include layout="@layout/short_shimmer_layout" />
+
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loadingAnim"
                 android:layout_width="400dp"
                 android:layout_height="400dp"
                 android:layout_gravity="center"
+                android:alpha="0.9"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="false"
                 app:lottie_loop="true"
-                android:alpha="0.9"
-                android:visibility="gone"
                 app:lottie_rawRes="@raw/loading_dot_red"
-                app:lottie_repeatMode="restart"/>
+                app:lottie_repeatMode="restart" />
+
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/reviewGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="recyclerView,addReviewTv,addReviewButton"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

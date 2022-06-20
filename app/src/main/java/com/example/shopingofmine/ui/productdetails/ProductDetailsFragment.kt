@@ -73,8 +73,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     private fun initSetReviewsRecyclerView() {
         shortReviewsRecyclerAdapter = ShortReviewsRecyclerAdapter(::onReviewItemClick)
         binding.recyclerView.adapter = shortReviewsRecyclerAdapter
-
-
     }
 
     private fun initCollectReviews() {
@@ -84,8 +82,12 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                     when (it) {
                         ResultWrapper.Loading -> {
                             binding.reviewsCount.text = "در حال بارگیری"
+                            binding.shimmer.startShimmer()
                         }
                         is ResultWrapper.Success -> {
+                            binding.reviewGroup.isGone = false
+                            binding.shimmer.stopShimmer()
+                            binding.shimmer.isGone = true
                             val reviews = it.value
                             (reviews.size.toString() + " دیدگاه").also { binding.reviewsCount.text = it }
                             shortReviewsRecyclerAdapter.submitList(reviews)

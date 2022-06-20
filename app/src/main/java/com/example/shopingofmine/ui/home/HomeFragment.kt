@@ -70,6 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initCollectFlows() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                 launch {
                     viewModel.popularProducts.collectLatest {
                         when (it) {
@@ -83,6 +84,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.isGone = true
                             }
                             is ResultWrapper.Error -> {
+                                //createDialog(activity,it.message, "خطا", "تلاش مجدد", "انصراف")
                                 val alertDialog: AlertDialog? = activity?.let {
                                     AlertDialog.Builder(it)
                                 }?.setMessage(it.message)

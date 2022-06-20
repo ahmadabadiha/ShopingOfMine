@@ -21,6 +21,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/category_layout.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_order_product_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_review_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_shimmer_layout.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_add_review.xml" value="0.2546875" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_cart.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_categories.xml" value="0.36666666666666664" />
@@ -40,7 +41,9 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/review_item.xml" value="0.36102564102564105" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/searched_product.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/searched_product_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/shimmer_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/short_review_item.xml" value="0.278125" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/short_shimmer_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/slider_image_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/bottom_nav_items.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/sort_popup_menu.xml" value="0.36666666666666664" />

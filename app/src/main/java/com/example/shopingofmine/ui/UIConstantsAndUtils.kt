@@ -18,3 +18,16 @@ fun ViewGroup.rtl() {
         }
     }
 }
+
+/*fun createDialog(activity: FragmentActivity?, message: String, title: String, positiveButton: String, negativeButton: String) {
+    val alertDialog: AlertDialog? = activity?.let {
+        AlertDialog.Builder(it)
+    }?.setMessage(message)
+        ?.setTitle("خطا")
+        ?.setPositiveButton("تلاش مجدد") { _, _ ->
+            viewModel.getProducts()
+        }
+        ?.setNegativeButton("انصراف") { _, _ ->
+        }?.create()
+    alertDialog?
+}*/
