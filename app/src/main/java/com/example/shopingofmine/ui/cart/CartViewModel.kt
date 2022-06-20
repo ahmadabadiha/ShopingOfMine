@@ -85,7 +85,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                             countList.add(product.quantity)
                         }
                 }
-                Log.d("ahmad", "getCartProducts: " + countList.size)
+                Log.d("ahmadabadiha", "getCartProducts: " + countList.size)
                 _cartProducts.emit(it)
             }
             _cartProducts.emit(it)

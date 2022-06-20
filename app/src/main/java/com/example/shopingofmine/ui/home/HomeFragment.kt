@@ -45,14 +45,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initSetSearchView() {
         binding.searchView.rtl()
+
         binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (!newText.isNullOrBlank())
-                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
+                if (!newText.isNullOrBlank()) {
+                        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
+                        binding.searchView.setQuery("",false)
+                }
                 return true
             }
         })

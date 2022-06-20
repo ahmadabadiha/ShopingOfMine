@@ -184,7 +184,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
 
     override fun onStop() {
-        sharedViewModel.countList = viewModel.countList
+        sharedViewModel.countList.addAll(viewModel.countList)
         enqueueWork()
         super.onStop()
     }

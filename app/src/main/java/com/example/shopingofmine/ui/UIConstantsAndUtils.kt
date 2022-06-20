@@ -3,6 +3,13 @@ package com.example.shopingofmine.ui
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.*
 
 const val NOTIFICATION_CHANNEL_ID = "shopping channel"
@@ -31,3 +38,12 @@ fun ViewGroup.rtl() {
         }?.create()
     alertDialog?
 }*/
+private fun <T> StateFlow<T>.colledctIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {
+    lifecycleOwner.lifecycleScope.launch {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            collectLatest {
+                function.invoke(it)
+            }
+        }
+    }
+}

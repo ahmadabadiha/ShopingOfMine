@@ -20,7 +20,7 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
     lateinit var order: Order
     lateinit var cartProducts: List<ProductItem>
 
-    var countList: List<Int> = emptyList()
+    var countList = mutableListOf<Int>()
         set(value) {
             viewModelScope.launch {
                 optionsDataStore.updateCartProductsCount(value.sum())

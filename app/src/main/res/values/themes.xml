@@ -17,7 +17,7 @@
 
     <style name="textStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">4sp</item>
+
 
     </style>
     <style name="buttonStyle" parent="TextAppearance.AppCompat">
