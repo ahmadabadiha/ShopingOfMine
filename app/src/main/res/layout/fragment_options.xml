@@ -103,7 +103,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/customTime"
-        android:layout_width="56dp"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:enabled="false"

@@ -53,8 +53,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrBlank()) {
-                        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
-                        binding.searchView.setQuery("",false)
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment(newText.toString()))
+                    binding.searchView.setQuery("", false)
                 }
                 return true
             }
@@ -62,9 +62,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initializeRecyclerAdapters() {
-        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
-        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
-        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick)
+        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.POPULAR)
+        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.TOP_RATED)
+        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.NEWEST)
         binding.popularRecyclerView.adapter = popularRecyclerAdapter
         binding.topRatedRecyclerView.adapter = topRatedRecyclerAdapter
         binding.recentRecyclerView.adapter = recentRecyclerAdapter
@@ -81,7 +81,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.playAnimation()
                             }
                             is ResultWrapper.Success -> {
-                                popularRecyclerAdapter.submitList(it.value)
+                                popularRecyclerAdapter.addStartItemAndSubmitList(it.value)
                                 binding.productsGroup.isGone = false
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
@@ -109,7 +109,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.playAnimation()
                             }
                             is ResultWrapper.Success -> {
-                                topRatedRecyclerAdapter.submitList(it.value)
+                                topRatedRecyclerAdapter.addStartItemAndSubmitList(it.value)
                                 binding.productsGroup.isGone = false
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true
@@ -136,7 +136,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                 binding.loadingAnim.playAnimation()
                             }
                             is ResultWrapper.Success -> {
-                                recentRecyclerAdapter.submitList(it.value)
+                                recentRecyclerAdapter.addStartItemAndSubmitList(it.value)
                                 binding.productsGroup.isGone = false
                                 binding.loadingAnim.pauseAnimation()
                                 binding.loadingAnim.isGone = true

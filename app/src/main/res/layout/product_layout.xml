@@ -3,46 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
+    android:layout_margin="4dp"
+    android:orientation="vertical">
 
-    android:orientation="vertical"
-    android:padding="8dp">
-
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:padding="8dp"
-        android:scaleType="fitXY" />
-
-    <TextView
-        android:id="@+id/productName"
-        style="@style/textStyle"
-        android:layout_width="160dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:padding="4dp"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        tools:text="name" />
+        app:cardCornerRadius="8dp">
 
-    <TextView
-        android:id="@+id/averageRating"
-        style="@style/textStyle"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:ellipsize="marquee"
-        android:padding="4dp"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        tools:text="0" />
+        <LinearLayout
+            android:background="?end_item_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/productName"
+                style="@style/textStyle"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                tools:text="name" />
+
+            <TextView
+                android:id="@+id/averageRating"
+                style="@style/textStyle"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:ellipsize="marquee"
+                android:padding="4dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                tools:text="0" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -1,6 +1,5 @@
-package com.example.shopingofmine.ui.adapters
+package com.example.shopingofmine.ui.categories
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,9 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.CategoryLayoutBinding
 import com.example.shopingofmine.data.model.apimodels.CategoryItem
-import java.util.*
+import com.example.shopingofmine.databinding.CategoryLayoutBinding
 
 
 class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
@@ -27,7 +25,6 @@ class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
 
             category = item
             binding.apply {
-                categoryImage.setBackgroundColor(Color.rgb(Random().nextInt(256), Random().nextInt(256), Random().nextInt(256)))
                 categoryTitle.apply {
                     text = item.name
                     isSelected = true

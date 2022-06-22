@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
+            android:layoutDirection="rtl"
             app:iconifiedByDefault="false"
             app:layout_constraintTop_toTopOf="parent"
             app:queryHint="جستجوی محصول"
-            android:layoutDirection="rtl"
             app:searchIcon="@drawable/ic_baseline_search_24" />
 
         <androidx.viewpager2.widget.ViewPager2
@@ -37,12 +37,13 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/popularTitle"
             style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
+            android:padding="8dp"
             android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
             android:text="@string/mostVisited"
@@ -55,18 +56,21 @@
             android:id="@+id/popularRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/recycler_view_background"
             android:layoutDirection="rtl"
             android:orientation="horizontal"
+            android:paddingVertical="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/popularTitle" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/mostRatedTitle"
             style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
+            android:padding="8dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/mostRated"
             android:textSize="24sp"
@@ -77,18 +81,21 @@
             android:id="@+id/topRatedRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/recycler_view_background"
             android:layoutDirection="rtl"
             android:orientation="horizontal"
+            android:paddingVertical="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/textView2" />
+            app:layout_constraintTop_toBottomOf="@id/mostRatedTitle" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/newestTitle"
             style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="8dp"
+            android:padding="8dp"
             android:fontFamily="sans-serif-black"
             android:text="@string/mostRecent"
             android:textSize="24sp"
@@ -99,10 +106,12 @@
             android:id="@+id/recentRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/recycler_view_background"
             android:layoutDirection="rtl"
             android:orientation="horizontal"
+            android:paddingVertical="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/textView3" />
+            app:layout_constraintTop_toBottomOf="@id/newestTitle" />
 
 
         <com.airbnb.lottie.LottieAnimationView
@@ -124,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
-            app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,textView,textView2,textView3,viewPager,searchView" />
+            app:constraint_referenced_ids="topRatedRecyclerView,popularRecyclerView,recentRecyclerView,popularTitle,mostRatedTitle,newestTitle,viewPager,searchView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

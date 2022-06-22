@@ -6,15 +6,22 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/add_to_cart_number_shape.xml" value="0.221" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/category_background.xml" value="0.2705" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/frame_shape.xml" value="0.1855" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.111" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_black_cart.xml" value="0.1545" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_launcher_foreground_cart.xml" value="0.1" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_outline_arrow_circle_left_24.xml" value="0.2545" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_outline_location_on_24.xml" value="0.1825" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_category_24.xml" value="0.111" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_home_24.xml" value="0.204" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_remove_red_eye_24.xml" value="0.1825" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_shopping_cart_24.xml" value="0.1" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_round_star_24.xml" value="0.2545" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/recycler_view_background.xml" value="0.1855" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/svgexport_36.xml" value="0.256" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout-land/fragment_categories.xml" value="0.4510416666666667" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/cart_item.xml" value="0.25" />
@@ -22,6 +29,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_order_product_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_review_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/complete_shimmer_layout.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/end_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_add_review.xml" value="0.2546875" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_cart.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_categories.xml" value="0.36666666666666664" />
@@ -45,6 +53,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/short_review_item.xml" value="0.278125" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/short_shimmer_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/slider_image_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/start_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/bottom_nav_items.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/sort_popup_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/sort_popup_view.xml" value="0.36666666666666664" />

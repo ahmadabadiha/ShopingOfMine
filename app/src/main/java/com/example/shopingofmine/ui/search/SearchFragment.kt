@@ -89,16 +89,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 return true
             }
         })
-        /*binding.searchET.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(p0: Editable?) {
-                binding.loadingAnim.isGone = false
-                binding.loadingAnim.playAnimation()
-                viewModel.searchProducts(p0.toString())            }
-        })*/
     }
 
 
