@@ -1,15 +1,11 @@
-package com.example.shopingofmine.util
+package com.example.shopingofmine.data.remote
 
-import android.util.Log
-import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.model.apimodels.ServerError
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import java.io.IOException
-
-
 
 suspend inline fun <T> safeApiCall(
     crossinline apiCall: suspend () -> Response<T>

@@ -18,7 +18,7 @@ import androidx.work.workDataOf
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.datastore.Theme
 import com.example.shopingofmine.databinding.FragmentOptionsBinding
-import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
+import com.example.shopingofmine.notificationworkmanager.NotificationWorker
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

@@ -1,26 +1,22 @@
 package com.example.shopingofmine.ui.search
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentSearchBinding
+import com.example.shopingofmine.ui.buildAndShowErrorDialog
+import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.rtl
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -43,30 +39,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun initCollectFlows() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchedResult.collectLatest {
-                    when (it) {
-                        ResultWrapper.Loading -> {}
-                        is ResultWrapper.Success -> {
-                            binding.loadingAnim.pauseAnimation()
-                            binding.loadingAnim.isGone = true
-                            searchRecyclerAdapter.submitList(it.value)
-
-                        }
-                        is ResultWrapper.Error -> {
-                            val alertDialog: AlertDialog? = activity?.let {
-                                AlertDialog.Builder(it)
-                            }?.setMessage(it.message)
-                                ?.setTitle("خطا")
-                                ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                    viewModel.searchProducts(binding.searchView.query.toString())
-                                }
-                                ?.setNegativeButton("انصراف") { _, _ ->
-                                }?.create()
-                            alertDialog?.show()
-                        }
-                    }
+        collectFlow(viewModel.searchedResult) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
+                }
+                is ResultWrapper.Success -> {
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                    searchRecyclerAdapter.submitList(it.value)
+                }
+                is ResultWrapper.Error -> {
+                    buildAndShowErrorDialog(it.message) { viewModel.searchProducts(binding.searchView.query.toString()) }
                 }
             }
         }

@@ -269,7 +269,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="recyclerView,addReviewTv,addReviewButton"/>
+                app:constraint_referenced_ids="recyclerView,addReviewTv,addReviewButton,reviewIcon"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -1,4 +1,4 @@
-package com.example.shopingofmine.ui.notificationworkmanager
+package com.example.shopingofmine.notificationworkmanager
 
 import android.app.Notification
 import android.app.PendingIntent

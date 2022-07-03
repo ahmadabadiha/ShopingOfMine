@@ -134,5 +134,20 @@
                 app:strokeColor="@color/red" />
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loadingAnim"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_gravity="center"
+            android:alpha="0.9"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_dot_red"
+            app:lottie_repeatMode="restart" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

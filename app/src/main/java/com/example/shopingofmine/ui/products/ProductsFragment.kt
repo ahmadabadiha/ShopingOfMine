@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui.products
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -9,22 +8,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.FragmentProductsBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.databinding.FragmentProductsBinding
 import com.example.shopingofmine.ui.adapters.ProductsRecyclerAdapter
+import com.example.shopingofmine.ui.buildAndShowErrorDialog
+import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProductsFragment : Fragment(R.layout.fragment_products) {
@@ -55,35 +49,35 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             binding.loadingAnim.isGone = false
             when (it.toString()) {
                 "امتیاز-صعودی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "rating", order = "asc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "asc")
                     else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "asc")
                 }
                 "امتیاز-نزولی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "rating", order = "desc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "desc")
                     else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "desc")
                 }
                 "بازدید-صعودی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "popularity", order = "asc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "popularity", order = "asc")
                     else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "asc")
                 }
                 "بازدید-نزولی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "popularity", order = "desc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "popularity", order = "desc")
                     else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "desc")
                 }
                 "قیمت-صعودی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "price", order = "asc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "asc")
                     else viewModel.searchProducts(query = query!!, orderBy = "price", order = "asc")
                 }
                 "قیمت-نزولی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "price", order = "desc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "desc")
                     else viewModel.searchProducts(query = query!!, orderBy = "price", order = "desc")
                 }
                 "تاریخ-صعودی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "date", order = "asc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "asc")
                     else viewModel.searchProducts(query = query!!, orderBy = "date", order = "asc")
                 }
                 "تاریخ-نزولی" -> {
-                    if (category != null) viewModel.getProducts(categoryId = category!!, orderBy = "date", order = "desc")
+                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "desc")
                     else viewModel.searchProducts(query = query!!, orderBy = "date", order = "desc")
                 }
             }
@@ -91,7 +85,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     }
 
     private fun initCollectFlows() {
-        viewModel.categorizedProducts.collectIt(viewLifecycleOwner) {
+        collectFlow(viewModel.categorizedProducts) {
             when (it) {
                 ResultWrapper.Loading -> {
                     binding.loadingAnim.playAnimation()
@@ -103,22 +97,16 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     binding.loadingAnim.isGone = true
                 }
                 is ResultWrapper.Error -> {
-                    val alertDialog: AlertDialog? = activity?.let {
-                        AlertDialog.Builder(it)
-                    }?.setMessage(it.message)
-                        ?.setTitle("خطا")
-                        ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                            viewModel.getProducts(category!!)
-                        }
-                        ?.setNegativeButton("انصراف") { _, _ ->
-                        }?.create()
-                    alertDialog?.show()
+                    buildAndShowErrorDialog(message = it.message) { viewModel.getProductsByCategory(category!!) }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                 }
             }
         }
-        viewModel.searchedResult.collectIt(viewLifecycleOwner) {
+        collectFlow(viewModel.searchedResult) {
             when (it) {
                 ResultWrapper.Loading -> {
+                    binding.loadingAnim.isGone = false
                     binding.loadingAnim.playAnimation()
                 }
                 is ResultWrapper.Success -> {
@@ -128,16 +116,9 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     binding.loadingAnim.isGone = true
                 }
                 is ResultWrapper.Error -> {
-                    val alertDialog: AlertDialog? = activity?.let {
-                        AlertDialog.Builder(it)
-                    }?.setMessage(it.message)
-                        ?.setTitle("خطا")
-                        ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                            viewModel.searchProducts(query!!)
-                        }
-                        ?.setNegativeButton("انصراف") { _, _ ->
-                        }?.create()
-                    alertDialog?.show()
+                    buildAndShowErrorDialog(it.message) { viewModel.searchProducts(query!!) }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                 }
             }
         }
@@ -153,16 +134,6 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             listOf("تاریخ-نزولی", "تاریخ-صعودی", "قیمت-نزولی", "قیمت-صعودی", "بازدید-نزولی", "بازدید-صعودی", "امتیاز-نزولی", "امتیاز-صعودی")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         binding.sortET.setAdapter(adapter)
-    }
-
-    private fun <T> StateFlow<T>.collectIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {
-        lifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                collectLatest {
-                    function.invoke(it)
-                }
-            }
-        }
     }
 
     override fun onDestroy() {

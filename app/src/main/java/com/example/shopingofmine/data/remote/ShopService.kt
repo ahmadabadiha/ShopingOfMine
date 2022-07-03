@@ -23,12 +23,14 @@ interface ShopService {
         @Query("search") query: String,
         @Query("orderby") orderBy: String,
         @Query("order") order: String,
+        @Query("per_page") perPage: Int = 50,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<ProductItem>>
 
     @GET("products/categories")
     suspend fun getCategories(
+        @Query("per_page") perPage: Int = 50,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<CategoryItem>>
@@ -39,6 +41,7 @@ interface ShopService {
         @Query("orderby") orderBy: String,
         @Query("order") order: String,
         @Query("exclude") excludeId: String = "608",
+        @Query("per_page") perPage: Int = 50,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<ProductItem>>

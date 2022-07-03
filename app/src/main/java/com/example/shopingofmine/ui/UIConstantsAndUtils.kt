@@ -1,13 +1,14 @@
 package com.example.shopingofmine.ui
 
+import android.app.AlertDialog
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,24 +27,26 @@ fun ViewGroup.rtl() {
     }
 }
 
-/*fun createDialog(activity: FragmentActivity?, message: String, title: String, positiveButton: String, negativeButton: String) {
-    val alertDialog: AlertDialog? = activity?.let {
-        AlertDialog.Builder(it)
-    }?.setMessage(message)
-        ?.setTitle("خطا")
-        ?.setPositiveButton("تلاش مجدد") { _, _ ->
-            viewModel.getProducts()
-        }
-        ?.setNegativeButton("انصراف") { _, _ ->
-        }?.create()
-    alertDialog?
-}*/
-private fun <T> StateFlow<T>.colledctIt(lifecycleOwner: LifecycleOwner, function: (T) -> Unit) {
-    lifecycleOwner.lifecycleScope.launch {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            collectLatest {
-                function.invoke(it)
+inline fun <T> Fragment.collectFlow(flow: Flow<T>,crossinline action: (T) -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            flow.collectLatest {
+                action.invoke(it)
             }
         }
     }
 }
+
+inline fun Fragment.buildAndShowErrorDialog(message: String?, title: String = "خطا",crossinline retry: () -> Unit){
+    val alertDialog: AlertDialog? = activity?.let {
+        AlertDialog.Builder(it)
+    }?.setMessage(message)
+        ?.setTitle(title)
+        ?.setPositiveButton("تلاش مجدد") { _, _ ->
+            retry()
+        }
+        ?.setNegativeButton("انصراف") { _, _ ->
+        }?.create()
+    alertDialog?.show()
+}
+

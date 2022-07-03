@@ -36,6 +36,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     lateinit var order: Order
 
     fun getCoupon(code: String)=viewModelScope.launch {
+        _coupon.emit(ResultWrapper.Loading)
         repository.getCoupon(code).collectLatest {
             _coupon.emit(it)
         }
@@ -43,7 +44,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     fun getCustomerOrder() = viewModelScope.launch {
         val preferencesInfo = preferences.take(1).first()
-        //todo cart fragment icon
+        //todo cart fragment icon badge
         val customerId = preferencesInfo.customerId!!
         repository.getCustomerOrders(customerId).collectLatest {
             when (it) {
@@ -52,13 +53,14 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     val productIds = mutableListOf<Int>()
                     order = it.value[0]
                     val lineItems = order.line_items
+                    Log.d("ahmadabadi", "returned order: " + lineItems[0].quantity)
                     if (lineItems.isNotEmpty()) {
                         lineItems.forEach {
                             productIds.add(it.product_id)
                         }
                         getCartProducts(productIds.toTypedArray())
                     } else {
-                        countList = emptyList<Int>().toMutableList()
+                        countList.clear()
                         _errorInViewModelApiCalls.emit("cart empty")
                     }
                 }
@@ -78,14 +80,13 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 val receivedIds = it.value.map {
                     it.id
                 }
-                countList = emptyList<Int>().toMutableList()
+                countList.clear()
                 for (id in receivedIds) {
                     for (product in lineItems)
                         if (id == product.product_id) {
                             countList.add(product.quantity)
                         }
                 }
-                Log.d("ahmadabadiha", "getCartProducts: " + countList.size)
                 _cartProducts.emit(it)
             }
             _cartProducts.emit(it)
@@ -104,8 +105,6 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
             when (it) {
                 ResultWrapper.Loading -> {}
                 is ResultWrapper.Success -> {
-                    Log.d("http", "addToCart success: " + it.value)
-
                     val order = it.value[0]
                     val orderId = order.id
                     val orderProducts = order.line_items.toMutableList()
@@ -122,6 +121,8 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                             else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                         }
                         val updatedOrder = UpdatingOrderClass(updatedProducts)
+                        Log.d("ahmadabadi", "updated order: " + updatedProducts[0].quantity + " " + updatedProducts.size)
+
                         updateAndCollectOrder(orderId, updatedOrder)
                     } else {
                         val updatedProducts: MutableList<Any> = orderProducts.map { lineItem ->
@@ -155,7 +156,8 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                     val orderId = order.id
                     val orderProducts = order.line_items.toMutableList()
                     val updatedProducts = orderProducts.map { lineItem ->
-                        if (lineItem.product_id == removedProduct.id) UpdatingLineItem(
+                        if (lineItem.product_id == removedProduct.id)
+                            UpdatingLineItem(
                             lineItem.id,
                             lineItem.product_id,
                             lineItem.quantity - 1
@@ -181,7 +183,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 ResultWrapper.Loading -> {}
                 is ResultWrapper.Success -> {
                     getCustomerOrder()
-
+                    Log.d("ahmadabadi", "updateAndCollectOrder: " + it.value.line_items[0].quantity)
                 }
                 is ResultWrapper.Error -> {
                     _errorInViewModelApiCalls.emit(it.message.toString())

@@ -2,9 +2,9 @@ package com.example.shopingofmine.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopingofmine.data.repository.Repository
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
+import com.example.shopingofmine.data.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,7 +54,7 @@ class  HomeViewModel @Inject constructor(private val repository: Repository) : V
         }
     }
 
-    private fun getSliderProducts() = viewModelScope.launch {
+    fun getSliderProducts() = viewModelScope.launch {
         repository.getProductByIds(sliderProductIds).collectLatest {
             _sliderProducts.emit(it)
         }

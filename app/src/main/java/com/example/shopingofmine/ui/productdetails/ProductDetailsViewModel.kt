@@ -13,7 +13,7 @@ import com.example.shopingofmine.data.model.apimodels.Review
 import com.example.shopingofmine.data.model.appmodels.*
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.data.repository.Repository
-import com.example.shopingofmine.ui.notificationworkmanager.NotificationWorker
+import com.example.shopingofmine.notificationworkmanager.NotificationWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -46,15 +46,14 @@ class ProductDetailsViewModel @Inject constructor(
     private val preferences = optionsDataStore.preferences
 
     init {
-        getProductReviews(productId!!)
+        getProductReviews()
     }
 
-    private fun getProductReviews(productId: Int, perPage: Int = 10) = viewModelScope.launch {
-        repository.getProductReviews(arrayOf(productId), perPage).collectLatest {
+    fun getProductReviews() = viewModelScope.launch {
+        repository.getProductReviews(arrayOf(productId!!), perPage = 10).collectLatest {
             _review.emit(it)
         }
     }
-
 
 
     private suspend fun addOrder(addedProduct: ProductItem) {
@@ -72,8 +71,7 @@ class ProductDetailsViewModel @Inject constructor(
                     addToCart(addedProduct)
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addOrder: " + it.message)
+                    _errorMessage.emit(it.message.toString())
                 }
             }
         }
@@ -94,8 +92,7 @@ class ProductDetailsViewModel @Inject constructor(
                         Log.d("http", "addToCart: get customer success" + it.value)
                     }
                     is ResultWrapper.Error -> {
-                        //todo
-                        Log.d("httperr", "addToCart get customer err: " + it.message)
+                        _errorMessage.emit(it.message.toString())
                     }
                 }
             }
@@ -139,8 +136,7 @@ class ProductDetailsViewModel @Inject constructor(
                     } else addOrder(addedProduct)
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addToCart: " + it.message)
+                    _errorMessage.emit(it.message.toString())
                 }
             }
         }
@@ -161,8 +157,7 @@ class ProductDetailsViewModel @Inject constructor(
                             Log.d("http", "addToCart: get customer success" + it.value)
                         }
                         is ResultWrapper.Error -> {
-                            //todo
-                            Log.d("httperr", "addToCart get customer err: " + it.message)
+                            _errorMessage.emit(it.message.toString())
                         }
                     }
                 }
@@ -193,17 +188,15 @@ class ProductDetailsViewModel @Inject constructor(
                     collectUpdatedOrder(orderId, updatedOrder)
                 }
                 is ResultWrapper.Error -> {
-                    //todo
-                    Log.d("httperr", "addToCart: " + it.message)
+                    _errorMessage.emit(it.message.toString())
                 }
             }
         }
     }
 
-
     private fun collectUpdatedOrder(orderId: Int, updatedOrder: UpdatingOrderClass) = viewModelScope.launch {
         repository.updateOrder(orderId, updatedOrder).collectLatest {
-           _updatedOrder.emit(it)
+            _updatedOrder.emit(it)
         }
     }
 

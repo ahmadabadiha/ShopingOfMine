@@ -28,11 +28,11 @@ class ProductsViewModel @Inject constructor(
     val searchedResult = _searchedResult.asStateFlow()
 
     init {
-        categoryId?.let { getProducts(it) }
+        categoryId?.let { getProductsByCategory(it) }
         query?.let { searchProducts(it) }
     }
 
-    fun getProducts(categoryId: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
+    fun getProductsByCategory(categoryId: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
         repository.getProductsByCategory(categoryId, orderBy, order).collectLatest {
             _categorizedProducts.emit(it)
         }

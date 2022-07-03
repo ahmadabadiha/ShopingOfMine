@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
-import com.example.shopingofmine.databinding.LargeProductLayoutBinding
 import com.example.shopingofmine.data.model.apimodels.ProductItem
+import com.example.shopingofmine.databinding.LargeProductLayoutBinding
 
 
 class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit) :
@@ -26,18 +26,19 @@ class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Uni
             product = item
             binding.apply {
                 productName.text = product.name
-                if (product.price.isNotBlank()) price.text = "%,d".format(product.price.toInt()) + " ریال"
-                averageRating.text = "امتیاز ${item.average_rating} از 5"
+                if (product.price.isNotBlank()) ("%,d".format(product.price.toInt()) + " ریال").also { price.text = it }
+                "امتیاز ${item.average_rating} از 5".also { averageRating.text = it }
                 Glide.with(root)
                     .load(item.images[0].src)
                     .error(R.drawable.ic_baseline_error_outline_24)
                     .placeholder(R.drawable.ic_baseline_shopping_basket_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(productImage)
+                layout.setOnClickListener { onClick(product) }
             }
-            itemView.setOnClickListener {
-                onClick(product)
-            }
+           /* itemView.setOnClickListener {
+
+            }*/
         }
     }
 

@@ -1,26 +1,26 @@
 package com.example.shopingofmine.ui.home
 
-import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentHomeBinding
 import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
+import com.example.shopingofmine.ui.buildAndShowErrorDialog
+import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.rtl
+import com.example.shopingofmine.ui.search.SearchFragmentDirections
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,6 +30,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     val TAG = "ahmad"
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
+    private val resultList = mutableListOf<ResultWrapper<List<ProductItem>>>()
     private lateinit var popularRecyclerAdapter: ProductsPreviewRecyclerAdapter
     private lateinit var topRatedRecyclerAdapter: ProductsPreviewRecyclerAdapter
     private lateinit var recentRecyclerAdapter: ProductsPreviewRecyclerAdapter
@@ -62,130 +63,102 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initializeRecyclerAdapters() {
-        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.POPULAR)
-        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.TOP_RATED)
-        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onItemClick, ListType.NEWEST)
+        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.POPULAR)
+        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.TOP_RATED)
+        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.NEWEST)
         binding.popularRecyclerView.adapter = popularRecyclerAdapter
         binding.topRatedRecyclerView.adapter = topRatedRecyclerAdapter
         binding.recentRecyclerView.adapter = recentRecyclerAdapter
     }
 
     private fun initCollectFlows() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                launch {
-                    viewModel.popularProducts.collectLatest {
-                        when (it) {
-                            ResultWrapper.Loading -> {
-                                binding.loadingAnim.playAnimation()
-                            }
-                            is ResultWrapper.Success -> {
-                                popularRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                                binding.productsGroup.isGone = false
-                                binding.loadingAnim.pauseAnimation()
-                                binding.loadingAnim.isGone = true
-                            }
-                            is ResultWrapper.Error -> {
-                                //createDialog(activity,it.message, "خطا", "تلاش مجدد", "انصراف")
-                                val alertDialog: AlertDialog? = activity?.let {
-                                    AlertDialog.Builder(it)
-                                }?.setMessage(it.message)
-                                    ?.setTitle("خطا")
-                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                        viewModel.getProducts()
-                                    }
-                                    ?.setNegativeButton("انصراف") { _, _ ->
-                                    }?.create()
-                                alertDialog?.show()
-                            }
-                        }
-                    }
+        collectFlow(viewModel.popularProducts) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
                 }
-                launch {
-                    viewModel.topRatedProducts.collectLatest {
-                        when (it) {
-                            ResultWrapper.Loading -> {
-                                binding.loadingAnim.playAnimation()
-                            }
-                            is ResultWrapper.Success -> {
-                                topRatedRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                                binding.productsGroup.isGone = false
-                                binding.loadingAnim.pauseAnimation()
-                                binding.loadingAnim.isGone = true
-                            }
-                            is ResultWrapper.Error -> {
-                                val alertDialog: AlertDialog? = activity?.let {
-                                    AlertDialog.Builder(it)
-                                }?.setMessage(it.message)
-                                    ?.setTitle("خطا")
-                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                        viewModel.getProducts()
-                                    }
-                                    ?.setNegativeButton("انصراف") { _, _ ->
-                                    }?.create()
-                                alertDialog?.show()
-                            }
-                        }
-                    }
+                is ResultWrapper.Success -> {
+                    Log.d(TAG, "initCollectFlows: 1")
+                    popularRecyclerAdapter.addStartItemAndSubmitList(it.value)
+                    binding.productsGroup.isGone = false
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                    resultList.add(it)
                 }
-                launch {
-                    viewModel.newProducts.collectLatest {
-                        when (it) {
-                            ResultWrapper.Loading -> {
-                                binding.loadingAnim.playAnimation()
-                            }
-                            is ResultWrapper.Success -> {
-                                recentRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                                binding.productsGroup.isGone = false
-                                binding.loadingAnim.pauseAnimation()
-                                binding.loadingAnim.isGone = true
-                            }
-                            is ResultWrapper.Error -> {
-                                val alertDialog: AlertDialog? = activity?.let {
-                                    AlertDialog.Builder(it)
-                                }?.setMessage(it.message)
-                                    ?.setTitle("خطا")
-                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                        viewModel.getProducts()
-                                    }
-                                    ?.setNegativeButton("انصراف") { _, _ ->
-                                    }?.create()
-                                alertDialog?.show()
-                            }
-                        }
-                    }
+                is ResultWrapper.Error -> {
+                    resultList.add(it)
+                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                 }
-                launch {
-                    viewModel.sliderProducts.collectLatest {
-                        when (it) {
-                            ResultWrapper.Loading -> {
-                                binding.loadingAnim.playAnimation()
-                            }
-                            is ResultWrapper.Success -> {
-                                val imageUrls = takeImageListFromProductList(it.value)
-                                homeSliderViewPagerAdapter = HomeSliderViewPagerAdapter(imageUrls)
-                                binding.viewPager.adapter = homeSliderViewPagerAdapter
-                                binding.productsGroup.isGone = false
-                                binding.loadingAnim.pauseAnimation()
-                                binding.loadingAnim.isGone = true
-                            }
-                            is ResultWrapper.Error -> {
-                                val alertDialog: AlertDialog? = activity?.let {
-                                    AlertDialog.Builder(it)
-                                }?.setMessage(it.message)
-                                    ?.setTitle("خطا")
-                                    ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                        viewModel.getProducts()
-                                    }
-                                    ?.setNegativeButton("انصراف") { _, _ ->
-                                    }?.create()
-                                alertDialog?.show()
-                            }
-                        }
-                    }
+            }
+        }
+        collectFlow(viewModel.topRatedProducts) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
                 }
-                updateImageSlider()
+                is ResultWrapper.Success -> {
+                    resultList.add(it)
+                    Log.d(TAG, "initCollectFlows: 2")
+                    topRatedRecyclerAdapter.addStartItemAndSubmitList(it.value)
+                    binding.productsGroup.isGone = false
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
+                is ResultWrapper.Error -> {
+                    resultList.add(it)
+                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
+            }
+        }
+        collectFlow(viewModel.newProducts) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
+                }
+                is ResultWrapper.Success -> {
+                    resultList.add(it)
+                    Log.d(TAG, "initCollectFlows: 3")
+                    recentRecyclerAdapter.addStartItemAndSubmitList(it.value)
+                    binding.productsGroup.isGone = false
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
+                is ResultWrapper.Error -> {
+                    resultList.add(it)
+                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
+            }
+        }
+        collectFlow(viewModel.sliderProducts) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
+                }
+                is ResultWrapper.Success -> {
+                    Log.d(TAG, "initCollectFlows: 4")
+                    val imageUrls = takeImageListFromProductList(it.value)
+                    homeSliderViewPagerAdapter = HomeSliderViewPagerAdapter(imageUrls)
+                    binding.viewPager.adapter = homeSliderViewPagerAdapter
+                    binding.productsGroup.isGone = false
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                    updateImageSlider()
+                }
+                is ResultWrapper.Error -> {
+                    buildAndShowErrorDialog(it.message) { viewModel.getSliderProducts() }
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
+                }
             }
         }
     }
@@ -202,21 +175,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return imageUrls
     }
 
-    private suspend fun updateImageSlider() {
-        while (true) {
-            delay(5000)
-            if (binding.viewPager.currentItem + 1 != binding.viewPager.adapter?.itemCount)
-                binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
-            else
-                binding.viewPager.setCurrentItem(0, true)
+    private fun updateImageSlider() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            while (true) {
+                delay(5000)
+                if (binding.viewPager.currentItem + 1 != binding.viewPager.adapter?.itemCount)
+                    binding.viewPager.setCurrentItem(binding.viewPager.currentItem + 1, true)
+                else
+                    binding.viewPager.setCurrentItem(0, true)
+            }
         }
     }
 
-    private fun onItemClick(product: ProductItem) {
+    private fun onProductItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(product.id))
     }
 
+    private fun onStartOrEndItemClick(product: ProductItem) {
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductsFragment(null, ""))
+    }
 
     override fun onDestroy() {
         _binding = null

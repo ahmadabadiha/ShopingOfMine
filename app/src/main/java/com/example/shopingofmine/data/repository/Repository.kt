@@ -5,7 +5,7 @@ import com.example.shopingofmine.data.model.appmodels.AppOrderClass
 import com.example.shopingofmine.data.model.appmodels.AppReview
 import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import com.example.shopingofmine.data.remote.RemoteDataSource
-import com.example.shopingofmine.util.safeApiCall
+import com.example.shopingofmine.data.remote.safeApiCall
 import javax.inject.Inject
 import javax.inject.Singleton
 

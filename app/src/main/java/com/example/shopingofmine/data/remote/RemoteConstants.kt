@@ -1,5 +1,5 @@
 package com.example.shopingofmine.util
 
-const val CONSUMER_KEY = "ck_34e279b1098d403cba424a7081f4000f5b7e66a2"
-const val CONSUMER_SECRET = "cs_75329a5a0db2f55cbdfab0bff8435b4026763343"
+const val CONSUMER_KEY = "ck_63f4c52da932ddad1570283b31f3c96c4bd9fd6f"
+const val CONSUMER_SECRET = "cs_294e7de35430398f323b43c21dd1b29f67b5370b"
 const val BASE_URL = "https://woocommerce.maktabsharif.ir/wp-json/wc/v3/"

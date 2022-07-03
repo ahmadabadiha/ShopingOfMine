@@ -11,9 +11,6 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.OrderLineItem
@@ -21,10 +18,10 @@ import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentProductDetailsBinding
 import com.example.shopingofmine.ui.adapters.ShortReviewsRecyclerAdapter
+import com.example.shopingofmine.ui.buildAndShowErrorDialog
+import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -49,25 +46,8 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         initSetOnClickListeners()
         setUpViewPager()
         initSetReviewsRecyclerView()
-        initCollectReviews()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.customerIsKnown.collectLatest {
-                    if (!it) {
-                        val alertDialog: AlertDialog? = activity?.let {
-                            AlertDialog.Builder(it)
-                        }?.setMessage("برای اضافه کردن کالا به سبد خرید ابتدا باید وارد شوید.")
-                            ?.setTitle("خطا")
-                            ?.setPositiveButton("ثبت نام") { _, _ ->
-                                findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToLoginFragment())
-                            }
-                            ?.setNegativeButton("انصراف") { _, _ ->
-                            }?.create()
-                        alertDialog?.show()
-                    }
-                }
-            }
-        }
+        initCollectFlows()
+
     }
 
     private fun initSetReviewsRecyclerView() {
@@ -75,38 +55,43 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         binding.recyclerView.adapter = shortReviewsRecyclerAdapter
     }
 
-    private fun initCollectReviews() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.review.collectLatest {
-                    when (it) {
-                        ResultWrapper.Loading -> {
-                            binding.reviewsCount.text = "در حال بارگیری"
-                            binding.shimmer.startShimmer()
-                        }
-                        is ResultWrapper.Success -> {
-                            binding.reviewGroup.isGone = false
-                            binding.shimmer.stopShimmer()
-                            binding.shimmer.isGone = true
-                            val reviews = it.value
-                            (reviews.size.toString() + " دیدگاه").also { binding.reviewsCount.text = it }
-                            shortReviewsRecyclerAdapter.submitList(reviews)
-                        }
-                        is ResultWrapper.Error -> {
-                            val alertDialog: AlertDialog? = activity?.let {
-                                AlertDialog.Builder(it)
-                            }?.setMessage(it.message)
-                                ?.setTitle(" خطا در بارگیری نظرات")
-                                ?.setPositiveButton("تلاش مجدد") { _, _ ->
-                                    initCollectReviews()
-                                }
-                                ?.setNegativeButton("انصراف") { _, _ ->
-                                }?.create()
-                            alertDialog?.show()
-                        }
-                    }
+    private fun initCollectFlows() {
+        collectFlow(viewModel.review) {
+            when (it) {
+                ResultWrapper.Loading -> {
+                    binding.reviewsCount.text = "در حال بارگیری"
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.isGone = false
+                }
+                is ResultWrapper.Success -> {
+                    binding.reviewGroup.isGone = false
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.isGone = true
+                    val reviews = it.value
+                    (reviews.size.toString() + " دیدگاه").also { binding.reviewsCount.text = it }
+                    shortReviewsRecyclerAdapter.submitList(reviews)
+                }
+                is ResultWrapper.Error -> {
+                    buildAndShowErrorDialog(it.message, " خطا در بارگیری نظرات") { viewModel.getProductReviews() }
                 }
             }
+        }
+        collectFlow(viewModel.customerIsKnown) {
+            if (!it) {
+                val alertDialog: AlertDialog? = activity?.let {
+                    AlertDialog.Builder(it)
+                }?.setMessage("برای اضافه کردن کالا به سبد خرید ابتدا باید وارد شوید.")
+                    ?.setTitle("خطا")
+                    ?.setPositiveButton("ثبت نام") { _, _ ->
+                        findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToLoginFragment())
+                    }
+                    ?.setNegativeButton("انصراف") { _, _ ->
+                    }?.create()
+                alertDialog?.show()
+            }
+        }
+        collectFlow(viewModel.errorMessage) { errorMessage ->
+            showCustomErrorDialog(errorMessage)
         }
     }
 
@@ -125,15 +110,12 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
             binding.loadingAnim.playAnimation()
             binding.loadingAnim.isGone = false
             viewModel.addToCart(product)
-
-
         }
 
         binding.subtract.setOnClickListener {
             binding.loadingAnim.playAnimation()
             binding.loadingAnim.isGone = false
             viewModel.removeFromCart(product)
-//
         }
 
         binding.addReviewButton.setOnClickListener {
@@ -142,35 +124,34 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
     }
 
     private fun collectOrderResponses() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.updatedOrder.collectLatest {
-                    when (it) {
-                        ResultWrapper.Loading -> {
-                            //todo
-                        }
-                        is ResultWrapper.Success -> {
-                            val order = it.value
-                            for (item in order.line_items) {
-                                if (item.product_id == product.id) {
-                                    updateViews(item)
-                                    Toast.makeText(requireContext(), "تغییرات در سبد خرید شما اعمال شد.", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        }
-                        is ResultWrapper.Error -> {
-                            val alertDialog: AlertDialog? = activity?.let {
-                                AlertDialog.Builder(it)
-                            }?.setMessage(it.message + " لطفا چند لحظه دیگر دوباره امتحان کنید. ")
-                                ?.setTitle(" خطا در بروزرسانی سفارش")
-                                ?.setNegativeButton("باشه") { _, _ ->
-                                }?.create()
-                            alertDialog?.show()
+        collectFlow(viewModel.updatedOrder) {
+            when (it) {
+                ResultWrapper.Loading -> {}
+                is ResultWrapper.Success -> {
+                    val order = it.value
+                    for (item in order.line_items) {
+                        if (item.product_id == product.id) {
+                            updateViews(item)
+                            Toast.makeText(requireContext(), "تغییرات در سبد خرید شما اعمال شد.", Toast.LENGTH_SHORT).show()
+                            break
                         }
                     }
                 }
+                is ResultWrapper.Error -> {
+                    showCustomErrorDialog(it.message)
+                }
             }
         }
+    }
+
+    private fun showCustomErrorDialog(message: String?) {
+        val alertDialog: AlertDialog? = activity?.let {
+            AlertDialog.Builder(it)
+        }?.setMessage("$message لطفا چند لحظه دیگر دوباره امتحان کنید. ")
+            ?.setTitle(" خطا در بروزرسانی سفارش")
+            ?.setNegativeButton("باشه") { _, _ ->
+            }?.create()
+        alertDialog?.show()
     }
 
     private fun updateViews(item: OrderLineItem) {

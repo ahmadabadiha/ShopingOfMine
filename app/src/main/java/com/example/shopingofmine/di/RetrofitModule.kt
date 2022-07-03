@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -29,7 +30,9 @@ object RetrofitModule {
     @Singleton
     @Provides
     fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
-        OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+        OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).callTimeout(60,TimeUnit.SECONDS)
+            .build()
 
     @Singleton
     @Provides
