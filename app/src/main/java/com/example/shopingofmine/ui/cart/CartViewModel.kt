@@ -22,6 +22,10 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     private val preferences = optionsDataStore.preferences
 
+    var countList = mutableListOf<Int>()
+
+    lateinit var order: Order
+
     private val _cartProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val cartProducts = _cartProducts.asStateFlow()
 
@@ -30,10 +34,6 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
 
     private val _coupon = MutableSharedFlow<ResultWrapper<List<Coupon>>>()
     val coupon = _coupon.asSharedFlow()
-
-    var countList = mutableListOf<Int>()
-
-    lateinit var order: Order
 
     fun getCoupon(code: String)=viewModelScope.launch {
         _coupon.emit(ResultWrapper.Loading)

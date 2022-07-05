@@ -6,6 +6,7 @@ import com.example.shopingofmine.data.datastore.OptionsDataStore
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
     lateinit var productItem: ProductItem
     lateinit var order: Order
     lateinit var cartProducts: List<ProductItem>
+    private val job by lazy { Job() }
 
     var countList = mutableListOf<Int>()
         set(value) {
@@ -30,13 +32,10 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
 
     val cartProductsCount: Int
         get() {
-            var value = 0
-            runBlocking {
+            return runBlocking(job) {
                 val preferencesInfo = optionsDataStore.preferences.take(1).first()
-                value = preferencesInfo.cartProductsCount
-                return@runBlocking value
+                preferencesInfo.cartProductsCount
             }
-            return value
         }
 
     var customerId: Int? = null
@@ -51,13 +50,11 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
 
     var notificationTimeInterval: Int? = null
         get() {
-            var value: Int?
-            runBlocking {
+            return runBlocking(job) {
                 val preferencesInfo = optionsDataStore.preferences.take(1).first()
-                value = preferencesInfo.notificationInterval
-                return@runBlocking value
+                preferencesInfo.notificationInterval
             }
-            return value
+
         }
         set(value) {
             if (value != null) {
@@ -67,4 +64,9 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
                 }
             }
         }
+
+    override fun onCleared() {
+        job.cancel()
+        super.onCleared()
+    }
 }
