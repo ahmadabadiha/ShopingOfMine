@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.shopingofmine.R
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ inline fun <T> Fragment.collectFlow(flow: Flow<T>,crossinline action: (T) -> Uni
 
 inline fun Fragment.buildAndShowErrorDialog(message: String?, title: String = "خطا",crossinline retry: () -> Unit){
     val alertDialog: AlertDialog? = activity?.let {
-        AlertDialog.Builder(it)
+        AlertDialog.Builder(it, R.style.AlertDialogCustom)
     }?.setMessage(message)
         ?.setTitle(title)
         ?.setPositiveButton("تلاش مجدد") { _, _ ->

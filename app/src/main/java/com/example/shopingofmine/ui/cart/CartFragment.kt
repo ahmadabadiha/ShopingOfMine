@@ -63,8 +63,8 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     binding.productsGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
-                    binding.updateLoadingAnim.pauseAnimation()
-                    binding.updateLoadingAnim.isGone = true
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                 }
                 is ResultWrapper.Error -> {
                     binding.loadingAnim.isGone = true
@@ -144,14 +144,14 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun onItemAddClick(product: ProductItem) {
-        binding.updateLoadingAnim.playAnimation()
-        binding.updateLoadingAnim.isGone = false
+        binding.loadingAnim.playAnimation()
+        binding.loadingAnim.isGone = false
         viewModel.addToCart(product)
     }
 
     private fun onItemSubtractClick(product: ProductItem) {
-        binding.updateLoadingAnim.playAnimation()
-        binding.updateLoadingAnim.isGone = false
+        binding.loadingAnim.playAnimation()
+        binding.loadingAnim.isGone = false
         viewModel.removeFromCart(product)
     }
 

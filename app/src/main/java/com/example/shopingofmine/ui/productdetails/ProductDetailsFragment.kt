@@ -146,7 +146,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
     private fun showCustomErrorDialog(message: String?) {
         val alertDialog: AlertDialog? = activity?.let {
-            AlertDialog.Builder(it)
+            AlertDialog.Builder(it,R.style.AlertDialogCustom)
         }?.setMessage("$message لطفا چند لحظه دیگر دوباره امتحان کنید. ")
             ?.setTitle(" خطا در بروزرسانی سفارش")
             ?.setNegativeButton("باشه") { _, _ ->

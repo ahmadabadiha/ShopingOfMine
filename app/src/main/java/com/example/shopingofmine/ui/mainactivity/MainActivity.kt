@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
         val alertDialog: AlertDialog? = this@MainActivity.let {
-            AlertDialog.Builder(it)
+            AlertDialog.Builder(it,R.style.AlertDialogCustom)
         }.setMessage("لطفا اتصال اینترنت را بررسی کنید.")
             ?.setTitle("خطا")
             ?.create()

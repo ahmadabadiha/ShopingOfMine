@@ -234,21 +234,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loadingAnim"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        app:lottie_autoPlay="false"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/cart"
-        app:lottie_repeatMode="restart" />
-
-    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/emptyAnim"
         android:layout_width="200dp"
         android:layout_height="200dp"
@@ -263,7 +248,7 @@
         app:lottie_repeatMode="restart" />
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/updateLoadingAnim"
+        android:id="@+id/loadingAnim"
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_gravity="center"
