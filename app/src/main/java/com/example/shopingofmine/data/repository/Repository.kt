@@ -11,8 +11,8 @@ import javax.inject.Singleton
 
 @Singleton
 class Repository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
-    suspend fun getProducts(orderBy: String) = safeApiCall {
-        remoteDataSource.getProducts(orderBy)
+    suspend fun getProducts(orderBy: String, order: String, perPage: Int) = safeApiCall {
+        remoteDataSource.getProducts(orderBy, order, perPage)
     }
 
     suspend fun getCategories() = safeApiCall {

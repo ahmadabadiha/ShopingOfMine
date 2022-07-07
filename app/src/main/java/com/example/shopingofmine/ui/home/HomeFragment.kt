@@ -1,7 +1,6 @@
 package com.example.shopingofmine.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -30,7 +29,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     val TAG = "ahmad"
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
-    private val resultList = mutableListOf<ResultWrapper<List<ProductItem>>>()
+    private var isDialogOnScreen = false
+    private val loadedData = LoadedData()
     private lateinit var popularRecyclerAdapter: ProductsPreviewRecyclerAdapter
     private lateinit var topRatedRecyclerAdapter: ProductsPreviewRecyclerAdapter
     private lateinit var recentRecyclerAdapter: ProductsPreviewRecyclerAdapter
@@ -64,91 +64,92 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         collectFlow(viewModel.popularProducts) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                    binding.loadingAnim.isGone = false
+                    doOnLoading()
                 }
                 is ResultWrapper.Success -> {
-                    Log.d(TAG, "initCollectFlows: 1")
+                    loadedData.isData1Successful = true
                     popularRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                    binding.productsGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
-                    resultList.add(it)
+                    doOnSuccess()
                 }
                 is ResultWrapper.Error -> {
-                    resultList.add(it)
-                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnError(it.message)
                 }
             }
         }
         collectFlow(viewModel.topRatedProducts) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                    binding.loadingAnim.isGone = false
+                    doOnLoading()
                 }
                 is ResultWrapper.Success -> {
-                    resultList.add(it)
-                    Log.d(TAG, "initCollectFlows: 2")
+                    loadedData.isData2Successful = true
                     topRatedRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                    binding.productsGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnSuccess()
                 }
                 is ResultWrapper.Error -> {
-                    resultList.add(it)
-                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnError(it.message)
                 }
             }
         }
         collectFlow(viewModel.newProducts) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                    binding.loadingAnim.isGone = false
+                    doOnLoading()
                 }
                 is ResultWrapper.Success -> {
-                    resultList.add(it)
-                    Log.d(TAG, "initCollectFlows: 3")
+                    loadedData.isData3Successful = true
                     recentRecyclerAdapter.addStartItemAndSubmitList(it.value)
-                    binding.productsGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnSuccess()
                 }
                 is ResultWrapper.Error -> {
-                    resultList.add(it)
-                    buildAndShowErrorDialog(it.message) { viewModel.getProducts() }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnError(it.message)
                 }
             }
         }
         collectFlow(viewModel.sliderProducts) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                    binding.loadingAnim.isGone = false
+                    doOnLoading()
                 }
                 is ResultWrapper.Success -> {
-                    Log.d(TAG, "initCollectFlows: 4")
+                    loadedData.isData4Successful = true
                     val imageUrls = takeImageListFromProductList(it.value)
                     homeSliderViewPagerAdapter = HomeSliderViewPagerAdapter(imageUrls)
                     binding.viewPager.adapter = homeSliderViewPagerAdapter
-                    binding.productsGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnSuccess()
                     updateImageSlider()
                 }
                 is ResultWrapper.Error -> {
-                    buildAndShowErrorDialog(it.message) { viewModel.getSliderProducts() }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    doOnError(it.message)
                 }
             }
+        }
+    }
+
+    private fun doOnLoading() {
+        binding.loadingAnim.playAnimation()
+        binding.loadingAnim.isGone = false
+    }
+
+    private fun doOnSuccess() {
+        if (loadedData.isData1Successful && loadedData.isData2Successful && loadedData.isData3Successful && loadedData.isData4Successful) {
+            binding.productsGroup.isGone = false
+            binding.loadingAnim.pauseAnimation()
+            binding.loadingAnim.isGone = true
+        }
+    }
+
+    private fun doOnError(message: String?) {
+        if (!isDialogOnScreen) {
+            buildAndShowErrorDialog(message) {
+                kotlin.run {
+                    viewModel.getProducts()
+                    viewModel.getSliderProducts()
+                }
+            }
+            isDialogOnScreen = true
+            binding.loadingAnim.pauseAnimation()
+            binding.loadingAnim.isGone = true
         }
     }
 

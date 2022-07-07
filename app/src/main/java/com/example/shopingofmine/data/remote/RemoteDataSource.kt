@@ -8,7 +8,7 @@ import com.example.shopingofmine.data.model.appmodels.UpdatingOrderClass
 import retrofit2.Response
 
 interface RemoteDataSource {
-    suspend fun getProducts(orderBy: String): Response<List<ProductItem>>
+    suspend fun getProducts(orderBy: String, order:String, perPage: Int): Response<List<ProductItem>>
     suspend fun getCategories(): Response<List<CategoryItem>>
     suspend fun getProductsByCategory(categoryId: String, orderBy: String, order: String): Response<List<ProductItem>>
     suspend fun getProductsByIds(productIds: String): Response<List<ProductItem>>

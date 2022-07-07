@@ -24,8 +24,8 @@ class ProductsViewModel @Inject constructor(
     private val _categorizedProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val categorizedProducts = _categorizedProducts.asStateFlow()
 
-    private val _searchedResult = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
-    val searchedResult = _searchedResult.asStateFlow()
+    private val _searchResult = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
+    val searchResult = _searchResult.asStateFlow()
 
     init {
         categoryId?.let { getProductsByCategory(it) }
@@ -40,7 +40,7 @@ class ProductsViewModel @Inject constructor(
 
     fun searchProducts(query: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
         repository.searchProducts(query, orderBy, order).collectLatest {
-            _searchedResult.emit(it)
+            _searchResult.emit(it)
         }
     }
 }

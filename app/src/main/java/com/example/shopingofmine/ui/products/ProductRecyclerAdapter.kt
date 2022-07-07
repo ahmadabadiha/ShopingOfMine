@@ -36,9 +36,6 @@ class ProductsRecyclerAdapter(private val onClick: (product: ProductItem) -> Uni
                     .into(productImage)
                 layout.setOnClickListener { onClick(product) }
             }
-           /* itemView.setOnClickListener {
-
-            }*/
         }
     }
 

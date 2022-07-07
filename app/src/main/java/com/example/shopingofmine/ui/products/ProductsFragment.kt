@@ -103,7 +103,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                 }
             }
         }
-        collectFlow(viewModel.searchedResult) {
+        collectFlow(viewModel.searchResult) {
             when (it) {
                 ResultWrapper.Loading -> {
                     binding.loadingAnim.isGone = false

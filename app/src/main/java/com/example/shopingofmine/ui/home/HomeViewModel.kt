@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class  HomeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     companion object {
         private val sliderProductIds = arrayOf(608)
@@ -38,17 +38,17 @@ class  HomeViewModel @Inject constructor(private val repository: Repository) : V
 
     fun getProducts() {
         viewModelScope.launch {
-            repository.getProducts("popularity").collectLatest {
+            repository.getProducts("popularity", "desc", 10).collectLatest {
                 _popularProducts.emit(it)
             }
         }
         viewModelScope.launch {
-            repository.getProducts("rating").collectLatest {
+            repository.getProducts("rating", "desc", 10).collectLatest {
                 _topRatedProducts.emit(it)
             }
         }
         viewModelScope.launch {
-            repository.getProducts("date").collectLatest {
+            repository.getProducts("date", "desc", 10).collectLatest {
                 _newProducts.emit(it)
             }
         }

@@ -14,6 +14,8 @@ interface ShopService {
     @GET("products")
     suspend fun getProducts(
         @Query("orderby") orderBy: String,
+        @Query("order") order: String,
+        @Query("per_page") perPage: Int,
         @Query("consumer_key") consumerKey: String = CONSUMER_KEY,
         @Query("consumer_secret") consumerSecret: String = CONSUMER_SECRET
     ): Response<List<ProductItem>>
