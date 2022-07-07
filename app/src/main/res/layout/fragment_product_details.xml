@@ -168,7 +168,7 @@
                 tools:layout_editor_absoluteY="459dp" />
 
             <TextView
-                android:id="@+id/reviewsCount"
+                android:id="@+id/seeAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -176,7 +176,7 @@
                 app:layout_constraintBottom_toTopOf="@id/recyclerView"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/reviewsTitle"
-                tools:text="0 دیدگاه" />
+                android:text="@string/see_all" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"

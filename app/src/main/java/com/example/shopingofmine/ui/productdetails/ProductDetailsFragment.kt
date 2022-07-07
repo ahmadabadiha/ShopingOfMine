@@ -59,7 +59,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         collectFlow(viewModel.review) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.reviewsCount.text = "در حال بارگیری"
                     binding.shimmer.startShimmer()
                     binding.shimmer.isGone = false
                 }
@@ -68,7 +67,6 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
                     binding.shimmer.stopShimmer()
                     binding.shimmer.isGone = true
                     val reviews = it.value
-                    (reviews.size.toString() + " دیدگاه").also { binding.reviewsCount.text = it }
                     shortReviewsRecyclerAdapter.submitList(reviews)
                 }
                 is ResultWrapper.Error -> {
@@ -121,6 +119,10 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
         binding.addReviewButton.setOnClickListener {
             findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToAddReviewFragment())
         }
+
+        binding.seeAll.setOnClickListener {
+            findNavController().navigate(ProductDetailsFragmentDirections.actionProductDetailsFragmentToReviewsFragment(product.id))
+        }
     }
 
     private fun collectOrderResponses() {
@@ -146,7 +148,7 @@ class ProductDetailsFragment : Fragment(R.layout.fragment_product_details) {
 
     private fun showCustomErrorDialog(message: String?) {
         val alertDialog: AlertDialog? = activity?.let {
-            AlertDialog.Builder(it,R.style.AlertDialogCustom)
+            AlertDialog.Builder(it, R.style.AlertDialogCustom)
         }?.setMessage("$message لطفا چند لحظه دیگر دوباره امتحان کنید. ")
             ?.setTitle(" خطا در بروزرسانی سفارش")
             ?.setNegativeButton("باشه") { _, _ ->
