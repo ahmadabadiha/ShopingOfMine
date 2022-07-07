@@ -3,6 +3,7 @@ package com.example.shopingofmine.ui.login
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -48,8 +49,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private suspend fun createCustomer(customer: AppCustomer) {
         collectFlow(viewModel.createCustomer(customer)) {
             when (it) {
-                ResultWrapper.Loading -> {}
+                ResultWrapper.Loading -> {
+                    binding.loadingAnim.playAnimation()
+                    binding.loadingAnim.isGone = false
+                }
                 is ResultWrapper.Success -> {
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                     Toast.makeText(requireContext(), "ثبت نام شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show()
                     sharedViewModel.customerId = it.value.id
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment(sharedViewModel.productItem.id))
