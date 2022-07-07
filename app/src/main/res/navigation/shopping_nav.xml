@@ -122,9 +122,6 @@
         <action
             android:id="@+id/action_searchFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
-        <argument
-            android:name="query"
-            app:argType="string" />
         <action
             android:id="@+id/action_searchFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />

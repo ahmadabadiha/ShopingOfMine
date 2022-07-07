@@ -15,12 +15,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    private val _searchedResult = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
-    val searchedResult = _searchedResult.asStateFlow()
+    private val _searchResult = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
+    val searchResult = _searchResult.asStateFlow()
 
     fun searchProducts(query: String, orderBy: String = "date", order: String = "desc") = viewModelScope.launch {
         repository.searchProducts(query, orderBy, order).collectLatest {
-            _searchedResult.emit(it)
+            _searchResult.emit(it)
         }
     }
 }

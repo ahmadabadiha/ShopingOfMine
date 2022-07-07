@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
@@ -25,25 +24,24 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var searchRecyclerAdapter: SearchRecyclerAdapter
-    private val args: SearchFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
         initSetSearchView()
         initCollectFlows()
-        binding.searchView.onActionViewExpanded()
-        binding.searchView.setQuery(args.query, false)
         searchRecyclerAdapter = SearchRecyclerAdapter(::onItemClick)
         binding.recyclerView.adapter = searchRecyclerAdapter
-
     }
 
     private fun initCollectFlows() {
-        collectFlow(viewModel.searchedResult) {
+        collectFlow(viewModel.searchResult) {
             when (it) {
                 ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                    binding.loadingAnim.isGone = false
+                    if (binding.searchView.query.toString().isNotBlank()) {
+                        binding.loadingAnim.playAnimation()
+                        binding.loadingAnim.isGone = false
+                    }
                 }
                 is ResultWrapper.Success -> {
                     binding.loadingAnim.pauseAnimation()
@@ -75,7 +73,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
         })
     }
-
 
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
