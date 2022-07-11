@@ -91,10 +91,12 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     binding.loadingAnim.playAnimation()
                 }
                 is ResultWrapper.Success -> {
-                    productsRecyclerAdapter.submitList(it.value)
+                    val r = Runnable { binding.recyclerView.scrollToPosition(0) }
+                    productsRecyclerAdapter.submitList(it.value, r)
                     binding.loadedGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
+
                 }
                 is ResultWrapper.Error -> {
                     buildAndShowErrorDialog(message = it.message) { viewModel.getProductsByCategory(category!!) }
@@ -110,7 +112,8 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
                     binding.loadingAnim.playAnimation()
                 }
                 is ResultWrapper.Success -> {
-                    productsRecyclerAdapter.submitList(it.value)
+                    val r = Runnable { binding.recyclerView.scrollToPosition(0) }
+                    productsRecyclerAdapter.submitList(it.value, r)
                     binding.loadedGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
