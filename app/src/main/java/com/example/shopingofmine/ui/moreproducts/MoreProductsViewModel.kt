@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui.moreproducts
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,7 +29,6 @@ class MoreProductsViewModel @Inject constructor(private val repository: Reposito
     }
 
     fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
-        Log.d("ahmadabadi", "getProducts: " + listType.toString())
         when (listType) {
             ListType.POPULAR.ordinal -> repository.getProducts("popularity", "desc", 50).collectLatest { _loadedProduct.emit(it) }
             ListType.NEWEST.ordinal -> repository.getProducts("date", "desc", 50).collectLatest { _loadedProduct.emit(it) }

@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -24,7 +23,6 @@ class MoreProductsRecyclerAdapter(private val onClick: (product: ProductItem) ->
         private lateinit var product: ProductItem
 
         fun fill(item: ProductItem) {
-            Log.d("ahmadabadi", "fill: " + item.name)
             product = item
             binding.apply {
                 productName.text = product.name
@@ -49,7 +47,6 @@ class MoreProductsRecyclerAdapter(private val onClick: (product: ProductItem) ->
     )
 
     override fun onBindViewHolder(holder: LargeProductViewHolder, position: Int) {
-        Log.d("ahmadabadi", "onBindViewHolder: ")
         holder.fill(getItem(position))
     }
 

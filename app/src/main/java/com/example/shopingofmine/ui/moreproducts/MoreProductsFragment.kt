@@ -1,7 +1,6 @@
 package com.example.shopingofmine.ui.moreproducts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -40,7 +39,6 @@ class MoreProductsFragment : Fragment(R.layout.fragment_more_prodcuts) {
                     binding.loadingAnim.playAnimation()
                 }
                 is ResultWrapper.Success -> {
-                    Log.d("ahmadabadi", "onViewCreated: loading success" + it.value.size)
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
                     moreProductsRecyclerAdapter.submitList(it.value)

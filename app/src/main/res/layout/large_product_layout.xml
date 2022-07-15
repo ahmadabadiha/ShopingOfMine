@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/frame_shape">
+    android:layout_margin="8dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/layout"
@@ -20,7 +19,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
 
             <ImageView
                 android:id="@+id/productImage"
@@ -38,8 +36,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:padding="4dp"
+                android:textAlignment="center"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productImage"
                 tools:text="نام محصول" />
 
@@ -52,6 +52,7 @@
                 android:padding="4dp"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/productName"
                 tools:text="@string/price" />
 
@@ -64,8 +65,8 @@
                 android:padding="4dp"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/price"
-                tools:layout_editor_absoluteY="346dp"
                 tools:text="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
