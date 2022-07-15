@@ -43,7 +43,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 createCustomer(customer)
             }
         }
-
     }
 
     private suspend fun createCustomer(customer: AppCustomer) {
@@ -61,6 +60,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment(sharedViewModel.productItem.id))
                 }
                 is ResultWrapper.Error -> {
+                    binding.loadingAnim.pauseAnimation()
+                    binding.loadingAnim.isGone = true
                     buildAndShowErrorDialog(it.message, " خطا در ساختن مشتری") {
                         viewLifecycleOwner.lifecycleScope.launch { createCustomer(customer) }
                     }

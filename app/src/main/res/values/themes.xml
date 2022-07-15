@@ -21,10 +21,12 @@
 
 
     </style>
+
     <style name="buttonStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="backgroundTint">@color/red</item>
     </style>
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <!-- Set the splash screen background, animated icon, and animation duration. -->
         <item name="windowSplashScreenBackground">@color/red</item>
@@ -41,12 +43,14 @@
         <!-- Required -->
         <item name="postSplashScreenTheme">@style/Theme.ShopingOfMine</item>
     </style>
+
     <style name="My_Tooltip" parent="@style/Widget.MaterialComponents.Tooltip">
         <item name="backgroundTint">@color/red</item>
 
     </style>
+
     <style name="Myslider" parent="@style/Widget.MaterialComponents.Slider">
-    <item name="labelStyle">@style/My_Tooltip</item>
+        <item name="labelStyle">@style/My_Tooltip</item>
     </style>
 
     <style name="BottomNavigation">

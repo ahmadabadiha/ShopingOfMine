@@ -12,6 +12,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_black_cart.xml" value="0.1545" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1685" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_launcher_foreground_cart.xml" value="0.1" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_outline_arrow_circle_left_24.xml" value="0.2545" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/ic_outline_location_on_24.xml" value="0.1825" />
@@ -36,6 +37,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_complete_order.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_more_prodcuts.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_options.xml" value="0.33" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_order_details.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/fragment_product_details.xml" value="0.25" />

@@ -7,22 +7,24 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.shopingofmine.ui.home.HomeFragment"
-        android:label="Home" >
+        android:label="Home">
         <action
             android:id="@+id/action_homeFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-             />
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_homeFragment_to_productDetailsFragment2"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_moreProductsFragment"
+            app:destination="@id/moreProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.example.shopingofmine.ui.categories.CategoriesFragment"
-        android:label="Categories" >
+        android:label="Categories">
         <action
             android:id="@+id/action_categoriesFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
@@ -30,7 +32,7 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopingofmine.ui.productdetails.ProductDetailsFragment"
-        android:label="ProductDetailsFragment" >
+        android:label="ProductDetailsFragment">
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
             app:destination="@id/reviewsFragment" />
@@ -47,7 +49,7 @@
     <fragment
         android:id="@+id/optionsFragment"
         android:name="com.example.shopingofmine.ui.options.OptionsFragment"
-        android:label="OptionsFragment" >
+        android:label="OptionsFragment">
         <argument
             android:name="nightMode"
             app:argType="boolean" />
@@ -55,7 +57,7 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.example.shopingofmine.ui.products.ProductsFragment"
-        android:label="ProductsFragment" >
+        android:label="ProductsFragment">
         <argument
             android:name="category"
             app:argType="string"
@@ -71,7 +73,7 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.shopingofmine.ui.cart.CartFragment"
-        android:label="CartFragment" >
+        android:label="CartFragment">
         <action
             android:id="@+id/action_cartFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment"
@@ -83,7 +85,7 @@
     <fragment
         android:id="@+id/completeOrderFragment"
         android:name="com.example.shopingofmine.ui.completeorder.CompleteOrderFragment"
-        android:label="CompleteOrderFragment" >
+        android:label="CompleteOrderFragment">
         <action
             android:id="@+id/action_completeOrderFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -94,7 +96,7 @@
     <fragment
         android:id="@+id/reviewsFragment"
         android:name="com.example.shopingofmine.ui.reviews.ReviewsFragment"
-        android:label="ReviewsFragment" >
+        android:label="ReviewsFragment">
         <argument
             android:name="productId"
             app:argType="integer" />
@@ -102,7 +104,7 @@
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.shopingofmine.ui.addreview.AddReviewFragment"
-        android:label="AddReviewFragment" >
+        android:label="AddReviewFragment">
         <action
             android:id="@+id/action_addReviewFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -110,7 +112,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.shopingofmine.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -118,12 +120,23 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.shopingofmine.ui.search.SearchFragment"
-        android:label="SearchFragment" >
+        android:label="SearchFragment">
         <action
             android:id="@+id/action_searchFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
         <action
             android:id="@+id/action_searchFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/moreProductsFragment"
+        android:name="com.example.shopingofmine.ui.moreproducts.MoreProductsFragment"
+        android:label="MoreProductsFragment">
+        <argument
+            android:name="listType"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_moreProductsFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
     </fragment>
 </navigation>

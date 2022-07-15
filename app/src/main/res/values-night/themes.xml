@@ -24,6 +24,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="backgroundTint">@color/red</item>
     </style>
+
     <style name="backgroundDark">
         <item name="android:windowBackground">@color/black</item>
     </style>

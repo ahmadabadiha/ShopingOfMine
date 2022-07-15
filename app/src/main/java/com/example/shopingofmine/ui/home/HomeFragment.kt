@@ -16,7 +16,6 @@ import com.example.shopingofmine.ui.adapters.ProductsPreviewRecyclerAdapter
 import com.example.shopingofmine.ui.buildAndShowErrorDialog
 import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.rtl
-import com.example.shopingofmine.ui.search.SearchFragmentDirections
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -52,9 +51,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initializeRecyclerAdapters() {
-        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.POPULAR)
-        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.TOP_RATED)
-        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ListType.NEWEST)
+        popularRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ::onStartOrEndItemClick, ListType.POPULAR)
+        topRatedRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ::onStartOrEndItemClick, ListType.TOP_RATED)
+        recentRecyclerAdapter = ProductsPreviewRecyclerAdapter(::onProductItemClick, ::onStartOrEndItemClick, ListType.NEWEST)
         binding.popularRecyclerView.adapter = popularRecyclerAdapter
         binding.topRatedRecyclerView.adapter = topRatedRecyclerAdapter
         binding.recentRecyclerView.adapter = recentRecyclerAdapter
@@ -182,8 +181,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(product.id))
     }
 
-    private fun onStartOrEndItemClick(product: ProductItem) {
-        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductsFragment(null, ""))
+    private fun onStartOrEndItemClick(listType: ListType) {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMoreProductsFragment(listType.ordinal))
     }
 
     override fun onDestroy() {

@@ -18,7 +18,11 @@ private const val ITEM_VIEW_TYPE_START = -1
 private const val ITEM_VIEW_TYPE_ITEM = 0
 private const val ITEM_VIEW_TYPE_END = 1
 
-class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem) -> Unit, private val listType: ListType) :
+class ProductsPreviewRecyclerAdapter(
+    private val onProductClick: (product: ProductItem) -> Unit,
+    private val onFirstLastClick: (listType: ListType) -> Unit,
+    private val listType: ListType
+) :
     ListAdapter<DataItem, RecyclerView.ViewHolder>(
         ProductPreviewDiffCallback()
     ) {
@@ -41,18 +45,16 @@ class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(productImage)
                 }
-                layout.setOnClickListener { onClick(product) }
+                layout.setOnClickListener { onProductClick(product) }
             }
         }
-
     }
 
     inner class EndViewHolder(private val binding: EndItemBinding) :
         RecyclerView.ViewHolder(binding.root), CustomViewHolder {
         override fun fill(dateItem: DataItem) {
-
+            binding.layout.setOnClickListener { onFirstLastClick(listType) }
         }
-
     }
 
     inner class StartViewHolder(private val binding: StartItemBinding) :
@@ -62,10 +64,9 @@ class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem)
                 ListType.POPULAR -> binding.icon.setImageResource(R.drawable.ic_outline_remove_red_eye_24)
                 ListType.NEWEST -> binding.icon.setImageResource(R.drawable.ic_round_whatshot_24)
                 ListType.TOP_RATED -> binding.icon.setImageResource(R.drawable.ic_round_star_24)
-
             }
+            itemView.setOnClickListener { onFirstLastClick(listType) }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -93,9 +94,7 @@ class ProductsPreviewRecyclerAdapter(private val onClick: (product: ProductItem)
     fun addStartItemAndSubmitList(list: List<ProductItem>) {
         val items = listOf(DataItem.Start) + list.map { DataItem.ProductPreviewItem(it) } + listOf(DataItem.End)
         submitList(items)
-
     }
-
 }
 
 
