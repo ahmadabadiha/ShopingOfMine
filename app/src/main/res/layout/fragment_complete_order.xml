@@ -15,22 +15,12 @@
             android:id="@+id/sendToTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="ارسال به"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/locationLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:src="@drawable/ic_outline_location_on_24"
-            android:tint="@color/black"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="16dp"
+            android:text="@string/send_to"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/address"
-            app:layout_constraintTop_toTopOf="@+id/address" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/address"
@@ -40,9 +30,7 @@
             android:layout_margin="16dp"
             android:minHeight="160dp"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sendToTitle"
             tools:text="آدرس " />
 
@@ -51,31 +39,25 @@
             style="@style/textStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="جزئیات مرسوله"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="16dp"
+            android:text="@string/product_details"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/frame_shape"
-
+            android:foreground="@drawable/frame_shape"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.466"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cartDetailsTitle" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="385dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cartGist"
@@ -92,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="جزئیات قیمت"
+                android:text="@string/price_details"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -184,11 +166,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="ثبت سفارش"
+            android:text="@string/apply_order"
             android:textColor="@color/red"
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@id/cartGist"
             app:strokeColor="@color/red" />
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/loadingAnim"
             android:layout_width="400dp"

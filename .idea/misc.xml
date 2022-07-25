@@ -24,6 +24,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/recycler_view_background.xml" value="0.1855" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/drawable/svgexport_36.xml" value="0.256" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout-land/fragment_categories.xml" value="0.4510416666666667" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout-v23/fragment_complete_order.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/cart_item.xml" value="0.25" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/layout/category_layout.xml" value="0.25" />
@@ -60,6 +61,7 @@
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/sort_popup_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/sort_popup_view.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/menu/top_app_bar.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.124" />
         <entry key="..\:/Users/NP/AndroidStudioProjects/ShopingofMine/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
