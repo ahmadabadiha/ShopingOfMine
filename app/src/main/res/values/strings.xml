@@ -29,4 +29,7 @@
     <string name="send_to">ارسال به</string>
     <string name="price_details">جزئیات قیمت</string>
     <string name="apply_order">ثبت سفارش</string>
+    <string name="validate_code">بررسی کد</string>
+    <string name="discount_question">کد تخفیف داری؟</string>
+    <string name="cart_empty">سبد خرید شما خالی است.</string>
 </resources>

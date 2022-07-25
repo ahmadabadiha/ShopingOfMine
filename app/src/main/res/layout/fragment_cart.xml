@@ -130,18 +130,19 @@
 
             <TextView
                 android:id="@+id/attention"
-                android:layout_width="320dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="8dp"
                 android:text="@string/attentionText"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@id/attentionIcon"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/couponTIL" />
 
             <ImageView
                 android:id="@+id/attentionIcon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_margin="16dp"
                 android:layout_marginStart="21dp"
                 android:src="@drawable/ic_baseline_error_outline_24"
@@ -164,7 +165,7 @@
                     android:id="@+id/couponET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="کد تخفیف داری؟" />
+                    android:hint="@string/discount_question" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
@@ -174,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:paddingHorizontal="32dp"
-                android:text="بررسی کد"
+                android:text="@string/validate_code"
                 app:layout_constraintBottom_toBottomOf="@id/couponTIL"
                 app:layout_constraintEnd_toStartOf="@id/couponTIL"
                 app:layout_constraintTop_toTopOf="@id/couponTIL" />
@@ -267,7 +268,7 @@
         android:id="@+id/emptyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="سبد خرید شما خالی است."
+        android:text="@string/cart_empty"
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -277,7 +278,7 @@
         android:id="@+id/productsGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
+
         app:constraint_referenced_ids="topLayout,bottomLayout" />
 
     <androidx.constraintlayout.widget.Group
