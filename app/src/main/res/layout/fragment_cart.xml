@@ -255,10 +255,10 @@
         android:layout_gravity="center"
         android:alpha="0.9"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/topLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/topLayout"
         app:lottie_autoPlay="false"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading_dot_red"
@@ -278,7 +278,7 @@
         android:id="@+id/productsGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:visibility="gone"
         app:constraint_referenced_ids="topLayout,bottomLayout" />
 
     <androidx.constraintlayout.widget.Group

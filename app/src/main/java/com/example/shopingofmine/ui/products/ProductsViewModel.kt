@@ -21,6 +21,8 @@ class ProductsViewModel @Inject constructor(
     private val categoryId get() = savedStateHandle.get<String>("category")
     private val query get() = savedStateHandle.get<String>("query")
 
+    var currentSorting = "تاریخ-صعودی"
+
     private val _categorizedProducts = MutableStateFlow<ResultWrapper<List<ProductItem>>>(ResultWrapper.Loading)
     val categorizedProducts = _categorizedProducts.asStateFlow()
 

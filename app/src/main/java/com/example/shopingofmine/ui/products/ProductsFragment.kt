@@ -27,6 +27,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private val navArgs: ProductsFragmentArgs by navArgs()
     private val viewModel: ProductsViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
+
     private lateinit var productsRecyclerAdapter: ProductsRecyclerAdapter
     private var category: String? = null
     private var query: String? = null
@@ -37,91 +38,113 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         query = navArgs.query
         productsRecyclerAdapter = ProductsRecyclerAdapter(::onItemClick)
         binding.recyclerView.adapter = productsRecyclerAdapter
+
         initCollectFlows()
         setDropDownItems()
         setSorting()
     }
 
     private fun setSorting() {
+        binding.sortET.setText(viewModel.currentSorting)
         binding.sortET.addTextChangedListener {
-            binding.loadedGroup.isGone = true
-            binding.loadingAnim.playAnimation()
-            binding.loadingAnim.isGone = false
-            when (it.toString()) {
-                "امتیاز-صعودی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "asc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "asc")
-                }
-                "امتیاز-نزولی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "desc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "desc")
-                }
-                "بازدید-صعودی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "popularity", order = "asc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "asc")
-                }
-                "بازدید-نزولی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "popularity", order = "desc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "desc")
-                }
-                "قیمت-صعودی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "asc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "price", order = "asc")
-                }
-                "قیمت-نزولی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "desc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "price", order = "desc")
-                }
-                "تاریخ-صعودی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "asc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "date", order = "asc")
-                }
-                "تاریخ-نزولی" -> {
-                    if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "desc")
-                    else viewModel.searchProducts(query = query!!, orderBy = "date", order = "desc")
+            if (viewModel.currentSorting != it.toString()) {
+                binding.loadedGroup.isGone = true
+                when (it.toString()) {
+                    "امتیاز-صعودی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "asc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "asc")
+                    }
+                    "امتیاز-نزولی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "rating", order = "desc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "rating", order = "desc")
+                    }
+                    "بازدید-صعودی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(
+                            categoryId = category!!,
+                            orderBy = "popularity",
+                            order = "asc"
+                        )
+                        else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "asc")
+                    }
+                    "بازدید-نزولی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(
+                            categoryId = category!!,
+                            orderBy = "popularity",
+                            order = "desc"
+                        )
+                        else viewModel.searchProducts(query = query!!, orderBy = "popularity", order = "desc")
+                    }
+                    "قیمت-صعودی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "asc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "price", order = "asc")
+                    }
+                    "قیمت-نزولی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "price", order = "desc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "price", order = "desc")
+                    }
+                    "تاریخ-صعودی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "asc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "date", order = "asc")
+                    }
+                    "تاریخ-نزولی" -> {
+                        viewModel.currentSorting = it.toString()
+                        if (category != null) viewModel.getProductsByCategory(categoryId = category!!, orderBy = "date", order = "desc")
+                        else viewModel.searchProducts(query = query!!, orderBy = "date", order = "desc")
+                    }
                 }
             }
         }
     }
 
     private fun initCollectFlows() {
-        collectFlow(viewModel.categorizedProducts) {
-            when (it) {
-                ResultWrapper.Loading -> {
-                    binding.loadingAnim.playAnimation()
-                }
-                is ResultWrapper.Success -> {
-                    val r = Runnable { binding.recyclerView.scrollToPosition(0) }
-                    productsRecyclerAdapter.submitList(it.value, r)
-                    binding.loadedGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+        if (category != null) {
+            collectFlow(viewModel.categorizedProducts) {
+                when (it) {
+                    ResultWrapper.Loading -> {
+                        binding.loadingAnim.isGone = false
+                        binding.loadingAnim.playAnimation()
+                    }
+                    is ResultWrapper.Success -> {
+                        val r = Runnable { binding.recyclerView.scrollToPosition(0) }
+                        productsRecyclerAdapter.submitList(it.value, r)
+                        binding.loadedGroup.isGone = false
+                        binding.loadingAnim.pauseAnimation()
+                        binding.loadingAnim.isGone = true
 
-                }
-                is ResultWrapper.Error -> {
-                    buildAndShowErrorDialog(message = it.message) { viewModel.getProductsByCategory(category!!) }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+                    }
+                    is ResultWrapper.Error -> {
+                        buildAndShowErrorDialog(message = it.message) { viewModel.getProductsByCategory(category!!) }
+                        binding.loadingAnim.pauseAnimation()
+                        binding.loadingAnim.isGone = true
+                    }
                 }
             }
-        }
-        collectFlow(viewModel.searchResult) {
-            when (it) {
-                ResultWrapper.Loading -> {
-                    binding.loadingAnim.isGone = false
-                    binding.loadingAnim.playAnimation()
-                }
-                is ResultWrapper.Success -> {
-                    val r = Runnable { binding.recyclerView.scrollToPosition(0) }
-                    productsRecyclerAdapter.submitList(it.value, r)
-                    binding.loadedGroup.isGone = false
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
-                }
-                is ResultWrapper.Error -> {
-                    buildAndShowErrorDialog(it.message) { viewModel.searchProducts(query!!) }
-                    binding.loadingAnim.pauseAnimation()
-                    binding.loadingAnim.isGone = true
+        } else {
+            collectFlow(viewModel.searchResult) {
+                when (it) {
+                    ResultWrapper.Loading -> {
+                        binding.loadingAnim.isGone = false
+                        binding.loadingAnim.playAnimation()
+                    }
+                    is ResultWrapper.Success -> {
+                        val r = Runnable { binding.recyclerView.scrollToPosition(0) }
+                        productsRecyclerAdapter.submitList(it.value, r)
+                        binding.loadedGroup.isGone = false
+                        binding.loadingAnim.pauseAnimation()
+                        binding.loadingAnim.isGone = true
+                    }
+                    is ResultWrapper.Error -> {
+                        buildAndShowErrorDialog(it.message) { viewModel.searchProducts(query!!) }
+                        binding.loadingAnim.pauseAnimation()
+                        binding.loadingAnim.isGone = true
+                    }
                 }
             }
         }
