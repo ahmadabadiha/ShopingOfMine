@@ -27,10 +27,10 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
     private val navArgs: ProductsFragmentArgs by navArgs()
     private val viewModel: ProductsViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
     private lateinit var productsRecyclerAdapter: ProductsRecyclerAdapter
     private var category: String? = null
     private var query: String? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentProductsBinding.bind(view)
@@ -40,8 +40,12 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
         binding.recyclerView.adapter = productsRecyclerAdapter
 
         initCollectFlows()
-        setDropDownItems()
         setSorting()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setDropDownItems()
     }
 
     private fun setSorting() {
@@ -160,6 +164,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
             listOf("تاریخ-نزولی", "تاریخ-صعودی", "قیمت-نزولی", "قیمت-صعودی", "بازدید-نزولی", "بازدید-صعودی", "امتیاز-نزولی", "امتیاز-صعودی")
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
         binding.sortET.setAdapter(adapter)
+
     }
 
     override fun onDestroy() {

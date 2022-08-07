@@ -7,7 +7,7 @@
 
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/topLayout"
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/bottomLayout"
@@ -255,10 +255,10 @@
         android:layout_gravity="center"
         android:alpha="0.9"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/topLayout"
+        app:layout_constraintBottom_toBottomOf="@id/top_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/topLayout"
+        app:layout_constraintTop_toTopOf="@id/top_layout"
         app:lottie_autoPlay="false"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading_dot_red"
@@ -279,7 +279,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:constraint_referenced_ids="topLayout,bottomLayout" />
+        app:constraint_referenced_ids="top_layout,bottomLayout" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/emptyGroup"
