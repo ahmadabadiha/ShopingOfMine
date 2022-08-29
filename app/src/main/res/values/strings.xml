@@ -32,4 +32,15 @@
     <string name="validate_code">بررسی کد</string>
     <string name="discount_question">کد تخفیف داری؟</string>
     <string name="cart_empty">سبد خرید شما خالی است.</string>
+    <string name="attention_icon">attention icon</string>
+    <string name="add_review">ثبت دیدگاه</string>
+    <string name="register">ثبت نام</string>
+    <string name="choose_location">انتخاب آدرس روی نقشه</string>
+    <string name="post_code">کد پستی</string>
+    <string name="address">آدرس</string>
+    <string name="city">شهر</string>
+    <string name="mail">ایمیل</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="firsr_name">نام</string>
+    <string name="select_location">تایید مکان</string>
 </resources>

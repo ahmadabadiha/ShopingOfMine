@@ -1,7 +1,6 @@
 package com.example.shopingofmine.ui.cart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
@@ -23,6 +22,7 @@ import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+
 
 @AndroidEntryPoint
 class CartFragment : Fragment(R.layout.fragment_cart) {
@@ -59,7 +59,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     cartProducts = it.value
                     cartRecyclerAdapter.submitList(cartProducts)
                     setViews(countList)
-                    Log.d("ahmadabadi", "initCollectFlows: " + countList.toString())
                     binding.productsGroup.isGone = false
                     binding.loadingAnim.pauseAnimation()
                     binding.loadingAnim.isGone = true
@@ -82,7 +81,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                 binding.emptyAnim.playAnimation()
                 WorkManager.getInstance(requireContext()).cancelUniqueWork("cart notification")
             } else {
-                buildAndShowErrorDialog(message =  errorMessage) { viewModel.getCustomerOrder() }
+                buildAndShowErrorDialog(message = errorMessage) { viewModel.getCustomerOrder() }
             }
         }
         collectFlow(viewModel.coupon) {
@@ -101,7 +100,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
                     }
                 }
                 is ResultWrapper.Error -> {
-                    buildAndShowErrorDialog(it.message,"خطا در بررسی کد تخفیف") { viewModel.getCoupon(binding.couponET.text.toString()) }
+                    buildAndShowErrorDialog(it.message, "خطا در بررسی کد تخفیف") { viewModel.getCoupon(binding.couponET.text.toString()) }
                     binding.loadingAnim.isGone = true
                     binding.loadingAnim.pauseAnimation()
                 }
@@ -174,7 +173,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private fun enqueueWork() {
         val countList = sharedViewModel.countList
         if (countList.isNotEmpty()) {
-            Log.d("ahmadabadi", "onDestroy: work manager updated" + countList.toString() + countList.size.toString())
             val cartTotalCount = countList.sum()
             val interval = sharedViewModel.notificationTimeInterval
             val cartNotificationWorker =

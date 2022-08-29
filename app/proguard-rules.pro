@@ -19,8 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.example.shopingofmine.model.apimodels.*
--keep class com.example.shopingofmine.model.appmodels.*
+-keep class com.example.shopingofmine.model.** { *; }
+#-keep class com.example.shopingofmine.model.appmodels.** { *; }
 -keepnames @dagger.hilt.android.lifecycle.HiltViewModel class * extends androidx.lifecycle.ViewModel
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -34,3 +34,18 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+-keep public class com.example.shopingofmine.model.apimodels.* {
+  private <fields>;
+  public *** get*();
+  public void set*(***);
+}
+-keep public class com.example.shopingofmine.model.appmodels.* {
+  private <fields>;
+  public *** get*();
+  public void set*(***);
+}
+-keepclassmembers class * {
+    @com.fasterxml.jackson.annotation.* *;
+}
+-keep class * implements java.io.Serializable
+-keep class org.neshan.** {*;}

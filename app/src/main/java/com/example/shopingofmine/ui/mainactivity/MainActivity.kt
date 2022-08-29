@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         topAppBarInit()
         bottomNavigationInit()
         keepSplashScreen()
-
     }
 
     private fun connectionCheckInit() {
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
         val alertDialog: AlertDialog? = this@MainActivity.let {
-            AlertDialog.Builder(it,R.style.AlertDialogCustom)
+            AlertDialog.Builder(it, R.style.AlertDialogCustom)
         }.setMessage("لطفا اتصال اینترنت را بررسی کنید.")
             ?.setTitle("خطا")
             ?.create()
@@ -98,17 +97,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun keepSplashScreen() {
         val content: View = findViewById(android.R.id.content)
-        content.viewTreeObserver.addOnPreDrawListener(
-            object : ViewTreeObserver.OnPreDrawListener {
-                override fun onPreDraw(): Boolean {
-                    return if (isDarkMode != null) {
-                        content.viewTreeObserver.removeOnPreDrawListener(this)
-                        true
-                    } else {
-                        false
-                    }
+        content.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                return if (isDarkMode != null) {
+                    content.viewTreeObserver.removeOnPreDrawListener(this)
+                    true
+                } else {
+                    false
                 }
             }
+        }
         )
     }
 
@@ -141,12 +139,40 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.cart -> {
-                    if (navController.currentDestination?.id != R.id.cartFragment)
-                        navController.navigate(R.id.cartFragment)
+                    if (navController.currentDestination?.id != R.id.cartFragment) {
+                        collectCustomerState()
+                        viewModel.validateCustomerLogin()
+                    }
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    private fun collectCustomerState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.customerIsKnown.collectLatest { customerIsKnown ->
+                    if (customerIsKnown) {
+                        navController.navigate(R.id.cartFragment)
+                    } else buildAndShowLoginDialog()
+                }
+            }
+        }
+    }
+
+    private fun buildAndShowLoginDialog() {
+        val alertDialog: AlertDialog? =
+            AlertDialog.Builder(this)
+                .setMessage("برای مشاهده سبد خرید ابتدا باید وارد شوید.")
+                ?.setTitle("خطا")
+                ?.setPositiveButton("ثبت نام") { _, _ ->
+                    navController.navigate(R.id.loginFragment)
+                }
+                ?.setNegativeButton("انصراف") { _, _ ->
+                }?.create()
+        alertDialog?.show()
+
     }
 }

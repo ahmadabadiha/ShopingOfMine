@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui.cart
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -41,7 +40,6 @@ class CartRecyclerAdapter(
                     ("%,d".format(discountAmount.toInt()) + " ریال" + " تخفیف").also { discount.text = it }
                 }
                 count.text = countList[adapterPosition].toString()
-                Log.d("ahmad", "fill: " + countList[adapterPosition].toString())
             }
             setOnClickListeners()
 

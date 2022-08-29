@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    val TAG = "ahmad"
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
     private var isDialogOnScreen = false

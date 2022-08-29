@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:padding="8dp"
-                android:text="ثبت دیدگاه"
+                android:text="@string/add_review"
                 android:textColor="@color/red"
                 android:textSize="20sp"
                 app:cornerRadius="16dp"

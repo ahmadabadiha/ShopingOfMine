@@ -1,11 +1,13 @@
 package com.example.shopingofmine.ui.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -29,7 +31,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentLoginBinding.bind(view)
-        binding.loginButton.setOnClickListener {
+        initSetOnClickListeners()
+        setFragmentResultListener("coordinates") { _, bundle ->
+            val lat = bundle.getDouble("lat")
+            val lon = bundle.getDouble("lon")
+            Log.d("ahmad", "onViewCreated: $lat $lon")
+            Toast.makeText(requireContext(), "lat: $lat, lon: $lon", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun initSetOnClickListeners() {
+        binding.registerButton.setOnClickListener {
             val shipping = AppShipping(
                 first_name = binding.firstName.text.toString(),
                 last_name = binding.lastName.text.toString(),
@@ -42,6 +54,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             viewLifecycleOwner.lifecycleScope.launch {
                 createCustomer(customer)
             }
+        }
+        binding.mapButton.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToMapFragment())
         }
     }
 
