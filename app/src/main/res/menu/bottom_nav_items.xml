@@ -9,4 +9,8 @@
         android:id="@+id/categoriesFragment"
         android:icon="@drawable/ic_round_category_24"
         android:title="@string/categories" />
+    <item
+        android:id="@+id/loginFragment"
+        android:icon="@drawable/ic_round_how_to_reg_24"
+        android:title="@string/profile" />
 </menu>

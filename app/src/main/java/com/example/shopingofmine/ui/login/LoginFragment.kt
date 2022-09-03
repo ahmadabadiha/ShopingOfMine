@@ -1,7 +1,6 @@
 package com.example.shopingofmine.ui.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isGone
@@ -33,10 +32,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         _binding = FragmentLoginBinding.bind(view)
         initSetOnClickListeners()
         setFragmentResultListener("coordinates") { _, bundle ->
-            val lat = bundle.getDouble("lat")
-            val lon = bundle.getDouble("lon")
-            Log.d("ahmad", "onViewCreated: $lat $lon")
-            Toast.makeText(requireContext(), "lat: $lat, lon: $lon", Toast.LENGTH_SHORT).show()
+            val lat = String.format("%.3f", bundle.getDouble("lat"))
+            val lon = String.format("%.3f", bundle.getDouble("lon"))
+            Toast.makeText(requireContext(), "عرض: $lat, طول: $lon", Toast.LENGTH_SHORT).show()
         }
     }
 
