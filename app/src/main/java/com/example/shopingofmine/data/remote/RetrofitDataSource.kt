@@ -11,7 +11,6 @@ import javax.inject.Singleton
 
 @Singleton
 class RetrofitDataSource @Inject constructor(private val shopService: ShopService) : RemoteDataSource {
-
     override suspend fun getProducts(orderBy: String, order: String, perPage: Int): Response<List<ProductItem>> {
         return shopService.getProducts(orderBy, order, perPage)
     }
@@ -63,5 +62,9 @@ class RetrofitDataSource @Inject constructor(private val shopService: ShopServic
 
     override suspend fun getCoupon(code: String): Response<List<Coupon>> {
         return shopService.getCoupon(code)
+    }
+
+    override suspend fun findCustomer(email: String): Response<List<Customer>> {
+        return shopService.findCustomer(email)
     }
 }

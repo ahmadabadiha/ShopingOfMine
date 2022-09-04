@@ -8,7 +8,6 @@ import com.example.shopingofmine.data.model.apimodels.ProductItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -33,25 +32,31 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
     val cartProductsCount: Int
         get() {
             return runBlocking(job) {
-                val preferencesInfo = optionsDataStore.preferences.take(1).first()
+                val preferencesInfo = optionsDataStore.preferences.first()
                 preferencesInfo.cartProductsCount
             }
         }
 
     var customerId: Int? = null
+        get() {
+            return runBlocking(job) {
+                val preferencesInfo = optionsDataStore.preferences.first()
+                preferencesInfo.customerId
+            }
+        }
         set(value) {
             if (value != null) {
                 viewModelScope.launch {
                     optionsDataStore.updateCustomerId(value)
                     field = value
                 }
-            }
+            } else field = -1
         }
 
     var notificationTimeInterval: Int? = null
         get() {
             return runBlocking(job) {
-                val preferencesInfo = optionsDataStore.preferences.take(1).first()
+                val preferencesInfo = optionsDataStore.preferences.first()
                 preferencesInfo.notificationInterval
             }
 
@@ -64,6 +69,8 @@ class SharedViewModel @Inject constructor(private val optionsDataStore: OptionsD
                 }
             }
         }
+
+    fun isProductItemInitialized() = ::productItem.isInitialized
 
     override fun onCleared() {
         job.cancel()

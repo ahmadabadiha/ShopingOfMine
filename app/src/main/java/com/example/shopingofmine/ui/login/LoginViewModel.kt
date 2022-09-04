@@ -18,4 +18,8 @@ class LoginViewModel @Inject constructor(private val repository: Repository) : V
     suspend fun createCustomer(customer: AppCustomer): StateFlow<ResultWrapper<Customer>> {
         return repository.createCustomer(customer).stateIn(viewModelScope)
     }
+
+    suspend fun findCustomer(email: String): StateFlow<ResultWrapper<List<Customer>>> {
+        return repository.findCustomer(email).stateIn(viewModelScope)
+    }
 }

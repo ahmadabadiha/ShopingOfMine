@@ -62,4 +62,8 @@ class Repository @Inject constructor(private val remoteDataSource: RemoteDataSou
     suspend fun getCoupon(code: String) = safeApiCall {
         remoteDataSource.getCoupon(code)
     }
+
+    suspend fun findCustomer(email: String) = safeApiCall {
+        remoteDataSource.findCustomer(email)
+    }
 }

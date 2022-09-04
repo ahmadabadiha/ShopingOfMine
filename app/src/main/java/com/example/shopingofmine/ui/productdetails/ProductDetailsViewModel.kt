@@ -34,7 +34,6 @@ class ProductDetailsViewModel @Inject constructor(
 
     private val _errorMessage = MutableSharedFlow<String>()
     val errorMessage = _errorMessage.asSharedFlow()
-    //todo handle errors
 
     private val _review = MutableStateFlow<ResultWrapper<List<Review>>>(ResultWrapper.Loading)
     val review = _review.asStateFlow()
@@ -66,7 +65,7 @@ class ProductDetailsViewModel @Inject constructor(
             when (it) {
                 ResultWrapper.Loading -> {}
                 is ResultWrapper.Success -> {
-                    val cartNotification = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
+                    PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.HOURS)
                         .build()
                     addToCart(addedProduct)
                 }
@@ -80,10 +79,10 @@ class ProductDetailsViewModel @Inject constructor(
 
     fun addToCart(addedProduct: ProductItem) = viewModelScope.launch {
 
-        val preferencesInfo = preferences.take(1).first()
+        val preferencesInfo = preferences.first()
         val customerId = preferencesInfo.customerId
         Log.d("ahmadabadi", "addToCart: " + customerId.toString())
-        if (customerId != null) {
+        if (customerId != null && customerId != -1) {
             repository.getCustomer(customerId).collectLatest {
                 when (it) {
                     ResultWrapper.Loading -> {}
@@ -142,13 +141,11 @@ class ProductDetailsViewModel @Inject constructor(
         }
     }
 
-    fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch { //todo make method shorter
-        val preferencesInfo = preferences.take(1).first()
+    fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch {
+        val preferencesInfo = preferences.first()
         val customerId = preferencesInfo.customerId
-
-        if (customerId != null) {
+        if (customerId != null && customerId != -1) {
             viewModelScope.launch {
-
                 repository.getCustomer(customerId).collectLatest {
                     when (it) {
                         ResultWrapper.Loading -> {}
@@ -161,7 +158,6 @@ class ProductDetailsViewModel @Inject constructor(
                         }
                     }
                 }
-
                 collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
             }
         } else _customerIsKnown.emit(false)
@@ -199,5 +195,4 @@ class ProductDetailsViewModel @Inject constructor(
             _updatedOrder.emit(it)
         }
     }
-
 }

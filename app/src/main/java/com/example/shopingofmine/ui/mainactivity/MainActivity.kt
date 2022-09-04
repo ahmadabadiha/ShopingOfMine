@@ -7,6 +7,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
@@ -142,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                     if (navController.currentDestination?.id != R.id.cartFragment) {
                         collectCustomerState()
                         viewModel.validateCustomerLogin()
+                        Log.d("ahmad", "topAppBarInit: ")
                     }
                     true
                 }
@@ -167,8 +169,9 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setMessage("برای مشاهده سبد خرید ابتدا باید وارد شوید.")
                 ?.setTitle("خطا")
-                ?.setPositiveButton("ثبت نام") { _, _ ->
+                ?.setPositiveButton("ثبت نام") { dialog, _ ->
                     navController.navigate(R.id.loginFragment)
+                    dialog.dismiss()
                 }
                 ?.setNegativeButton("انصراف") { _, _ ->
                 }?.create()

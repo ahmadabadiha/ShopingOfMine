@@ -21,7 +21,7 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
 
     companion object {
         private val THEME_KEY = stringPreferencesKey("theme key")
-        private val CUSTOMER_KEY = intPreferencesKey("customer key")
+        private val CUSTOMER_ID = intPreferencesKey("customer key")
         private val NOTIFICATION_INTERVAL = intPreferencesKey("notification interval")
         private val CART_PRODUCTS_COUNT = intPreferencesKey("cart products count")
     }
@@ -32,7 +32,7 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
         Log.d("data store problem", it.message.toString())
     }.map { preferences ->
         val theme: Theme = Theme.valueOf(preferences[THEME_KEY] ?: Theme.AUTO.name)
-        val customerId = preferences[CUSTOMER_KEY]
+        val customerId = preferences[CUSTOMER_ID]
         val notificationInterval = preferences[NOTIFICATION_INTERVAL]
         val cartProductsCount = preferences[CART_PRODUCTS_COUNT]
 
@@ -47,7 +47,7 @@ class OptionsDataStore @Inject constructor(@ApplicationContext context: Context)
 
     suspend fun updateCustomerId(id: Int) {
         dataStore.edit { mutablePreferences ->
-            mutablePreferences[CUSTOMER_KEY] = id
+            mutablePreferences[CUSTOMER_ID] = id
         }
     }
 

@@ -8,12 +8,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <LinearLayout
+            android:id="@+id/signUpLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.Material3.TextInputLayout.FilledBox"
@@ -23,15 +26,17 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_round_how_to_reg_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/firsr_name"
+                    android:hint="@string/first_name"
                     android:layoutDirection="rtl" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,9 +48,11 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_round_how_to_reg_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lastName"
@@ -63,9 +70,11 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_email_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email"
@@ -83,9 +92,11 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_location_city_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/city"
@@ -103,17 +114,19 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_location_on_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:shadowColor="@color/transparent"
                     android:hint="@string/address"
-                    android:layoutDirection="rtl" />
+                    android:layoutDirection="rtl"
+                    android:shadowColor="@color/transparent" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -124,9 +137,11 @@
                 android:layout_margin="16dp"
                 android:layoutDirection="rtl"
                 app:boxBackgroundColor="@color/transparent"
-                app:boxStrokeColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
                 app:endIconMode="clear_text"
-                app:hintTextColor="@color/red">
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_123_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/postCode"
@@ -156,6 +171,87 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:cornerRadius="24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sign_in_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:layoutDirection="rtl"
+                app:boxBackgroundColor="@color/transparent"
+                app:boxStrokeColor="@color/red"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/red"
+                app:hintTextColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_email_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/loginMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/mail"
+                    android:layoutDirection="rtl" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/loginButton"
+                style="@style/buttonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:text="@string/login"
+                app:cornerRadius="24dp" />
+
+            <TextView
+                style="@style/textStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_account" />
+
+            <TextView
+                android:id="@+id/signupClickableTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signup"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logoutLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_margin="32dp"
+                android:src="@drawable/ic_round_how_to_reg_24" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton"
+                style="@style/buttonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="@string/log_out"
+                app:icon="@drawable/ic_baseline_logout_24" />
         </LinearLayout>
 
         <com.airbnb.lottie.LottieAnimationView

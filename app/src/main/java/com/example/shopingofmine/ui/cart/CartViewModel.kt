@@ -34,7 +34,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     private val _coupon = MutableSharedFlow<ResultWrapper<List<Coupon>>>()
     val coupon = _coupon.asSharedFlow()
 
-    fun getCoupon(code: String)=viewModelScope.launch {
+    fun getCoupon(code: String) = viewModelScope.launch {
         _coupon.emit(ResultWrapper.Loading)
         repository.getCoupon(code).collectLatest {
             _coupon.emit(it)
@@ -42,17 +42,16 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     }
 
     fun getCustomerOrder() = viewModelScope.launch {
-        val preferencesInfo = preferences.take(1).first()
+        val customerId = retrieveCustomerId()
         //todo cart fragment icon badge
-        val customerId = preferencesInfo.customerId!!
         repository.getCustomerOrders(customerId).collectLatest {
             when (it) {
                 ResultWrapper.Loading -> {}
                 is ResultWrapper.Success -> {
                     val productIds = mutableListOf<Int>()
-                    order = it.value[0]
-                    val lineItems = order.line_items
-                    if (lineItems.isNotEmpty()) {
+                    if (it.value.isNotEmpty() && it.value[0].line_items.isNotEmpty()) {
+                        order = it.value[0]
+                        val lineItems = order.line_items
                         lineItems.forEach {
                             productIds.add(it.product_id)
                         }
@@ -67,7 +66,11 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 }
             }
         }
+    }
 
+    private suspend fun retrieveCustomerId(): Int {
+        val preferencesInfo = preferences.first()
+        return preferencesInfo.customerId!!
     }
 
     private fun getCartProducts(productIds: Array<Int>) = viewModelScope.launch {
@@ -93,8 +96,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     }
 
     fun addToCart(addedProduct: ProductItem) = viewModelScope.launch {
-        val preferencesInfo = preferences.take(1).first()
-        val customerId = preferencesInfo.customerId!!
+        val customerId = retrieveCustomerId()
         collectCustomerOrderWithAddedProduct(customerId, addedProduct)
     }
 
@@ -137,8 +139,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
     }
 
     fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch { //todo make method shorter
-        val preferencesInfo = preferences.take(1).first()
-        val customerId = preferencesInfo.customerId!!
+        val customerId = retrieveCustomerId()
         collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
     }
 
@@ -146,16 +147,17 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
         repository.getCustomerOrders(customerId).collectLatest {
             when (it) {
                 ResultWrapper.Loading -> {}
-                is ResultWrapper.Success -> { val order = it.value[0]
+                is ResultWrapper.Success -> {
+                    val order = it.value[0]
                     val orderId = order.id
                     val orderProducts = order.line_items.toMutableList()
                     val updatedProducts = orderProducts.map { lineItem ->
                         if (lineItem.product_id == removedProduct.id)
                             UpdatingLineItem(
-                            lineItem.id,
-                            lineItem.product_id,
-                            lineItem.quantity - 1
-                        )
+                                lineItem.id,
+                                lineItem.product_id,
+                                lineItem.quantity - 1
+                            )
                         else UpdatingLineItem(lineItem.id, lineItem.product_id, lineItem.quantity)
                     }
                     val updatedOrder = UpdatingOrderClass(updatedProducts)
@@ -163,12 +165,10 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 }
                 is ResultWrapper.Error -> {
                     _errorInViewModelApiCalls.emit(it.message.toString())
-
                 }
             }
         }
     }
-
 
 
     private fun updateAndCollectOrder(orderId: Int, updatedOrder: UpdatingOrderClass) = viewModelScope.launch {
