@@ -9,14 +9,8 @@
         android:name="com.example.shopingofmine.ui.home.HomeFragment"
         android:label="Home">
         <action
-            android:id="@+id/action_homeFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_productDetailsFragment2"
-            app:destination="@id/productDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_moreProductsFragment"
             app:destination="@id/moreProductsFragment" />
@@ -62,9 +56,6 @@
             android:name="category"
             app:argType="string"
             app:nullable="true" />
-        <action
-            android:id="@+id/action_productsFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
         <argument
             android:name="query"
             app:argType="string"
@@ -75,10 +66,6 @@
         android:name="com.example.shopingofmine.ui.cart.CartFragment"
         android:label="CartFragment">
         <action
-            android:id="@+id/action_cartFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment"
-            app:launchSingleTop="false" />
-        <action
             android:id="@+id/action_cartFragment_to_orderDetailsFragment"
             app:destination="@id/completeOrderFragment" />
     </fragment>
@@ -86,9 +73,6 @@
         android:id="@+id/completeOrderFragment"
         android:name="com.example.shopingofmine.ui.completeorder.CompleteOrderFragment"
         android:label="CompleteOrderFragment">
-        <action
-            android:id="@+id/action_completeOrderFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
         <action
             android:id="@+id/action_completeOrderFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -104,18 +88,11 @@
     <fragment
         android:id="@+id/addReviewFragment"
         android:name="com.example.shopingofmine.ui.addreview.AddReviewFragment"
-        android:label="AddReviewFragment">
-        <action
-            android:id="@+id/action_addReviewFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
-    </fragment>
+        android:label="AddReviewFragment"/>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.shopingofmine.ui.login.LoginFragment"
         android:label="LoginFragment">
-        <action
-            android:id="@+id/action_loginFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
         <action
             android:id="@+id/action_loginFragment_to_mapFragment"
             app:destination="@id/mapFragment"
@@ -134,9 +111,6 @@
         <action
             android:id="@+id/action_searchFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/moreProductsFragment"
@@ -145,14 +119,11 @@
         <argument
             android:name="listType"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_moreProductsFragment_to_productDetailsFragment"
-            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.shopingofmine.ui.map.MapFragment"
-        android:label="MapFragment" >
+        android:label="MapFragment">
         <action
             android:id="@+id/action_mapFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -161,4 +132,7 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
     </fragment>
+    <action
+        android:id="@+id/action_global_productDetailsFragment"
+        app:destination="@id/productDetailsFragment" />
 </navigation>

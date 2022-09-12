@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.model.appmodels.AppReview
 import com.example.shopingofmine.data.remote.ResultWrapper
@@ -90,7 +91,7 @@ class AddReviewFragment : Fragment(R.layout.fragment_add_review) {
                         "با تشکر. نظر شما با موفقیت ثبت شد.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    findNavController().navigate(AddReviewFragmentDirections.actionAddReviewFragmentToProductDetailsFragment(product.id))
+                    findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(product.id))
                 }
                 is ResultWrapper.Error<*> -> {
                     binding.loadingAnim.pauseAnimation()

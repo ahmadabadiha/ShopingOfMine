@@ -91,7 +91,6 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
                 _cartProducts.emit(it)
             }
             _cartProducts.emit(it)
-
         }
     }
 
@@ -138,7 +137,7 @@ class CartViewModel @Inject constructor(private val repository: Repository, opti
         }
     }
 
-    fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch { //todo make method shorter
+    fun removeFromCart(removedProduct: ProductItem) = viewModelScope.launch {
         val customerId = retrieveCustomerId()
         collectCustomerOrderWithRemovedProduct(customerId, removedProduct)
     }

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentHomeBinding
@@ -177,7 +178,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun onProductItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductDetailsFragment(product.id))
+        findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(product.id))
     }
 
     private fun onStartOrEndItemClick(listType: ListType) {

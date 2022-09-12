@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.apimodels.Order
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
@@ -90,7 +91,7 @@ class CompleteOrderFragment : Fragment(R.layout.fragment_complete_order) {
 
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(CompleteOrderFragmentDirections.actionCompleteOrderFragmentToProductDetailsFragment(product.id))
+        findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(product.id))
     }
 
     override fun onDestroy() {

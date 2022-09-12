@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.appmodels.AppCustomer
 import com.example.shopingofmine.data.model.appmodels.AppShipping
 import com.example.shopingofmine.data.remote.ResultWrapper
@@ -104,7 +105,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Toast.makeText(requireContext(), "ثبت نام شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show()
                     sharedViewModel.customerId = it.value.id
                     if (sharedViewModel.isProductItemInitialized()) {
-                        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment(sharedViewModel.productItem.id))
+                        findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(sharedViewModel.productItem.id))
                     } else findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                 }
                 is ResultWrapper.Error -> {
@@ -132,7 +133,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Toast.makeText(requireContext(), "ورود شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show()
                         sharedViewModel.customerId = it.value[0].id
                         if (sharedViewModel.isProductItemInitialized()) {
-                            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToProductDetailsFragment(sharedViewModel.productItem.id))
+                            findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(sharedViewModel.productItem.id))
                         } else findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment())
                     } else Toast.makeText(requireContext(), "کاربری با این ایمیل یافت نشد.", Toast.LENGTH_SHORT).show()
                 }

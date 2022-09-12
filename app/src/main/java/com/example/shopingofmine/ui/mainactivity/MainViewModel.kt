@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui.mainactivity
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopingofmine.data.datastore.OptionsDataStore
@@ -21,7 +20,6 @@ class MainViewModel @Inject constructor(optionsDataStore: OptionsDataStore) : Vi
     fun validateCustomerLogin() = viewModelScope.launch {
         val preferencesInfo = preferences.first()
         val customerId = preferencesInfo.customerId
-        Log.d("ahmad", "validateCustomerLogin: ")
         if (customerId == null || customerId == -1) _customerIsKnown.emit(false)
         else _customerIsKnown.emit(true)
     }

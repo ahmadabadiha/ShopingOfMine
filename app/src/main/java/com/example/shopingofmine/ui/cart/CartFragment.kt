@@ -13,6 +13,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentCartBinding
@@ -139,7 +140,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private fun onItemImageClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(CartFragmentDirections.actionCartFragmentToProductDetailsFragment(product.id))
+        findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(product.id))
     }
 
     private fun onItemAddClick(product: ProductItem) {

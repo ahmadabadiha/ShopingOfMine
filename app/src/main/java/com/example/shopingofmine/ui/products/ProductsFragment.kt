@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.shopingofmine.R
+import com.example.shopingofmine.ShoppingNavDirections
 import com.example.shopingofmine.data.model.apimodels.ProductItem
 import com.example.shopingofmine.data.remote.ResultWrapper
 import com.example.shopingofmine.databinding.FragmentProductsBinding
@@ -156,7 +157,7 @@ class ProductsFragment : Fragment(R.layout.fragment_products) {
 
     private fun onItemClick(product: ProductItem) {
         sharedViewModel.productItem = product
-        findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(product.id))
+        findNavController().navigate(ShoppingNavDirections.actionGlobalProductDetailsFragment(product.id))
     }
 
     private fun setDropDownItems() {

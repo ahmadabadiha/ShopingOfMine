@@ -7,7 +7,6 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.viewModels
@@ -143,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                     if (navController.currentDestination?.id != R.id.cartFragment) {
                         collectCustomerState()
                         viewModel.validateCustomerLogin()
-                        Log.d("ahmad", "topAppBarInit: ")
                     }
                     true
                 }
