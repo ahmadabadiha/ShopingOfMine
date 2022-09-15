@@ -53,9 +53,12 @@ class MainActivity : AppCompatActivity() {
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
-        val alertDialog: androidx.appcompat.app.AlertDialog = MaterialAlertDialogBuilder(this@MainActivity, R.style.AlertDialogCustom).setMessage("لطفا اتصال اینترنت را بررسی کنید.")
-            .setTitle("خطا")
-            .create()
+        val alertDialog: androidx.appcompat.app.AlertDialog =
+            MaterialAlertDialogBuilder(this@MainActivity, R.style.AlertDialogCustom)
+                .setMessage("لطفا اتصال اینترنت را بررسی کنید.")
+                .setTitle("خطا")
+                .setIcon(R.drawable.no_signal)
+                .create()
         alertDialog.setCancelable(false)
         alertDialog.setCanceledOnTouchOutside(false)
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
