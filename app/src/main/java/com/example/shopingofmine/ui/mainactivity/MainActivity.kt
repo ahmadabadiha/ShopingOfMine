@@ -24,6 +24,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.datastore.Theme
 import com.example.shopingofmine.databinding.ActivityMainBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -52,22 +53,20 @@ class MainActivity : AppCompatActivity() {
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
-        val alertDialog: AlertDialog? = this@MainActivity.let {
-            AlertDialog.Builder(it, R.style.AlertDialogCustom)
-        }.setMessage("لطفا اتصال اینترنت را بررسی کنید.")
-            ?.setTitle("خطا")
-            ?.create()
-        alertDialog?.setCancelable(false)
-        alertDialog?.setCanceledOnTouchOutside(false)
+        val alertDialog: androidx.appcompat.app.AlertDialog = MaterialAlertDialogBuilder(this@MainActivity, R.style.AlertDialogCustom).setMessage("لطفا اتصال اینترنت را بررسی کنید.")
+            .setTitle("خطا")
+            .create()
+        alertDialog.setCancelable(false)
+        alertDialog.setCanceledOnTouchOutside(false)
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                alertDialog?.dismiss()
+                alertDialog.dismiss()
             }
 
             override fun onLost(network: Network) {
                 super.onLost(network)
-                runOnUiThread { alertDialog?.show() }
+                runOnUiThread { alertDialog.show() }
             }
         }
         val connectivityManager = ContextCompat.getSystemService(this, ConnectivityManager::class.java) as ConnectivityManager

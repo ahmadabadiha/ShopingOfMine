@@ -1,6 +1,5 @@
 package com.example.shopingofmine.ui
 
-import android.app.AlertDialog
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -9,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.shopingofmine.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,9 +38,9 @@ inline fun <T> Fragment.collectFlow(flow: Flow<T>,crossinline action: (T) -> Uni
     }
 }
 
-inline fun Fragment.buildAndShowErrorDialog(message: String?, title: String = "خطا",crossinline retry: () -> Unit){
-    val alertDialog: AlertDialog? = activity?.let {
-        AlertDialog.Builder(it, R.style.AlertDialogCustom)
+inline fun Fragment.buildAndShowErrorDialog(message: String?, title: String = "خطا", crossinline retry: () -> Unit){
+    val alertDialog: androidx.appcompat.app.AlertDialog? = activity?.let {
+        MaterialAlertDialogBuilder(it, R.style.AlertDialogCustom)
     }?.setMessage(message)
         ?.setTitle(title)
         ?.setPositiveButton("تلاش مجدد") { _, _ ->

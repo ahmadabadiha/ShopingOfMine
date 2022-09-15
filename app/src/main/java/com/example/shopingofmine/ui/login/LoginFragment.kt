@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,6 +22,7 @@ import com.example.shopingofmine.databinding.FragmentLoginBinding
 import com.example.shopingofmine.ui.buildAndShowErrorDialog
 import com.example.shopingofmine.ui.collectFlow
 import com.example.shopingofmine.ui.sharedviewmodel.SharedViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,9 +53,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun initSetOnClickListeners() {
         binding.logoutButton.setOnClickListener {
-            sharedViewModel.customerId = null
-            binding.logoutLayout.isGone = true
-            binding.signInLayout.isGone = false
+            val alertDialog: AlertDialog? = activity?.let {
+                MaterialAlertDialogBuilder(it, R.style.AlertDialogCustom)
+            }?.setMessage("آیا می خواهید از حساب کاربری خود خارج شوید؟")
+                ?.setTitle("خروج؟")
+                ?.setIcon(R.drawable.ic_round_how_to_reg_24)
+                ?.setPositiveButton("بله") { _, _ ->
+                    sharedViewModel.customerId = null
+                    binding.logoutLayout.isGone = true
+                    binding.signInLayout.isGone = false
+                }
+                ?.setNegativeButton("انصراف") { _, _ ->
+                }?.create()
+            alertDialog?.show()
         }
         binding.registerButton.setOnClickListener {
             if (isValidEmail(binding.email.text!!)) {
