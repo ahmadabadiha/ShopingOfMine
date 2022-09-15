@@ -13,6 +13,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >@color/red</item>
         <item name="end_item_background">@color/white</item>
+        <item name="fontFamily">@font/lalezar_font</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -25,6 +26,7 @@
     <style name="buttonStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="backgroundTint">@color/red</item>
+
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
