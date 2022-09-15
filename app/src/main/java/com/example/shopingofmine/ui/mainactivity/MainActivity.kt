@@ -1,7 +1,6 @@
 package com.example.shopingofmine.ui.mainactivity
 
 
-import android.app.AlertDialog
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -21,13 +20,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.shopingofmine.R
 import com.example.shopingofmine.data.datastore.Theme
 import com.example.shopingofmine.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -40,11 +39,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        keepSplashScreen()
         themeSetInit()
         connectionCheckInit()
         topAppBarInit()
         bottomNavigationInit()
-        keepSplashScreen()
     }
 
     private fun connectionCheckInit() {
@@ -54,10 +53,10 @@ class MainActivity : AppCompatActivity() {
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .build()
         val alertDialog: androidx.appcompat.app.AlertDialog =
-            MaterialAlertDialogBuilder(this@MainActivity, R.style.AlertDialogCustom)
+            MaterialAlertDialogBuilder(this@MainActivity, com.example.shopingofmine.R.style.AlertDialogCustom)
                 .setMessage("لطفا اتصال اینترنت را بررسی کنید.")
                 .setTitle("خطا")
-                .setIcon(R.drawable.no_signal)
+                .setIcon(com.example.shopingofmine.R.drawable.no_signal)
                 .create()
         alertDialog.setCancelable(false)
         alertDialog.setCanceledOnTouchOutside(false)
@@ -78,14 +77,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun bottomNavigationInit() {
         val bottomNavigationView = binding.bottomNavigation
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(com.example.shopingofmine.R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.categoriesFragment -> binding.bottomNavigation.visibility = View.VISIBLE
-                R.id.homeFragment -> binding.bottomNavigation.visibility = View.VISIBLE
-                R.id.addReviewFragment -> {
+                com.example.shopingofmine.R.id.categoriesFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                com.example.shopingofmine.R.id.homeFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                com.example.shopingofmine.R.id.loginFragment -> binding.bottomNavigation.visibility = View.VISIBLE
+                com.example.shopingofmine.R.id.addReviewFragment -> {
                     binding.bottomNavigation.visibility = View.GONE
                     binding.topAppBar.visibility = View.GONE
                 }
@@ -126,22 +127,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun topAppBarInit() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(com.example.shopingofmine.R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding.topAppBar.setNavigationOnClickListener {
 
-            if (navController.currentDestination?.id != R.id.homeFragment)
-                navController.navigate(R.id.homeFragment)
+            if (navController.currentDestination?.id != com.example.shopingofmine.R.id.homeFragment)
+                navController.navigate(com.example.shopingofmine.R.id.homeFragment)
         }
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.options -> {
-                    if (navController.currentDestination?.id != R.id.optionsFragment)
-                        navController.navigate(R.id.optionsFragment, bundleOf("darkMode" to isDarkMode!!))
+                com.example.shopingofmine.R.id.options -> {
+                    if (navController.currentDestination?.id != com.example.shopingofmine.R.id.optionsFragment)
+                        navController.navigate(com.example.shopingofmine.R.id.optionsFragment, bundleOf("darkMode" to isDarkMode!!))
                     true
                 }
-                R.id.cart -> {
-                    if (navController.currentDestination?.id != R.id.cartFragment) {
+                com.example.shopingofmine.R.id.cart -> {
+                    if (navController.currentDestination?.id != com.example.shopingofmine.R.id.cartFragment) {
                         collectCustomerState()
                         viewModel.validateCustomerLogin()
                     }
@@ -157,7 +159,7 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.customerIsKnown.collectLatest { customerIsKnown ->
                     if (customerIsKnown) {
-                        navController.navigate(R.id.cartFragment)
+                        navController.navigate(com.example.shopingofmine.R.id.cartFragment)
                     } else buildAndShowLoginDialog()
                 }
             }
@@ -165,17 +167,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun buildAndShowLoginDialog() {
-        val alertDialog: AlertDialog? =
-            AlertDialog.Builder(this)
+        val alertDialog: androidx.appcompat.app.AlertDialog =
+            MaterialAlertDialogBuilder(this, com.example.shopingofmine.R.style.AlertDialogCustom)
                 .setMessage("برای مشاهده سبد خرید ابتدا باید وارد شوید.")
-                ?.setTitle("خطا")
-                ?.setPositiveButton("ثبت نام") { dialog, _ ->
-                    navController.navigate(R.id.loginFragment)
+                .setTitle("خطا")
+                .setPositiveButton("ثبت نام") { dialog, _ ->
+                    navController.navigate(com.example.shopingofmine.R.id.loginFragment)
                     dialog.dismiss()
                 }
-                ?.setNegativeButton("انصراف") { _, _ ->
-                }?.create()
-        alertDialog?.show()
+                .setNegativeButton("انصراف") { _, _ ->
+                }.create()
+        alertDialog.show()
 
     }
 }

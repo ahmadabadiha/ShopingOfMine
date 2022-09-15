@@ -11,7 +11,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/red</item>
+        <item name="android:statusBarColor">@color/red</item>
         <item name="end_item_background">@color/white</item>
         <item name="fontFamily">@font/lalezar_font</item>
         <!-- Customize your theme here. -->
@@ -56,11 +56,7 @@
     </style>
 
     <style name="BottomNavigation">
-        <item name="itemTextAppearanceInactive">?attr/textAppearanceLabelSmall</item>
-        <item name="itemTextAppearanceActive">?attr/textAppearanceLabelSmall</item>
-        <item name="itemPaddingTop">4dp</item>
-        <item name="enforceTextAppearance">true</item>
-        <item name="enforceMaterialTheme">true</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="backgroundDark">

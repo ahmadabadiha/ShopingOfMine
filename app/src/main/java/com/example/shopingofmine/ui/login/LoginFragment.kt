@@ -56,7 +56,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val alertDialog: AlertDialog? = activity?.let {
                 MaterialAlertDialogBuilder(it, R.style.AlertDialogCustom)
             }?.setMessage("آیا می خواهید از حساب کاربری خود خارج شوید؟")
-                ?.setTitle("خروج؟")
+                ?.setTitle("خروج از حساب کاربری")
                 ?.setIcon(R.drawable.ic_round_how_to_reg_24)
                 ?.setPositiveButton("بله") { _, _ ->
                     sharedViewModel.customerId = null
