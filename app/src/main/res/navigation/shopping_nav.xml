@@ -13,7 +13,11 @@
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_homeFragment_to_moreProductsFragment"
-            app:destination="@id/moreProductsFragment" />
+            app:destination="@id/moreProductsFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/categoriesFragment"
@@ -21,7 +25,11 @@
         android:label="Categories">
         <action
             android:id="@+id/action_categoriesFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
+            app:destination="@id/productsFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -29,13 +37,25 @@
         android:label="ProductDetailsFragment">
         <action
             android:id="@+id/action_productDetailsFragment_to_reviewsFragment"
-            app:destination="@id/reviewsFragment" />
+            app:destination="@id/reviewsFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
         <action
             android:id="@+id/action_productDetailsFragment_to_addReviewFragment"
-            app:destination="@id/addReviewFragment" />
+            app:destination="@id/addReviewFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
         <action
             android:id="@+id/action_productDetailsFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
         <argument
             android:name="productId"
             app:argType="integer" />
@@ -67,7 +87,11 @@
         android:label="CartFragment">
         <action
             android:id="@+id/action_cartFragment_to_orderDetailsFragment"
-            app:destination="@id/completeOrderFragment" />
+            app:destination="@id/completeOrderFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/completeOrderFragment"
@@ -75,7 +99,11 @@
         android:label="CompleteOrderFragment">
         <action
             android:id="@+id/action_completeOrderFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
@@ -96,13 +124,17 @@
         <action
             android:id="@+id/action_loginFragment_to_mapFragment"
             app:destination="@id/mapFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -110,7 +142,11 @@
         android:label="SearchFragment">
         <action
             android:id="@+id/action_searchFragment_to_productsFragment"
-            app:destination="@id/productsFragment" />
+            app:destination="@id/productsFragment"
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <fragment
         android:id="@+id/moreProductsFragment"
@@ -127,12 +163,16 @@
         <action
             android:id="@+id/action_mapFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:enterAnim="@anim/resolver_launch_anim"
+            app:exitAnim="@anim/resolver_close_anim"
+            app:popEnterAnim="@anim/resolver_launch_anim"
+            app:popExitAnim="@anim/resolver_close_anim" />
     </fragment>
     <action
         android:id="@+id/action_global_productDetailsFragment"
-        app:destination="@id/productDetailsFragment" />
+        app:destination="@id/productDetailsFragment"
+        app:enterAnim="@anim/resolver_launch_anim"
+        app:exitAnim="@anim/resolver_close_anim"
+        app:popEnterAnim="@anim/resolver_launch_anim"
+        app:popExitAnim="@anim/resolver_close_anim" />
 </navigation>
