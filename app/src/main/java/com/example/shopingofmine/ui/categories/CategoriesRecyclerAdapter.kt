@@ -9,46 +9,47 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.shopingofmine.R
 import com.example.shopingofmine.data.model.apimodels.CategoryItem
-import com.example.shopingofmine.databinding.CategoryLayoutBinding
+import com.example.shopingofmine.databinding.SubCategoryLayoutBinding
 
 
-class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
-    ListAdapter<CategoryItem, CategoriesRecyclerAdapter.CategoryViewHolder>(CategoryDiffCallback()) {
+class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit, private val groupedCategories: Map<Int, List<CategoryItem>>) :
+    ListAdapter<CategoryItem, CategoriesRecyclerAdapter.CategoryViewHolder>(CategoryDiffCallback2()) {
 
-    inner class CategoryViewHolder(private val binding: CategoryLayoutBinding) :
+    inner class CategoryViewHolder(private val binding: SubCategoryLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        lateinit var category: CategoryItem
-
+        lateinit var parentCategory: CategoryItem
 
         fun fill(item: CategoryItem) {
 
-            category = item
+            parentCategory = item
+
             binding.apply {
-                categoryTitle.apply {
-                    text = item.name
-                    isSelected = true
-                }
-                productCount.text = "تعداد کالا: " + item.count.toString()
                 Glide.with(root)
                     .load(item.image.src)
                     .error(R.drawable.ic_baseline_error_outline_24)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(categoryImage)
+                    .into(categoryIcon)
+                categoryTitle.text = item.name
+                seeAll.setOnClickListener {
+                    onClick(item.id.toString())
+                }
+                val categoriesRecyclerAdapter = SubCategoriesRecyclerAdapter(onClick)
+                recyclerView.adapter = categoriesRecyclerAdapter
+                categoriesRecyclerAdapter.submitList(groupedCategories[item.id])
             }
-            binding.layout.setOnClickListener {
-                onClick(item.id.toString())
-            }
+
         }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder = CategoryViewHolder(
-        CategoryLayoutBinding.inflate(
+        SubCategoryLayoutBinding.inflate(
             LayoutInflater
                 .from(parent.context), parent, false
         )
     )
-
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.fill(getItem(position))
@@ -56,7 +57,7 @@ class CategoriesRecyclerAdapter(private val onClick: (String) -> Unit) :
     }
 }
 
-class CategoryDiffCallback : DiffUtil.ItemCallback<CategoryItem>() {
+class CategoryDiffCallback2 : DiffUtil.ItemCallback<CategoryItem>() {
     override fun areItemsTheSame(oldItem: CategoryItem, newItem: CategoryItem): Boolean {
         return oldItem.id == newItem.id
     }
